@@ -7,7 +7,6 @@ url: https://merucode.github.io
 # Enable or disable the site search
 # Supports true (default) or false
 search_enabled: true
-
 search:
   # Split pages into sections that can be searched individually
   # Supports 1 - 6, default: 2
@@ -31,3 +30,6 @@ search:
   # Enable or disable the search button that appears in the bottom right corner of every page
   # Supports true or false (default)
   button: false
+
+# blog color
+color_scheme: dark
