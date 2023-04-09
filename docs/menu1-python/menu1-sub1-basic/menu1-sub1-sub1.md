@@ -1,8 +1,8 @@
 ---
 layout: default
 title: menu1 sub1 sub1
-parent: menu1 sub1
-grand_parent: menu1
+parent: Basic
+grand_parent: Python
 nav_order: 1
 ---
 

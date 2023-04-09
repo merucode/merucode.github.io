@@ -1,9 +1,9 @@
 ---
 layout: default
-title: just-the-docs
+title: Just-the-docs
 nav_order: 7
 ---
-# just-the-docs
+# Just-the-docs
 {: .no_toc }
 <details open markdown="block">
   <summary>
@@ -13,9 +13,6 @@ nav_order: 7
 - TOC
 {:toc}
 </details>
-
-
-[Link button](https://just-the-docs.github.io/just-the-docs/docs/ui-components){: .btn .btn-green }
 
 ## STEP 1. Label
 
@@ -27,12 +24,18 @@ Default label
 Default label
 {: .label }
 
-<br>
+
 
 ```
+Callouts
+{: .d-inline-block }
+
 New
 {: .label .label-green } # Can use .label-yellow, .label-red
 ```
+
+Callouts
+{: .d-inline-block }
 
 New
 {: .label .label-green }
@@ -40,7 +43,7 @@ New
 <br>
 <br>
 
-## STEP 2. Callout
+## STEP 2. Callouts
 
 ```
 {: .highlight } # Can use .ighlight, .important, .new, .note, and .warning.
@@ -50,7 +53,7 @@ A paragraph
 {: .highlight }
 A paragraph
 
-<br>
+
 
 ```
 {: .note-title }
@@ -69,9 +72,10 @@ A paragraph
 
 ## STEP 3. Page TOC
 
-```
-### write below code at top of page
+```html
+<!-- write below code at top of page.md -->
 # Title
+{: .no_toc }
 <details open markdown="block">
   <summary>
     Table of contents

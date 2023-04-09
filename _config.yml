@@ -31,5 +31,22 @@ search:
   # Supports true or false (default)
   button: false
 
-# blog color
+### blog color
 # color_scheme: dark
+
+### callouts
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red
