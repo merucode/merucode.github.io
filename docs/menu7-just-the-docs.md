@@ -20,18 +20,22 @@ nav_order: 7
 ## STEP 1. Label
 
 ```
-Default label{: .label }
+Default label
+{: .label }
 ```
 
-Default label{: .label }
+Default label
+{: .label }
 
 <br>
 
 ```
-New{: .label .label-green } # Can use .label-yellow, .label-red
+New
+{: .label .label-green } # Can use .label-yellow, .label-red
 ```
 
-New{: .label .label-green }
+New
+{: .label .label-green }
 
 <br>
 <br>
@@ -42,6 +46,7 @@ New{: .label .label-green }
 {: .highlight } # Can use .ighlight, .important, .new, .note, and .warning.
 A paragraph
 ```
+
 {: .highlight }
 A paragraph
 
@@ -53,6 +58,7 @@ A paragraph
 >
 > A paragraph with a custom title callout
 ```
+
 {: .note-title }
 > My note title
 >
