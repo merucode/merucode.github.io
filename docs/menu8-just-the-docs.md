@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Just-the-docs
-nav_order: 7
+nav_order: 8
 ---
 # Just-the-docs
 {: .no_toc }
@@ -91,6 +91,26 @@ A paragraph
 
 <!---------------------------------- STEP 3 ---------------------------------->
 ## STEP 4. [Mermaid]
+
+```
+```mermaid
+flowchart TB
+    c1-->a2
+    subgraph one
+    a1-->a2
+    end
+    subgraph two
+    b1-->b2
+    end
+    subgraph three
+    c1-->c2
+    end
+    one --> two
+    three --> two
+    two --> c2
+```
+```
+
 
 
 ```mermaid
