@@ -12,5 +12,3 @@ nav_order: 1
 menu1 sub1 sub1 test
 
 {: .fs-6 .fw-300 }
-
-![gitHub](./../../../images/menu1-sub1-sub1/gitHub.png)
