@@ -15,38 +15,34 @@ nav_order: 7
 </details>
 
 ## STEP 1. Label
-
+* `.label`, `.label .label-green`, `.label .label-red`, `.label .label-yellow`
 ```
 Default label
 {: .label }
 ```
-
 Default label
 {: .label }
 
 
-
 ```
-Callouts
+Label
 {: .d-inline-block }
 
 New
 {: .label .label-green } # Can use .label-yellow, .label-red
 ```
 
-Callouts
+Label
 {: .d-inline-block }
-
 New
 {: .label .label-green }
 
 <br>
-<br>
 
 ## STEP 2. Callouts
-
+* `.highlight`, `.important`, `.new`, `.note`, `.warning`
 ```
-{: .highlight } # Can use .ighlight, .important, .new, .note, and .warning.
+{: .highlight } # Can use 
 A paragraph
 ```
 
@@ -67,7 +63,6 @@ A paragraph
 >
 > A paragraph with a custom title callout
 
-<br>
 <br>
 
 ## STEP 3. Page TOC
