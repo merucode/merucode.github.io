@@ -1,7 +1,7 @@
 ---
 layout: default
 title: menu1 sub1 sub2
-parent: menu1-sub1
+parent: menu1 sub1
 grand_parent: menu1
 nav_order: 2
 ---
