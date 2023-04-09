@@ -14,12 +14,16 @@ nav_order: 7
 {:toc}
 </details>
 
+<!---------------------------------- STEP 1 ---------------------------------->
 ## STEP 1. Label
+
 * `.label`, `.label .label-green`, `.label .label-red`, `.label .label-yellow`
+
 ```
 Default label
 {: .label }
 ```
+
 Default label
 {: .label }
 
@@ -34,11 +38,13 @@ New
 
 Label
 {: .d-inline-block }
+
 New
 {: .label .label-green }
 
 <br>
 
+<!---------------------------------- STEP 2 ---------------------------------->
 ## STEP 2. Callouts
 * `.highlight`, `.important`, `.new`, `.note`, `.warning`
 ```
@@ -50,7 +56,6 @@ A paragraph
 A paragraph
 
 
-
 ```
 {: .note-title }
 > My note title
@@ -65,6 +70,7 @@ A paragraph
 
 <br>
 
+<!---------------------------------- STEP 3 ---------------------------------->
 ## STEP 3. Page TOC
 
 ```html
