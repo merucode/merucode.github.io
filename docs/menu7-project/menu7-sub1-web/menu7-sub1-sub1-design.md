@@ -11,15 +11,14 @@ nav_order: 1
 
 
 ```mermaid
-flowchart LR
-    subgraph "data instance"
-    a1("VM1")--"data"-->a2("CloudSQL)
+flowchart TB
+    subgraph VM1 
+    a1[VM1]--data-->a2[CloudSQL]
     end
     a2--"data"-->b1
-    subgraph "VM Docker"
-    b1("django")--"guricorn"-->b2("nginx")
+    subgraph VM_Docker
+    b1[django]--guricorn-->b2[nginx]
     end
-    b2-->c1("user")
 ```
 
 * data : word, ohlc
