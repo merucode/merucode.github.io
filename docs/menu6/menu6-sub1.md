@@ -1,12 +1,13 @@
 ---
 layout: default
-title: menu6
-nav_order: 6
+title: menu6 sub1
+parent: menu6
+nav_order: 1
 has_children: true
 ---
 
-# Menu6
+# menu6 sub1
 {: .no_toc }
 
-Menu6 test
+menu6 sub1 test
 {: .fs-6 .fw-300 }
