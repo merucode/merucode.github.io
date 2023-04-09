@@ -1,12 +1,7 @@
 ---
 layout: default
-title: NLP Basic
+title: Summary
 parent: NLP
 grand_parent: Data Science
 nav_order: 1
 ---
-
-# NLP Basic
-{: .no_toc }
-
-

@@ -3,7 +3,7 @@ layout: default
 title: Korean
 parent: NLP
 grand_parent: Data Science
-nav_order: 2
+nav_order: 3
 ---
 
 # Korean
@@ -31,6 +31,7 @@ ing
 <!------------------------------------ STEP ------------------------------------>
 ## STEP 2. example
 
+### Step 2-1.
 * [자연어 처리 전처리 이해하기]
 
 ```python
@@ -63,17 +64,18 @@ print('단어 집합의 크기 : {}'.format(len(vocab)))
 
 ```
 
+<br>
+
+### Step 2-2. 명사 추출 및 빈도 계산
+* [명사 추출 및 빈도 계산]
+
+```python
 
 
-
-
-
-
-
-
-
+```
 
 ---
 
 [KoNLPy official site]: https://konlpy.org/ko/latest/
 [자연어 처리 전처리 이해하기]: https://wikidocs.net/64517
+[명사 빈도수 추출]: https://liveyourit.tistory.com/57
