@@ -27,7 +27,7 @@ ing
 * **security advantage**
     * Management by user authority
 
-* **(Avoid redundant data)**[(https://opentutorials.org/course/3161/19544)]
+* **[Avoid redundant data](https://opentutorials.org/course/3161/19544)**
     * separate table to manage
     * use by joining
 
