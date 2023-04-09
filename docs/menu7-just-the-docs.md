@@ -90,23 +90,8 @@ A paragraph
 <br>
 
 <!---------------------------------- STEP 3 ---------------------------------->
-## STEP 4. [mermaid]
+## STEP 4. [Mermaid]
 
-```
-```mermaid
-flowchart TB
-    c1-->a2
-    subgraph one
-    a1-->a2
-    end
-    subgraph two
-    b1-->b2
-    end
-    subgraph three
-    c1-->c2
-    end
-```
-```
 
 ```mermaid
 flowchart TB
@@ -120,8 +105,11 @@ flowchart TB
     subgraph three
     c1-->c2
     end
+    one --> two
+    three --> two
+    two --> c2
 ```
 
 
 ---
-[mermaid](https://mermaid.js.org/syntax/flowchart.html)
+[Mermaid]: https://mermaid.js.org/syntax/flowchart.html
