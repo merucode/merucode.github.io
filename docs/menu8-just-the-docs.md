@@ -108,12 +108,8 @@ flowchart TB
     one --> two
     three --> two
     two --> c2
-    
+```mermaid
 ```
-
-```
-
-
 
 ```mermaid
 flowchart TB
