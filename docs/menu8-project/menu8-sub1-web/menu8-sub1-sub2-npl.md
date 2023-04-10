@@ -141,15 +141,24 @@ def col_npl(df_posts, engine, code):
     while start_date <= last_date:
         date = start_date.strftime("%Y-%m-%d")
 
-        df_post = df_posts.loc[[df_post['date']==date]]
-        titles = df_post['title'].tolist()
-        contents = df_post['content'].tolist()
-
-
         ##### ? df.apply 가능 
         ##### ? tokens = sum(df['cleaned_tokens'], [])
         ##### ? 위와 비슷하게 사용하면 열의 문자열을 리스트 반환??
         
+        #### 1안
+        df_post = df_posts.loc[[df_post['date']==date]
+        df_noun = df_post[['title','content']].apply(mecap.nouns)
+        nonu = sum(df_noun['title'], df_noun['content'], [])
+        for i, j in enumerate(nouns):
+            if len(j) < 2:  # Remove one letter noun
+            noun.pop(i)
+        count = Counter(noun) 
+ 
+        #### 2안
+        df_post = df_posts.loc[[df_post['date']==date]]
+        titles = df_post['title'].tolist()
+        contents = df_post['content'].tolist()
+
         for title, content in zip(titles, contents):
             pharse = title + content
             nonus = mecap.nouns(pharse)
