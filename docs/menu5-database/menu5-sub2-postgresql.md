@@ -27,7 +27,7 @@ ing
 * **security advantage**
     * Management by user authority
 
-* **[Avoid redundant data](https://opentutorials.org/course/3161/19544)**
+* **[Avoid redundant data]**
     * separate table to manage
     * use by joining
 
@@ -36,3 +36,10 @@ ing
 ### Step 1-2. Postgresql
 
 |
+## STEP 2. CloudSQL
+### Step 2-1. user
+* [CloudSQL official site]
+
+--- 
+[Avoid redundant data]: https://opentutorials.org/course/3161/19544
+[CloudSQL official site]: https://cloud.google.com/sql/docs/postgres/users?hl=ko
