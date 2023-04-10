@@ -23,18 +23,11 @@ ing
 
 ## STEP 1. NLP
 
-<p>
-
 - Preprocessing
 	1. Tokenize : 자연어 데이터를 분석을 위한 작은 단위(토큰)로 분리
-	
 	2. Cleaning : 분석에 큰 의미가 없는 데이터들을 제거
-	
 	3. Normalization : 표현 방법이 다르지만 의미가 같은 단어들을 통합
-
 	4. Integer encoding : 컴퓨터가 이해하기 쉽도록 자연어 데이터에 정수 인덱스를 부여
-	
-	   
 	
 - Terms
 	- Corpus : language data set
