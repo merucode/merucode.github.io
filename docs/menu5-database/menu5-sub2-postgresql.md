@@ -35,5 +35,4 @@ ing
 
 ### Step 1-2. Postgresql
 
-* **structure**
-[image](https://www.bearpooh.com/144)
+|

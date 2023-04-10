@@ -1,12 +1,13 @@
 ---
 layout: default
-title: Docker
+title: Docker-compose
+parent: Docker
 nav_order: 2
 has_children: true
 ---
 
-# Menu2
+# Docker-compose
 {: .no_toc }
 
-Menu2 test
+menu6 sub2 test
 {: .fs-6 .fw-300 }

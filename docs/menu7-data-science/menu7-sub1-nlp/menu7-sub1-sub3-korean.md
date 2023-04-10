@@ -78,4 +78,4 @@ print('단어 집합의 크기 : {}'.format(len(vocab)))
 
 [KoNLPy official site]: https://konlpy.org/ko/latest/
 [자연어 처리 전처리 이해하기]: https://wikidocs.net/64517
-[명사 빈도수 추출]: https://liveyourit.tistory.com/57
+[명사 추출 및 빈도 계산]: https://liveyourit.tistory.com/57

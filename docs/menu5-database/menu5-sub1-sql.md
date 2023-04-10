@@ -22,9 +22,11 @@ ing
 <!------------------------------------ STEP ------------------------------------>
 ## STEP 0. About SQL
 * SQL(Structured Query Language) :  database standard language
+
 * SQL Structure
-[image](https://opentutorials.org/course/3161/19535)
-  
+
+  <img src="./../../images/menu5-sub1-sql/image-20230410125824713.png" alt="image-20230410125824713" style="zoom:67%;" />
+
 <br>
 
 
@@ -82,7 +84,7 @@ SELECT 열1, 열2 ... FROM 테이블명 WHERE 조건 ORDER BY 열1 ASC LIMIT 5;
 
 <!------------------------------------ STEP ------------------------------------>
 ## STEP 4. JOIN
-[image](https://www.bearpooh.com/144)
+<img src="./../../images/menu5-sub1-sql/image-20230410125919572.png" alt="image-20230410125919572" style="zoom:67%;" />
 
 ```sql
 
