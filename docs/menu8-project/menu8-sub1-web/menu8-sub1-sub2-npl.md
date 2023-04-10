@@ -15,9 +15,7 @@ nav_order: 2
 
 <br>
 
-## STEP 1. Connect Cloudsql and Python
-
-### Step 1-1. connect_tcp.py
+## STEP 1. Connect
 
 * `connect_tcp.py` (reference: [gcp github])
 
@@ -50,22 +48,44 @@ def connect_tcp_socket() -> sqlalchemy.engine.base.Engine:
 ### Usage in another file
 # from connect_tcp import connect_tcp_socket
 # engin = connect_tcp_socket()
+# conn = engin.connect()
+```
+
+<br>
+
+## STEP 2. Get Data
+
+```python
+import 
+
+def stock_post():
+    return
+
+def collect_nouns():
+    return
+
+def stock_posts():
+    return
+
+
 ```
 
 
-
-
-
-
 <br>
 
-## STEP 2.
+## STEP 3. main.py
+
+```python
+from connect_tcp import connect_tcp_socket
+
+engin = connect_tcp_socket()
+
+##
+## 
+## to_sql
 
 
-<br>
-
-## STEP 3.
-
+```
 
 ---
 [gcp github]: https://github.com/GoogleCloudPlatform/python-docs-samples/tree/72deeb8cfae88229b4710d24730f156f858923f9/cloud-sql/postgres/sqlalchemy
