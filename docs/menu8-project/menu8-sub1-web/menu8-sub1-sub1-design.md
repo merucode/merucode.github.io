@@ -62,7 +62,7 @@ gantt
     Automate data collection(Server)    :crit,        a5, after a4, 3d
     
     section BACKEND
-    Connect Django and CloudSQL         :b1, after a4, 3d
+    Connect Django and CloudSQL         :b1, after a5, 3d
     Add gantt diagram to demo page      :b2, after b1, 2d
     Add another diagram to demo page    :b3, after b2, 2d
 
