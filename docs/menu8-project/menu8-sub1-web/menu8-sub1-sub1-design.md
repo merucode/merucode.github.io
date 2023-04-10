@@ -50,27 +50,26 @@ gantt
 
     section HEAD PLANE
     Complete WEB              :done,    des1, 2023-04-01,2023-04-10
-    Active DATA               :active,  des2, 2023-04-11, 3d
-    Future task               :         des3, after des2, 3d
-    Future task2              :         des4, after des3, 3d
+    Active DATA               :active,  des2, 2023-04-10, 12d
+    Future task               :         des3, after des2, 7d
+    Future task2              :         des4, after des3, 7d
 
     section DATA
-    Completed task in the critical line :crit, done, 2023-04-11,24h
-    Implement parser and jison          :crit, done, after des1, 2d
-    Create tests for parser             :crit, active, 3d
-    Future task in critical line        :crit, 5d
-    Create tests for renderer           :2d
-    Add to mermaid                      :1d
+    Connect CloudSQL                    :crit, done,  a1, after des1, 1d
+    Get Data and NPL Processing         :crit, active,a2, after a1, 2d
+    Check to Connect and Update         :crit,        a3, after a2, 3d
+    Get All Data                        :crit,        a4, after a3, 3d
+    Automate data collection(Server)    :crit,        a5, after a4, 3d
     
     section BACKEND
-    Describe gantt syntax               :active, a1, after des1, 3d
-    Add gantt diagram to demo page      :after a1  , 20h
-    Add another diagram to demo page    :doc1, after a1  , 48h
+    Connect Django and CloudSQL         :b1, after a4, 3d
+    Add gantt diagram to demo page      :b2, after b1, 2d
+    Add another diagram to demo page    :b3, after b2, 2d
 
     section FRONTEND
-    Describe gantt syntax               :after doc1, 3d
-    Add gantt diagram to demo page      :20h
-    Add another diagram to demo page    :48h
+    Describe gantt syntax               :c1, after b3, 3d
+    Add gantt diagram to demo page      :c2, after c1, 2d
+    Add another diagram to demo page    :c3, after c2, 2d
 ```
 
 - [x] WEB_Connect django, guricorn, nginx in VM instance
