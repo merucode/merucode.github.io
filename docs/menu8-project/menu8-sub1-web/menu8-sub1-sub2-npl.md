@@ -145,6 +145,11 @@ def col_npl(df_posts, engine, code):
         titles = df_post['title'].tolist()
         contents = df_post['content'].tolist()
 
+
+        ##### ? df.apply 가능 
+        ##### ? tokens = sum(df['cleaned_tokens'], [])
+        ##### ? 위와 비슷하게 사용하면 열의 문자열을 리스트 반환??
+        
         for title, content in zip(titles, contents):
             pharse = title + content
             nonus = mecap.nouns(pharse)
