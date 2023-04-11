@@ -64,15 +64,15 @@ from konlpy.tag import Okt
 from nltk import Text
 from collections import Counter
 
-### Ready for konlpy
-mecab = Mecab()
+from connect_tcp import connect_tcp_socket
 
-### Ready for crawling
+### Ready
 headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"}  
+Okt = Okt()
+engin = connect_tcp_socket()
 
-### Crawling post
 def post_to_df(code, engine):
-    url = f"https://finance.naver.com/item/board.naver?code={stock_code}&page="
+    url = f"https://finance.naver.com/item/board.naver?code={code}&page="
 
     res = requests.get(url+'1', headers=headers)
     soup = BeautifulSoup(res.text, "lxml")
@@ -81,17 +81,17 @@ def post_to_df(code, engine):
 
     df_posts = pd.DataFrame()
 
-    for i in range(1, 15):#int(page_last)+1
+    for i in range(1, 5):#int(page_last)+1
         url_page = url + str(i)
         res = requests.get(url_page, headers=headers)
-
+        
         # Get post date, title
         soup = BeautifulSoup(res.text, 'html.parser')
         table = soup.find('table', {'class': 'type2'})
         df = pd.read_html(str(table))[0]
-        df = df[['날짜','제목','조회']]
+        df = df[['날짜','제목']]
         df.dropna(inplace=True)
-
+        
         # Get post content
         post_urls = ['https://finance.naver.com' + link['href'] for link in table.select('.title > a')]
         post_contents = []
@@ -118,65 +118,52 @@ def post_to_df(code, engine):
         if df.empty:
             break
         
-        df_post = pd.concat([dfs,df], ignore_index=True)
+        df_posts = pd.concat([df_posts,df], ignore_index=True)
     
-    df['날짜'] = df["날짜"].dt.strftime("%Y-%m-%d") # Change date format
+    print(df_posts)
+    
+    df_posts['날짜'] = df_posts["날짜"].dt.strftime("%Y-%m-%d") # Change date format
     df_posts.rename(columns={'날짜':'date', '제목':'title'}, inplace=True)
+    ### 최신데이터 반영 날짜 sql table 추가 필요 한듯 그것으로 최신데이터 관리하자
     return df_posts
 
 ### NPL
 def col_npl(df_posts, engine, code):
-
     ### Loop by day
-    end_date = df.iloc[0, 1]
-    start_date = df.iloc[-1, 1]
+    end_date = df_posts.iloc[0, 0]
+    start_date = df_posts.iloc[-1, 0]
 
     # 시작일, 종료일 datetime 으로 변환
-    end_date = datetime.strptime(end_date, "%Y-%m-%d")
-    start_date = datetime.strptime(start_date, "%Y-%m-%d")
-
+    end_date = datetime.strftime(end_date, "%Y-%m-%d")
+    start_date = datetime.strftime(start_date, "%Y-%m-%d")
 
     # 종료일 까지 반복
-    df_cols = pd.DataFrame(columns=['date', '1st','1st_count','2nd','2nd_count','3rd','3rd_count','4th','4th_count','5th','5th_count'])
-    while start_date <= last_date:
-        date = start_date.strftime("%Y-%m-%d")
-
-        ##### ? df.apply 가능 
-        ##### ? tokens = sum(df['cleaned_tokens'], [])
-        ##### ? 위와 비슷하게 사용하면 열의 문자열을 리스트 반환??
+    # df_cols = pd.DataFrame(columns=['date', '1st','1st_count','2nd','2nd_count','3rd','3rd_count','4th','4th_count','5th','5th_count'])
+    while start_date <= end_date:
+        date = start_date.strftime("%Y-%m-%d")  # 비교용 문자열로 전환
+        df_post = df_posts.loc[df_posts['date']==date]
         
-        #### 1안
-        df_post = df_posts.loc[[df_post['date']==date]
-        df_noun = df_post[['title','content']].apply(mecap.nouns)
-        nonu = sum(df_noun['title'], df_noun['content'], [])
-        for i, j in enumerate(nouns):
-            if len(j) < 2:  # Remove one letter noun
-            noun.pop(i)
-        count = Counter(noun) 
- 
-        #### 2안
-        df_post = df_posts.loc[[df_post['date']==date]]
-        titles = df_post['title'].tolist()
-        contents = df_post['content'].tolist()
+        df_pharse_list = df_post['title'].tolist() + df_post['content'].tolist()
 
-        for title, content in zip(titles, contents):
-            pharse = title + content
-            nonus = mecap.nouns(pharse)
-            for i, j in enumerate(nouns):
+        nouns=[]
+        for k in df_pharse_list:
+            noun = Okt.nouns(k)
+            for i, j in enumerate(noun):
                 if len(j) < 2:  # Remove one letter noun
                     noun.pop(i)
-            count = Counter(nouns)
+            nouns.extend(noun)
 
-            noun_list = count.most_common(10)
-            for i in noun_list:
-                print(i)   
-            ### to df_col 처리 필요        
+        count = Counter(nouns)
+        noun_list = count.most_common(10)
 
+        print(noun_list)
 
-        df_cols = pd.concat([df_cols,df_col])			# 열병합이 default
-
-        # 하루 더하기
         start_date += timedelta(days=1)
+        ##################### to do list to df_col 처리 필요        
+
+
+        #df_cols = pd.concat([df_cols,df_col])			# 열병합이 default
+
 
     # df_cols.to_sql(f'{code}, con=engine, if_exists='append', index=False)
     pass
