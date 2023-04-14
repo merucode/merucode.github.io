@@ -1,6 +1,6 @@
 ---
 layout: default
-title: NPL
+title: NPL Preprocessing
 parent: Web
 grand_parent: Project
 nav_order: 2
@@ -10,7 +10,7 @@ nav_order: 2
 
     1. Get data and fill into dataframe
     2. Extract noun and Frequencies per day
-    3. NPL data save to CloudSQL
+    3. NPL Preprocessing data save to CloudSQL
 
 <br>
 
