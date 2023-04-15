@@ -35,7 +35,6 @@ ing
 
 ### Step 1-2. Postgresql
 
-|
 ## STEP 2. CloudSQL
 ### Step 2-1. user
 * [CloudSQL official site]
