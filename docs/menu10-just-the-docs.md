@@ -140,4 +140,4 @@ flowchart TB
 
 ---
 [Mermaid]: https://mermaid.js.org/syntax/flowchart.html
-[Easiest way of writing mathematical equation in R Markdown] : https://www.youtube.com/watch?v=4I3PCDME5U8
+[Easiest way of writing mathematical equation in R Markdown]: https://www.youtube.com/watch?v=4I3PCDME5U8
