@@ -24,16 +24,18 @@ ing
 
 ### Step 1-1. basic
 
- * differential :  instantaneous rate of change for function
+ * **differential** :  instantaneous rate of change for function
 
- * Meaning of the slope in the graph
+ * **Meaning of the slope in the graph**
 
-   | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415231348915.png" alt="image-20230415231348915" style="zoom:50%;" /> | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415231409020.png" alt="image-20230415231409020" style="zoom:50%;" /> |
-   | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  |positive slope|negative slope|
+  | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415231348915.png" alt="image-20230415231348915" style="zoom:50%;" /> | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415231409020.png" alt="image-20230415231409020" style="zoom:50%;" /> |
+   
 
    
 
-* Meaning of the slope(differential value) zero in the graph 
+* **Meaning of the slope(differential value) zero in the graph** 
 
   | 극소점 (Local Minimum)                                       | 극대점 (Local Maximum)                                       | 안장점 (Saddle Point)                                        |
   | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -45,9 +47,9 @@ ing
 
 ### Step 1-2. high order differential
 
-* partial derivative : 편미분
+* **partial derivative** : 편미분
 
-* Example
+* **Example**
 
   | function              | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415232114922.png" alt="image-20230415232114922" style="zoom:80%;" /> |
   | --------------------- | ------------------------------------------------------------ |
@@ -57,10 +59,7 @@ ing
 
   | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415232321051.png" alt="image-20230415232321051" style="zoom:65%;" /> | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415232337685.png" alt="image-20230415232337685" style="zoom:65%;" /> |
   | ------------------------------------------------------------ | ------------------------------------------------------------ |
-
   | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415232517251.png" alt="image-20230415232517251" style="zoom:65%;" /> | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415232538608.png" alt="image-20230415232538608" style="zoom:67%;" /> |
-  | ------------------------------------------------------------ | ------------------------------------------------------------ |
-
   
 
 * 편미분 개념과 기울기 개념은 인풋 변수가 아무리 많아도(고차원의 경우에도) 똑같이 적용 가능
