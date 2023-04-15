@@ -1,7 +1,7 @@
 ---
 layout: default
 title: menu6 sub1
-parent: menu6
+parent: Deep Leaning
 nav_order: 1
 has_children: true
 ---

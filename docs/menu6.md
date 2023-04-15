@@ -1,11 +1,11 @@
 ---
 layout: default
-title: menu6
+title: Deep Leaning
 nav_order: 6
 has_children: true
 ---
 
-# Menu6
+# Deep Leaning
 {: .no_toc }
 
 Menu6 test

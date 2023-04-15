@@ -1,9 +1,10 @@
 ---
 layout: default
-title: Menu9
+title: Math
+parent: Deep Leaning
 nav_order: 9
 has_children: true
 ---
 
-# menu9
+# Math
 {: .no_toc }
