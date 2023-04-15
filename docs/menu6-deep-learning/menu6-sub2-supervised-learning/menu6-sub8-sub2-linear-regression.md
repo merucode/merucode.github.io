@@ -28,23 +28,34 @@ ing
 	* input value : feature
 	* output value : target
 	* data expression
+	
 	<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415193617299.png" alt="image-20230415193617299" style="zoom:50%;" />
 
 <br>
 
+<!------------------------------------ STEP ------------------------------------>
 ## STEP 2. hypothesis function
 
 <img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415193717875.png" alt="image-20230415193717875" style="zoom:50%;" />
 
 * **hypothesis function expression**
+	
+	
 	<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415193823688.png" alt="image-20230415193823688" style="zoom: 80%;" />
+	
 	covert to other expression for more consistency:
+	
+	
 	<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415193845387.png" alt="image-20230415193845387" style="zoom: 80%;" />
+	
 	or
+	
+	
 	<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415193915009.png" alt="image-20230415193915009" style="zoom: 80%;" /> (x<sub>0</sub>=1)
 
 <br>
 
+<!------------------------------------ STEP ------------------------------------>
 ## STEP 3. MSE(mean squared error)
 <img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415194315751.png" alt="image-20230415194315751" style="zoom:50%;" />
 
@@ -63,6 +74,11 @@ ing
 	<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415195005410.png" alt="image-20230415195005410" style="zoom:80%;" />
 	
 	* *square reason : Negative-positive unity and error penalty*
+
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
 
 {: .highlight }
 > Proceed with the example function 
@@ -84,13 +100,14 @@ ing
 
 <br>
 
+<!------------------------------------ STEP ------------------------------------>
 ## STEP 5.  Gradient descent
 
 * **theta update method** : **손실 함수 J에 각 θ(θ<sub>0</sub>, θ<sub>1</sub>, θ<sub>2</sub> ...)로 편미분한 값(순간 기울기에)에 -를 취하여 가장 내려가는 방향으로 점차적으로 접근(alpha : leaning rate)**
 	
 	<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415195202200.png" alt="image-20230415195202200" style="zoom:80%;" />
 
-* Example case(*h(x)* = *θ*<sub>0</sub>+*θ*<sub>1</sub>*x*)
+* **Example case(*h(x)* = *θ*<sub>0</sub>+*θ*<sub>1</sub>*x*)**
 
   | θ<sub>0</sub> Update                                         | *θ*<sub>1</sub> Update                                       |
   | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -99,7 +116,9 @@ ing
 
 <br>
 
+<!------------------------------------ STEP ------------------------------------>
 ## STEP 6. Easily express using matrix(Example)
+
 |Description|Expression|Matrix Expression|
 |---|---|---|
 |hypothesis function|<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415193845387.png" alt="image-20230415193845387" style="zoom: 80%;" />|![image-20230415211146326](./../../../images/menu6-sub8-sub2-linear-regression/image-20230415211146326.png)|
@@ -108,7 +127,7 @@ ing
 |*θ*<sub>0</sub> update<br>(Gradient descent)|<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415210408121.png" alt="image-20230415210408121" style="zoom:80%;" />|![image-20230415211435064](./../../../images/menu6-sub8-sub2-linear-regression/image-20230415211435064.png)<br>![image-20230415211555219](./../../../images/menu6-sub8-sub2-linear-regression/image-20230415211555219.png)|
 |*θ*<sub>1</sub> update<br/>(Gradient descent)|<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415210454396.png" alt="image-20230415210454396" style="zoom:80%;" />|![image-20230415211452811](./../../../images/menu6-sub8-sub2-linear-regression/image-20230415211452811.png)<br>![image-20230415211517138](./../../../images/menu6-sub8-sub2-linear-regression/image-20230415211517138.png)|
 
-* Example code
+* **Example code**
 
 	```python
 	import numpy as np
@@ -153,6 +172,7 @@ ing
 
 <br>
 
+<!------------------------------------ STEP ------------------------------------>
 ## STEP 7. Learning Rate
 
 * Assuming <img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415211738851.png" alt="image-20230415211738851" style="zoom:80%;" />
@@ -171,6 +191,7 @@ ing
 
 * **RMSE(root mean square error)** : Adjust error to units similar to data(previous error is squared)
 * **Training Set vs. Test Set**
+
 	<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415212205980.png" alt="image-20230415212205980" style="zoom:50%;" />
 	**Using test set, calculating RMSE(training set is optimized for model)**
 
