@@ -1,8 +1,8 @@
 ---
 layout: default
 title: menu6 sub1 sub2
-parent: menu6 sub1
-grand_parent: menu6
+parent: Machine Leaning
+grand_parent: Deep Leaning
 nav_order: 2
 ---
 

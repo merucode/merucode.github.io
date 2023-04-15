@@ -47,6 +47,7 @@ New
 <!---------------------------------- STEP 2 ---------------------------------->
 ## STEP 2. Callouts
 * `.highlight`, `.important`, `.new`, `.note`, `.warning`
+
 ```
 {: .highlight } # Can use 
 A paragraph
@@ -128,6 +129,15 @@ flowchart TB
     two --> c2
 ```
 
+<br>
+
+<!---------------------------------- STEP  ------------------------------------>
+## STEP 5. Related Site
+
+### Step 5-1. Makrdown
+
+* [Easiest way of writing mathematical equation in R Markdown]
 
 ---
 [Mermaid]: https://mermaid.js.org/syntax/flowchart.html
+[Easiest way of writing mathematical equation in R Markdown] : https://www.youtube.com/watch?v=4I3PCDME5U8

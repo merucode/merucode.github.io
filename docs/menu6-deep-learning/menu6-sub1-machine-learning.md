@@ -1,13 +1,11 @@
 ---
 layout: default
-title: menu6 sub1
+title: Machine Leaning
 parent: Deep Leaning
 nav_order: 1
 has_children: true
 ---
 
-# menu6 sub1
+# Machine Leaning
 {: .no_toc }
 
-menu6 sub1 test
-{: .fs-6 .fw-300 }
