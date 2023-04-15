@@ -121,8 +121,6 @@ print(np.median(array2)) # 중앙값 13.5(짝수인 경우 13과 14 두 개 평�
 |Multiply matrix |AB|`A @ B` <br> `dot(A, B)`|A(m,n), B(n,p) Should be same n number, and return (m,p) matrix|
 |Multiply element by element|A∘B|`A*B`||
 
-<br>
-
 ### Step 4-2. Type of matrix
 
 |Description|Expression|Code|Note|
@@ -131,7 +129,6 @@ print(np.median(array2)) # 중앙값 13.5(짝수인 경우 13과 14 두 개 평�
 |Identity matrix|I|`np.identity(3)`|- numerical meaning **1**<br>|
 |Inverse matrix|A<sup>-1|`np.linalg.pinv(A)`|- numerical meaning **1/A** <br>- possible to not exist|
 
-<br>
 
 ### Step 4-3. Example
 
