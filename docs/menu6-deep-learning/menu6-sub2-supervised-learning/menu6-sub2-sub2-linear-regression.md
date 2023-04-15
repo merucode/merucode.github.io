@@ -193,7 +193,8 @@ ing
 * **Training Set vs. Test Set**
 
 	<img src="./../../../images/menu6-sub8-sub2-linear-regression/image-20230415212205980.png" alt="image-20230415212205980" style="zoom:50%;" />
-	**Using test set, calculating RMSE(training set is optimized for model)**
+	
+* **Using test set, calculating RMSE(training set is optimized for model)**
 
 <br>
 
