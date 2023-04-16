@@ -4,6 +4,7 @@ title: Multiple Linear Regression
 parent: Supervised Learning
 grand_parent: Deep Leaning
 nav_order: 3
+math: katex
 ---
 
 # Multiple Linear Regression
