@@ -1,9 +1,9 @@
 ---
+layout: default
 title: Multiple Linear Regression
 parent: Supervised Learning
 grand_parent: Deep Leaning
 nav_order: 3
-math: katex
 ---
 
 # Multiple Linear Regression
@@ -45,31 +45,35 @@ ing
 <!------------------------------------ STEP ------------------------------------>
 ## STEP 3. Gradient Descent
 
-* **Loss Functions**
+### Step 3-1. Gradient Descent
 
+* **Loss Functions**
+[image](https://www.codeit.kr/learn/3062)
 $J(θ) = \frac{1}{2m}\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})^2}$
 
 *(θ = θ<sub>0</sub>, θ<sub>1</sub>, θ<sub>2</sub>, ... , θ<sub>n</sub>)*
 
 * **θ Update** (result of partial derivative J(θ) by θ)
 
+[image](https://www.codeit.kr/learn/3062)
 $θ_j = θ_j - α\frac{1}{m}\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})}x^{(i)}_j$
-
 *(j = 0, 1, 2, ..., n)*
 	
 * **Matrics Express**
-	* $X = \begin{bmatrix} x_0^{(1)} & x_1^{(1)}\cdots & x_n^{(1)} \\ \vdots & \ddots & \vdots \\ x_0^{(m)} & x_1^{(m)} \cdots & x_n^{(m)} \end{bmatrix}$
-	
-	* $θ = \begin{bmatrix} θ_0 \\ θ_1 \\ \vdots \\ θ_n \end{bmatrix}$
-	* $Xθ  = \begin{bmatrix} h_θ(x^{(1)}) \\ h_θ(x^{(2)}) \\ \vdots \\ h_θ(x^{(m)}) \end{bmatrix}$ 
-	* $error = Xθ - y =  \begin{bmatrix} h_θ(x^{(1)})-y^{(1)} \\ h_θ(x^{(2)})-y^{(2)} \\ \vdots \\ h_θ(x^{(m)})-y^{(m)} \end{bmatrix}$
-	*  **Use partial derivative** $J(θ) = \frac{1}{2m}\displaystyle\sum_{i=1}^{m}{(error^{(i)})^2}$
+[image](https://www.codeit.kr/learn/3048)
 
-	* $X^T×error = \begin{bmatrix} x_0^{(1)} & x_0^{(2)}\cdots & x_0^{(m)} \\ \vdots & \ddots & \vdots \\ x_n^{(1)} & x_n^{(2)} \cdots & x_n^{(n)} \end{bmatrix} × \begin{bmatrix} h_θ(x^{(1)})-y^{(1)} \\ h_θ(x^{(2)})-y^{(2)} \\ \vdots \\ h_θ(x^{(m)})-y^{(m)} \end{bmatrix} = \begin{bmatrix}\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})}x_0^{(i)}\\\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})}x_1^{(i)}\\ \vdots \\\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})}x_n^{(i)}\end{bmatrix}$
-		* **gradient descent for each feature**
-	* **from** $θ_j = θ_j - α\frac{1}{m}\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})}x_j^{(i)}$(result of partial derivative J(θ) by θ)
-	 Update $θ = \begin{bmatrix}θ_0\\θ_1\\ \vdots\\θ_n\end{bmatrix} - α\begin{bmatrix}\frac{∂}{∂θ_0}J(θ)\\\frac{∂}{∂θ_1}J(θ)\\ \vdots\ \\ \frac{∂}{∂θ_n}J(θ)\end{bmatrix}$
- 	 **Update** $θ ← θ - α\frac{1}{m}(X^T × error)$
+|Parameter|Expression|note|
+|---|---|---|
+|input, X|[image](https://www.codeit.kr/learn/3048)|m: data number<br>n: feature number
+|hypothesis, H||*x<sub>0</sub>=1*|
+|Xθ|||
+|error, Xθ-y|||
+|J(θ) 편미분|||
+|θ Update|||
+
+### Step 3-2. θ Update Derivation
+
+[image](https://www.codeit.kr/learn/3048)
 
 <br>
 
