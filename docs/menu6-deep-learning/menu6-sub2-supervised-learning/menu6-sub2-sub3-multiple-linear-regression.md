@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Multiple Linear Regression
 parent: Supervised Learning
 grand_parent: Deep Leaning
