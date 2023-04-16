@@ -145,9 +145,25 @@ def normal_equation(X, y):
 * **입력변수 1000개 이하 → Normal Equation**
 
 <br>
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP 6. Convex function
+
+### Step 6-1. case
+|non-convex|non-convex|convex|
+|---|---|---|
+|[image](https://www.codeit.kr/learn/3045)|||
+
+* **non-convex function**, **Local minimum** don't mean **Global Minium**
+
+### Step 6-2. Linear Regression Loss function
+* **Linear Regression MSE(or Loss function) is alway convex function**
+* So, We alway find **Global Minimum** in **Linear Regression**
+
+<br>
 
 <!------------------------------------ STEP ------------------------------------>
-## STEP 6. sklearn
+## STEP 7. sklearn
 
 ```python
 from sklearn.datasets import load_boston
