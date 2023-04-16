@@ -76,14 +76,11 @@ import pandas as pd
 
 boston_dataset = load_boston()
 
-bonton_dataset.data
-
 polynominal_transformer = PolynomialFeatures(2) ### 가상함수 2차함수 가정
 polynominal_data = polynominal_transformer.fit_transform(boston_dataset.data)
+polynominal_feature_names = polynominal_transformer.get_feature_names(boston_dataset.feature_names)
 
 polynominal_data.shape	# (506, 105) original data is (506, 13) 
-
-polynominal_feature_names = polynominal_transformer.get_feature_names(boston_dataset.feature_names)
 
 x = pd.DataFrame(polynomial_data, columns=polynominal_feature_names)
 y= pd.DataFrame(boston_dataset.target, columns=['MEDV'])
