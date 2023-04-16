@@ -203,6 +203,8 @@ ing
 ```python
 from sklearn.datasets import load_boston # basic data set
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
 import pandas as pd
 
 boston_dataset = load_boston()
@@ -219,4 +221,11 @@ y = pd.DataFrame(boston_dataset.target, columns=['MEDV'])
 ### Split Train, Test Data Set
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_szie=0.2 random_state=5)
 
+### Linear Regression
+model = LinearReggression()
+model.filt(x_train, y_train)	# train
+model.coef_			# theta_1
+model.intercept_	# theta_0
+y_test_prediction = model.predict(x_test)				# test
+mean_squared_error(y_test, y_test_prediction) ** 0.5	# RMES
 ```
