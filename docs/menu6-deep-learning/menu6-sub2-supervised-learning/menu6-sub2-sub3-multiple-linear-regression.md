@@ -110,3 +110,40 @@ y = house_price	# 입력 변수 y 정의
 theta = np.array([0, 0, 0, 0])	# 파라미터 theta 초기화
 theta = gradient_descent(X, theta, y, 100, 0.01) 	# 학습률 0.01로 100번 경사 하강
 ```
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 5. Normal Equation
+
+### Step 5-1. Normal Equation
+[image 1:03](https://www.codeit.kr/learn/3027)
+[image 1:30](https://www.codeit.kr/learn/3027)
+[image 2:30](https://www.codeit.kr/learn/3027)
+
+### Step 5-2. Normal Equation Derivation
+[image](https://www.codeit.kr/learn/3049)
+
+### Step 5-3. Code
+
+```python
+def normal_equation(X, y):
+    theta = np.linalg.pinv((X.T @ X)) @ X.T @ y
+    return theta
+```    
+
+### Step 5-4. Gradient Descent vs Normal Equation
+
+|Gradient Descent|Normal Equation|
+|--|--|
+|적합한 학습율 α를 찾거나 정해야 한다.|학습율 α를 정할 필요가 없다.|
+|반복문을 사용해야 한다.|한 단계로 계산을 끝낼 수 있다.|
+|입력 변수의 개수 n이 커도 효율적으로 연산을 할 수 있다|입력 변수의 개수 n이 커지면 커질수록 월등히 비효율적이다. (행렬 연산을 하는 비용이 경사 하강법을 하는 것보다 크다)|
+||역행렬이 존재하지 않을 수도 있다 (이때는 pseudo inverse를 이용해서 다르게 계산하는 방법이 있기 때문에 큰 문제는 안 됨)|
+
+* **입력변수 1000개 이상 → Gradient Descent**
+* **입력변수 1000개 이하 → Normal Equation**
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
