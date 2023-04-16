@@ -20,13 +20,13 @@ ing
 </details>
 
 <!------------------------------------ STEP ------------------------------------>
-## STEP 1. Polynomial Regression
+## STEP 1. Polynomial Regression hypothesis function
 
-|h<sub>θ</sub>(x)=θ<sub>0</sub>+θ<sub>1</sub>x(Linear)|h<sub>θ</sub>(x)=θ<sub>0</sub>+θ<sub>1</sub>x+θ<sub>2</sub>x<sup>2</sup>|
-|---|---|
-|[image](https://www.codeit.kr/learn/3065)||
-|**h<sub>θ</sub>(x)=θ<sub>0</sub>+θ<sub>1</sub>x+θ<sub>2</sub>x<sup>2</sup>+θ<sub>3</sub>x<sup>3</sup>**|**h<sub>θ</sub>(x)=θ<sub>0</sub>+θ<sub>1</sub>x+θ<sub>2</sub>x<sup>2</sup>+θ<sub>3</sub>x<sup>3</sup>+θ<sub>4</sub>x<sup>4</sup>**|
-|||
+| h<sub>θ</sub>(x)=θ<sub>0</sub>+θ<sub>1</sub>x(Linear)        | h<sub>θ</sub>(x)=θ<sub>0</sub>+θ<sub>1</sub>x+θ<sub>2</sub>x<sup>2</sup> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232310726.png" alt="image-20230416232310726" style="zoom:50%;" /> | <img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232323677.png" alt="image-20230416232323677" style="zoom:50%;" /> |
+| **h<sub>θ</sub>(x)=θ<sub>0</sub>+θ<sub>1</sub>x+θ<sub>2</sub>x<sup>2</sup>+θ<sub>3</sub>x<sup>3</sup>** | **h<sub>θ</sub>(x)=θ<sub>0</sub>+θ<sub>1</sub>x+θ<sub>2</sub>x<sup>2</sup>+θ<sub>3</sub>x<sup>3</sup>+θ<sub>4</sub>x<sup>4</sup>** |
+| <img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232339839.png" alt="image-20230416232339839" style="zoom:50%;" /> | <img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232351564.png" alt="image-20230416232351564" style="zoom:50%;" /> |
 
 <br>
 
@@ -35,11 +35,11 @@ ing
 
 * Single feature polynomial regression is same as multiple linear regression
 	
-[image 1:53](https://www.codeit.kr/learn/3031)
+	<img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232510005.png" alt="image-20230416232510005" style="zoom: 50%;" />
 
 |first order|Add more polynomial as like multiple LR|
 |---|---|
-|[image 2:08](https://www.codeit.kr/learn/3031)|[image 0:23](https://www.codeit.kr/learn/3032)|
+|<img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232550496.png" alt="image-20230416232550496" style="zoom:50%;" />| <img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232612657.png" alt="image-20230416232612657" style="zoom:50%;" /> |
 
 <br>
 
@@ -49,13 +49,15 @@ ing
 * **multiple polynomial function** is same as **single feature polynomial function**
 	* it represent **relation between features**
 		*ex> square width and height(meaning   
-area)*
+		area)*
 	
-* Example
-	[image](https://www.codeit.kr/learn/3064)
-	* assume hypothesis function is quadratic term
-	[image h(x)](https://www.codeit.kr/learn/3064)
-	[image 2:15](https://www.codeit.kr/learn/3032)
+* **Example**
+	[<img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232930854.png" alt="image-20230416232930854" style="zoom:80%;" />
+	
+	* **assume hypothesis function is quadratic term**
+	
+	  <img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232827069.png" alt="image-20230416232827069" style="zoom: 80%;" />
+	  <img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232904678.png" alt="image-20230416232904678" style="zoom: 67%;" />
 
 <br>
 

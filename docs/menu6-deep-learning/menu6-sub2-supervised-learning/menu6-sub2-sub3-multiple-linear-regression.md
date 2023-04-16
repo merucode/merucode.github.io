@@ -48,32 +48,31 @@ ing
 ### Step 3-1. Gradient Descent
 
 * **Loss Functions**
-[image](https://www.codeit.kr/learn/3062)
-$J(θ) = \frac{1}{2m}\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})^2}$
 
-*(θ = θ<sub>0</sub>, θ<sub>1</sub>, θ<sub>2</sub>, ... , θ<sub>n</sub>)*
+<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416230946707.png" alt="image-20230416230946707" style="zoom:67%;" />*(θ = θ<sub>0</sub>, θ<sub>1</sub>, θ<sub>2</sub>, ... , θ<sub>n</sub>)*
 
 * **θ Update** (result of partial derivative J(θ) by θ)
 
-[image](https://www.codeit.kr/learn/3062)
-$θ_j = θ_j - α\frac{1}{m}\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})}x^{(i)}_j$
-*(j = 0, 1, 2, ..., n)*
-	
+  <img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231038612.png" alt="image-20230416231038612" style="zoom:67%;" />
+
+  <img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231106051.png" alt="image-20230416231106051" style="zoom:80%;" />*(j = 0, 1, 2, ..., n)*
+  	
+
 * **Matrics Express**
 [image](https://www.codeit.kr/learn/3048)
 
 |Parameter|Expression|note|
 |---|---|---|
-|input, X|[image](https://www.codeit.kr/learn/3048)|m: data number<br>n: feature number
-|hypothesis, H||*x<sub>0</sub>=1*|
-|Xθ|||
-|error, Xθ-y|||
-|J(θ) 편미분|||
-|θ Update|||
+|input, X|[![image-20230416231200604](./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231200604.png)](https://www.codeit.kr/learn/3048)|m: data number<br>n: feature number|
+|hypothesis, H|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231223679.png" alt="image-20230416231223679" style="zoom:80%;" />|*x<sub>0</sub>=1*|
+|Xθ|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231256404.png" alt="image-20230416231256404" style="zoom:80%;" />||
+|error, Xθ-y|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231321044.png" alt="image-20230416231321044" style="zoom:80%;" />||
+|J(θ) 편미분|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231402527.png" alt="image-20230416231402527" style="zoom:80%;" />||
+|θ Update|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231441331.png" alt="image-20230416231441331" style="zoom:80%;" /><br><img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231536225.png" alt="image-20230416231536225" style="zoom:80%;" />||
 
 ### Step 3-2. θ Update Derivation
 
-[image](https://www.codeit.kr/learn/3048)
+<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231601980.png" alt="image-20230416231601980" style="zoom:80%;" />
 
 <br>
 
@@ -120,12 +119,19 @@ theta = gradient_descent(X, theta, y, 100, 0.01) 	# 학습률 0.01로 100번 경
 ## STEP 5. Normal Equation
 
 ### Step 5-1. Normal Equation
-[image 1:03](https://www.codeit.kr/learn/3027)
-[image 1:30](https://www.codeit.kr/learn/3027)
-[image 2:30](https://www.codeit.kr/learn/3027)
+
+|                                                              |                                                              | Normal Equation                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231731916.png" alt="image-20230416231731916" style="zoom: 40%;" /> | <img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231805366.png" alt="image-20230416231805366" style="zoom:50%;" /> | <img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416231832705.png" alt="image-20230416231832705" style="zoom:50%;" /> |
 
 ### Step 5-2. Normal Equation Derivation
-[image](https://www.codeit.kr/learn/3049)
+<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232004957.png" alt="image-20230416232004957" style="zoom: 80%;" />
+
+<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232031979.png" alt="image-20230416232031979" style="zoom:80%;" />
+
+<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232108514.png" alt="image-20230416232108514" style="zoom:80%;" />
+
+<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232129853.png" alt="image-20230416232129853" style="zoom:80%;" />
 
 ### Step 5-3. Code
 
@@ -133,7 +139,7 @@ theta = gradient_descent(X, theta, y, 100, 0.01) 	# 학습률 0.01로 100번 경
 def normal_equation(X, y):
     theta = np.linalg.pinv((X.T @ X)) @ X.T @ y
     return theta
-```    
+```
 
 ### Step 5-4. Gradient Descent vs Normal Equation
 
@@ -155,7 +161,7 @@ def normal_equation(X, y):
 ### Step 6-1. case
 |non-convex|non-convex|convex|
 |---|---|---|
-|[image](https://www.codeit.kr/learn/3045)|||
+|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232210271.png" alt="image-20230416232210271" style="zoom:50%;" />|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232221138.png" alt="image-20230416232221138" style="zoom:50%;" />|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232233947.png" alt="image-20230416232233947" style="zoom:50%;" />|
 
 * **non-convex function**, **Local minimum** don't mean **Global Minium**
 
