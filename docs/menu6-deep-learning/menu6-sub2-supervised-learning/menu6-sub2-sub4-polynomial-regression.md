@@ -48,11 +48,12 @@ ing
 
 * **multiple polynomial function** is same as **single feature polynomial function**
 	* it represent **relation between features**
-		*ex> square width and height(meaning   
+		* *ex> square width and height(meaning   
 		area)*
 	
 * **Example**
-	[<img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232930854.png" alt="image-20230416232930854" style="zoom:80%;" />
+
+	<img src="./../../../images/menu6-sub2-sub4-polynomial-regression/image-20230416232930854.png" alt="image-20230416232930854" style="zoom:80%;" />
 	
 	* **assume hypothesis function is quadratic term**
 	

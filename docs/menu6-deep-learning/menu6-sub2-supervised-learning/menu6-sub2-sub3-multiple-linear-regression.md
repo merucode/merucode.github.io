@@ -159,6 +159,7 @@ def normal_equation(X, y):
 ## STEP 6. Convex function
 
 ### Step 6-1. case
+
 |non-convex|non-convex|convex|
 |---|---|---|
 |<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232210271.png" alt="image-20230416232210271" style="zoom:50%;" />|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232221138.png" alt="image-20230416232221138" style="zoom:50%;" />|<img src="./../../../images/menu6-sub2-sub3-multiple-linear-regression/image-20230416232233947.png" alt="image-20230416232233947" style="zoom:50%;" />|

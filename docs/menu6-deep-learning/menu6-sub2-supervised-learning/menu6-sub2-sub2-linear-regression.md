@@ -175,7 +175,7 @@ ing
 <!------------------------------------ STEP ------------------------------------>
 ## STEP 7. Learning Rate
 
-* Assuming <img src="./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211738851.png" alt="image-20230415211738851" style="zoom:80%;" />
+<img src="./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211738851.png" alt="image-20230415211738851" style="zoom:80%;" />
 	* *J(θ) is Quadratic expression for theta*
 
 | *α*가 너무 큰 경우                                           | *α*가 너무 작은 경우                                         | *α*가 적절한 경우                                            |
