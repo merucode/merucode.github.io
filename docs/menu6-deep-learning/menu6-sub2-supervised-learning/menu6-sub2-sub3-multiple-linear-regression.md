@@ -147,3 +147,31 @@ def normal_equation(X, y):
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
+## STEP 6. sklearn
+
+```python
+from sklearn.datasets import load_boston
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+import pandas as pd
+boston_dataset = load_boston()
+
+x = pd.DataFrame(boston_dataset.data, columns=boston_dataset.feature_names)
+y = pd.DataFrame(boston_dataset.target, columns=['MEDV'])
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=5)
+
+model = LinearRegression()
+model.fit(x_train, y_train)
+
+model.coef_		 # all theta except theta_0
+model.intercept_ # theta_0
+
+y_test_prediction = model.predict(x_test)
+mean_squared_error(y_test, y_test_prediction) ** 0.5 # RMSE
+```
+
+<br>
+<!------------------------------------ STEP ------------------------------------>
