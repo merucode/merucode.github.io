@@ -46,10 +46,12 @@ ing
 ## STEP 3. Gradient Descent
 
 * **Loss Functions**
+
 $J(θ) = \frac{1}{2m}\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})^2}$
 *(θ = θ<sub>0</sub>, θ<sub>1</sub>, θ<sub>2</sub>, ... , θ<sub>n</sub>)*
 
 * **θ Update** (result of partial derivative J(θ) by θ)
+
 $θ_j = θ_j - α\frac{1}{m}\displaystyle\sum_{i=1}^{m}{(h_θ(x^{(i)})-y^{(i)})}x^{(i)}_j$
 	*(j = 0, 1, 2, ..., n)*
 	
