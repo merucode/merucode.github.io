@@ -60,5 +60,3 @@ mermaid:
 ### latex
 compress_html:
   blanklines: true
-
-math: katex
