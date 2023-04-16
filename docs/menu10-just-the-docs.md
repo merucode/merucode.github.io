@@ -134,10 +134,14 @@ flowchart TB
 <!---------------------------------- STEP  ------------------------------------>
 ## STEP 5. Related Site
 
-### Step 5-1. Makrdown
+### Step 5-1. Markdown
 
 * [Easiest way of writing mathematical equation in R Markdown]
+* [Markdown 수식작성법]
+* [Markdown 행렬]
 
 ---
 [Mermaid]: https://mermaid.js.org/syntax/flowchart.html
 [Easiest way of writing mathematical equation in R Markdown]: https://www.youtube.com/watch?v=4I3PCDME5U8
+[Markdown 수식작성법]: https://velog.io/@d2h10s/LaTex-Markdown-%EC%88%98%EC%8B%9D-%EC%9E%91%EC%84%B1%EB%B2%95
+[Markdown 행렬]: https://cheris8.github.io/etc/MD-LaTex/

@@ -6,7 +6,7 @@ grand_parent: Deep Leaning
 nav_order: 2
 ---
 
-# Reinforcement Learning Basic
+# Linear Regression
 {: .no_toc .d-inline-block }
 ing
 {: .label .label-green }
@@ -223,7 +223,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_szie=0.2 random_s
 
 ### Linear Regression
 model = LinearReggression()
-model.filt(x_train, y_train)	# train
+model.fit(x_train, y_train)	# train
 model.coef_			# theta_1
 model.intercept_	# theta_0
 y_test_prediction = model.predict(x_test)				# test
