@@ -1,7 +1,7 @@
 ---
 layout: default
 title: sklearn
-parent: Supervised Learning
+parent: Machine Leaning
 grand_parent: Deep Leaning
 nav_order: 9
 ---
@@ -10,6 +10,7 @@ nav_order: 9
 {: .no_toc .d-inline-block }
 ing
 {: .label .label-green }
+
 <details open markdown="block">
   <summary>
     Table of contents

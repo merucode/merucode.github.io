@@ -29,19 +29,19 @@ ing
 
 |Linear Regression for classification|Exceptional Data|
 |---|---|
-|[image](https://www.codeit.kr/learn/3066)||
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180413236.png" alt="image-20230417180413236" style="zoom:72%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180431290.png" alt="image-20230417180431290" style="zoom:67%;" />|
 
 ### Step 1-2. Logistic Regression
 
 * **Sigmoid** 
-	[image](https://www.codeit.kr/learn/3067)
+	<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180515458.png" alt="image-20230417180515458" style="zoom:80%;" />
 	* Linear regression results have no range limit
 	* Sigmoid results have 0~1 range so suitable for classification
 	* Sigmoid results have 0~1 continuous number. So, we call 'Logistic Regression'. but it is used for classification
 
 |Sigmoid graph|Exceptional Data|
 |---|---|
-|[image](https://www.codeit.kr/learn/3067)||
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180541311.png" alt="image-20230417180541311" style="zoom:67%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180554914.png" alt="image-20230417180554914" style="zoom:67%;" />|
 
 <br>
 
@@ -49,18 +49,20 @@ ing
 ## STEP 2. Hypothesis Function
 
 * **Logistic hypothesis function *h(x)***
-	[image](https://www.codeit.kr/learn/3068)
-	[image](https://www.codeit.kr/learn/3068)
-	* *g(x)* is linear regression hypothesis function
+	<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180842882.png" alt="image-20230417180842882" style="zoom:80%;" />
+	
+	<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180914573.png" alt="image-20230417180914573" style="zoom:80%;" />
 
+	* *g(x)* is linear regression hypothesis function
+	
 * **output meaning**
-	[image](https://www.codeit.kr/learn/3068)
+	[<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180721894.png" alt="image-20230417180721894" style="zoom:67%;" />](https://www.codeit.kr/learn/3068)
 
 * **Example**
 
 |h<sub>θ</sub>(x)|θ<sub>0</sub>|θ<sub>1</sub>|
 |---|---|---|
-|[image](https://www.codeit.kr/learn/3051)|||
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181018110.png" alt="image-20230417181018110" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181038569.png" alt="image-20230417181038569" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181054457.png" alt="image-20230417181054457" style="zoom:80%;" />|
 
 <br>
 
@@ -73,17 +75,18 @@ ing
 
 |*h(x)*|Sigmoid Graph|Decision Boundary|
 |---|---|---|
-||[image](https://www.codeit.kr/learn/3050)||
+|![image-20230417181154945](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181154945.png)|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181217355.png" alt="image-20230417181217355" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181225800.png" alt="image-20230417181225800" style="zoom:80%;" />|
 
 * **Two features**
 
 |*h(x)*|Decision Boundary Graph|Decision Boundary|
 |---|---|---|
-||||
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181243317.png" alt="image-20230417181243317" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181434177.png" alt="image-20230417181434177" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181453281.png" alt="image-20230417181453281" style="zoom:80%;" />|
 
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
+
 ## STEP 4. Log Loss(cross entropy)
 
 |Linear Regression Error|Logistic Regression Error|
@@ -91,8 +94,7 @@ ing
 |MSE|log-loss|
 
  * **Log loss**
-	 [image 1:57](https://www.codeit.kr/learn/3038)
-	
+	 <img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181532279.png" alt="image-20230417181532279" style="zoom: 67%;" />
 |y=1|y=0|
 |---|---|
 |[image](https://www.codeit.kr/learn/3069)||
