@@ -32,11 +32,13 @@ ing
 ## STEP 1. k-fold cross validation
 
 ### Step 1-1. Issue
+
 |good for only test set|not good for only test set|
 |---|---|
 |[image](https://www.codeit.kr/learn/3334)||
 
 ### Step 1-2. k-fold cross validation
+
 |1-fold|2-fold|performance|
 |---|---|---|
 |[image](https://www.codeit.kr/learn/3334)||
@@ -72,7 +74,7 @@ score = np.average(cross_val_score(logistic_model, X, y, y.values.ravel(), cv=5)
 ### Step 2-1. Hyper Parameter
 
 * **Hyper Parameter** 
-	* ** Parameters set before learning**
+	* **Parameters set before learning**
 		* `ex>alpha, interation`
 		[image 01:00](https://www.codeit.kr/learn/3338)
 	*  Depending on which value you use, there is a big difference in performance

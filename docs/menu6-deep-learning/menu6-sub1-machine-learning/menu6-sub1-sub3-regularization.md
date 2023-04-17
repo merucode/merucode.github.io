@@ -44,6 +44,7 @@ ing
 
 
 ### Step 1-2.	Bias-Variance Tradeoff
+
 |underfit(과소적합)|overfit(과적합)|
 |---|---|
 |[image 00:41](https://www.codeit.kr/learn/3341)|[image 01:23](https://www.codeit.kr/learn/3341)|
@@ -52,8 +53,11 @@ ing
 	* In general, bias and variance have a **relationship where as one decreases, the other increases**
 	* So, We try to find **model which have balance between overfit and underfit**
 
-* solve **underfit**
+* To solve **underfit**
 	* using more **polynomial linear regression**
+
+* To solve **overerfit**
+	* **Regularization**
 
 ### Step 1-3. sklearn
 
@@ -68,7 +72,7 @@ from math import sqrt
 import numpy as np
 import pandas as pd
 
-PATH = ",,/datasets/admission_data.csv'
+PATH = ",,/datasets/admission_data.csv"
 admission_df = pd.read_csv(PATH).drop('Serial No.', axis=1)	# drop don't need columns
 
 X = admission_df.drop(['Admit'], axis=1) # drop target
