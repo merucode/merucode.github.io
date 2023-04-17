@@ -141,6 +141,7 @@ flowchart TB
 * [Markdown 수식작성법]
 * [Markdown 행렬]
 * [just-the-doc katex 적용]
+* [stackedit]
 
 ---
 [Mermaid]: https://mermaid.js.org/syntax/flowchart.html
@@ -148,3 +149,4 @@ flowchart TB
 [Markdown 수식작성법]: https://velog.io/@d2h10s/LaTex-Markdown-%EC%88%98%EC%8B%9D-%EC%9E%91%EC%84%B1%EB%B2%95
 [Markdown 행렬]: https://cheris8.github.io/etc/MD-LaTex/
 [just-the-doc katex 적용]: https://just-the-docs.github.io/just-the-docs-tests/components/math/katex/config/
+[stackedit]: https://stackedit.io/

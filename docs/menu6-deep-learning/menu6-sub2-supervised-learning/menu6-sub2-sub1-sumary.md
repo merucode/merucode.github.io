@@ -6,7 +6,7 @@ grand_parent: Deep Leaning
 nav_order: 1
 ---
 
-# Reinforcement Learning Basic
+# Summary
 {: .no_toc .d-inline-block }
 ing
 {: .label .label-green }
