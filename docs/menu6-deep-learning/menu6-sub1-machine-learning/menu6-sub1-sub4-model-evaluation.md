@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Model evaluation and Hyper parameter
+title: Model Evaluation and Hyper Parameter
 parent: Machine Leaning
 grand_parent: Deep Leaning
 nav_order: 4
 ---
 
-# Model evaluation and Hyper parameter
+# Model Evaluation and Hyper Parameter
 {: .no_toc .d-inline-block }
 ing
 {: .label .label-green }
