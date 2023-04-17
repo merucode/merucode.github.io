@@ -97,8 +97,8 @@ ing
 	 <img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181532279.png" alt="image-20230417181532279" style="zoom: 67%;" />
 |y=1|y=0|
 |---|---|
-|[image](https://www.codeit.kr/learn/3069)||
-|[image 2:55](https://www.codeit.kr/learn/3038)|[image 4:06](https://www.codeit.kr/learn/3038)|
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417213922731.png" alt="image-20230417213922731" style="zoom: 80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417213935657.png" alt="image-20230417213935657" style="zoom:80%;" />|
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417213834674.png" alt="image-20230417213834674" style="zoom:67%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417213859897.png" alt="image-20230417213859897" style="zoom:67%;" />|
 
 <br>
 
@@ -106,19 +106,20 @@ ing
 ## STEP 5. Loss Function
 
 ### Step 5-1. Log Loss
-[image](https://www.codeit.kr/learn/3070)
+<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417214030912.png" alt="image-20230417214030912"  />
 
-|y=0|y=1|
-|---|---|
-|[image 1:54](https://www.codeit.kr/learn/3039)|[image 2:21](https://www.codeit.kr/learn/3039)|
+| y=0                                                          | y=1                                                          |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417214201349.png" alt="image-20230417214201349" style="zoom: 80%;" /> | [![image-20230417214217465](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417214217465.png)](https://www.codeit.kr/learn/3039) |
 
 ### Step 5-2.  Loss Function
-[image](https://www.codeit.kr/learn/3070)
-[image](https://www.codeit.kr/learn/3070)
+<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417214050573.png" alt="image-20230417214050573"  />
+![image-20230417214133904](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417214133904.png)
 
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
+
 ## STEP 6. Gradient descent
 
 |Loss Function|θ Update|θ Update|
@@ -199,7 +200,7 @@ theta = gradient_descent(X, theta, y, 300, 0.1)  # 경사 하강법을 사용해
 * **e-mail Example**
 
 |Strategy 1|Strategy 2|Strategy 3|
-|---|---|---|---|
+|---|---|---|
 |[image](https://www.codeit.kr/learn/3072)|||
 
 * **Conclusion**
