@@ -3,7 +3,7 @@ layout: default
 title: Regularization
 parent: Machine Leaning
 grand_parent: Deep Leaning
-nav_order: 2
+nav_order: 3
 ---
 
 # Regularization
