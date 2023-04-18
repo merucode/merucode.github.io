@@ -1,12 +1,12 @@
 ---
 layout: default
-title: menu6 sub2 sub2
+title: Docker-compose Summary
 parent: Docker-compose
 grand_parent: Docker
-nav_order: 2
+nav_order: 1
 ---
 
-# menu6 sub2 sub2
+# Docker-compose Summary
 {: .no_toc }
 
 menu6 sub1 sub2 test
