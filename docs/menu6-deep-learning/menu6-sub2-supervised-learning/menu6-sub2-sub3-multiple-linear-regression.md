@@ -36,9 +36,8 @@ ing
 
 * **Hypothesis function for n features**
 	* *h<sub>θ</sub>(x)  = θ<sub>0</sub> + θ<sub>1</sub>x<sub>1</sub> + θ<sub>2</sub>x<sub>2</sub> + ... + θ<sub>n</sub>x<sub>n</sub>*
-	* *h<sub>θ</sub>(x)  =  θ<sub>T</sub>x*
-		* *θ<sub>T</sub> = [θ<sub>0</sub>, θ<sub>1</sub>, θ<sub>2</sub>, ... , θ<sub>n</sub>]*
-		* x = [1, x<sub>1</sub>, x<sub>2</sub>, ... , x<sub>n</sub>]
+	* *h<sub>θ</sub>(x)  =  θ<sup>T</sup>x*
+		* *θ<sup>T</sup> = [θ<sub>0</sub>, θ<sub>1</sub>, θ<sub>2</sub>, ... , θ<sub>n</sub>]
 
 <br>
 
@@ -59,7 +58,6 @@ ing
   	
 
 * **Matrics Express**
-[image](https://www.codeit.kr/learn/3048)
 
 |Parameter|Expression|note|
 |---|---|---|

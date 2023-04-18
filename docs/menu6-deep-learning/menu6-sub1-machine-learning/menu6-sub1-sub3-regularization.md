@@ -35,10 +35,10 @@ ing
 
 |Items|Graph|Problem|
 |---|---|---|
-|low bias||low performance|
-|high bias||over optimization|
-|low variance|[image](https://www.codeit.kr/learn/3339)|good model|
-|high variance||over optimization|
+|high bias|![image-20230418090439852](./../../../images/menu6-sub1-sub3-regularization/image-20230418090439852.png)|low performance|
+|low bias|![image-20230418090451708](./../../../images/menu6-sub1-sub3-regularization/image-20230418090451708.png)|over optimization|
+|low variance| ![image-20230418090325764](./../../../images/menu6-sub1-sub3-regularization/image-20230418090325764.png) ||
+|high variance|![image-20230418090308366](./../../../images/menu6-sub1-sub3-regularization/image-20230418090308366.png)|over optimization|
 
 * variance : How consistent the model's performance is when given various test data
 
@@ -47,7 +47,7 @@ ing
 
 |underfit(과소적합)|overfit(과적합)|
 |---|---|
-|[image 00:41](https://www.codeit.kr/learn/3341)|[image 01:23](https://www.codeit.kr/learn/3341)|
+|![image-20230418090548972](./../../../images/menu6-sub1-sub3-regularization/image-20230418090548972.png)|![image-20230418090609872](./../../../images/menu6-sub1-sub3-regularization/image-20230418090609872.png)|
 
 * **Bias-Variance Tradeoff** 
 	* In general, bias and variance have a **relationship where as one decreases, the other increases**
@@ -108,17 +108,22 @@ sqrt(mse_test)	# 5.090
 
 * **Regularization** : Avoid overfitting
 	*  **Prevent θ from getting too big**
-	[image 0:51](https://www.codeit.kr/learn/3346)
-	[image 1:33](https://www.codeit.kr/learn/3346)
-
+	
+	| overfit reason                                               | Regularization                                               |
+	| ------------------------------------------------------------ | ------------------------------------------------------------ |
+	| ![image-20230418090659480](./../../../images/menu6-sub1-sub3-regularization/image-20230418090659480.png) | ![image-20230418090723309](./../../../images/menu6-sub1-sub3-regularization/image-20230418090723309.png) |
+	
+	
+	
 * **Regularization**
+	
 	* Loss function : '가설 함수를 평가하기 위한 함수'
-	* ‘training 데이터에 대한 오차도 작고 θ값들도 작아야 좋은 가설 함수다'의 수학적 표현
+	* **‘training 데이터에 대한 오차도 작고 θ값들도 작아야 좋은 가설 함수다'**의 수학적 표현
 		* **J(θ) = Loss Function + Regularization term**
-		[image 4:23](https://www.codeit.kr/learn/3348)
+  	<img src="./../../../images/menu6-sub1-sub3-regularization/image-20230418090808544.png" alt="image-20230418090808544" style="zoom:80%;" />
   
 ### Step 2-2. L1, L2 Regularization 
-[image 6:49](https://www.codeit.kr/learn/3348)
+<img src="./../../../images/menu6-sub1-sub3-regularization/image-20230418090842744.png" alt="image-20230418090842744" style="zoom:67%;" />
 
 ### Step 2-3. sklearn
 
@@ -170,7 +175,7 @@ sqrt(mse_test)	# 0.060(linear regession model 5.090)
 
 * 정규화는 모델의 파라미터 (즉 학습을 통해 찾고자 하는 값들 - 회귀의 경우 θ)에 대한 **손실 함수를 최소화 하는 모든 알고리즘에 적용**할 수 있음
 	* 다중 회귀, (다중) 다항 회귀, 로지스틱 회귀 모델 모두에 정규화를 적용 가능
-	[정규화항](https://www.codeit.kr/learn/3350)
+	<img src="./../../../images/menu6-sub1-sub3-regularization/image-20230418091030664.png" alt="image-20230418091030664" style="zoom:80%;" />
 
 * `LogisticRegression`의 경우 `sklearn`에서 자동으로 **L2 정규화 적용**
 
@@ -182,11 +187,12 @@ sqrt(mse_test)	# 0.060(linear regession model 5.090)
 
 *  **Deep learning models** are also algorithms that minimize the loss function. 
 	* **Regularization is very important even in deep learning** because deep learning models are often overfitted
-[정규화항](https://www.codeit.kr/learn/3350)
+	  ![image-20230418091040497](./../../../images/menu6-sub1-sub3-regularization/image-20230418091040497.png)
 
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
+
 ### Step 2-5. Difference between L1 and L2
 
 * **Difference between L1 and L2**
@@ -198,7 +204,7 @@ sqrt(mse_test)	# 0.060(linear regession model 5.090)
 |For calculation, need to reduce θ number|Don't need to reduce θ number|
 
 * **Example Image**
-[image](https://www.codeit.kr/learn/3354)
+<img src="./../../../images/menu6-sub1-sub3-regularization/image-20230418091107050.png" alt="image-20230418091107050" style="zoom:67%;" />
 
 * **Reason L1 Reduce θ**
-[image](https://www.codeit.kr/learn/3354)
+![image-20230418091208274](./../../../images/menu6-sub1-sub3-regularization/image-20230418091208274.png)![image-20230418091231547](./../../../images/menu6-sub1-sub3-regularization/image-20230418091231547.png)![image-20230418091257086](./../../../images/menu6-sub1-sub3-regularization/image-20230418091257086.png)![image-20230418091331294](./../../../images/menu6-sub1-sub3-regularization/image-20230418091331294.png)![image-20230418091400555](./../../../images/menu6-sub1-sub3-regularization/image-20230418091400555.png)

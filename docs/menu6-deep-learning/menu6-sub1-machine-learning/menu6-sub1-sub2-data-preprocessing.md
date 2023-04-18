@@ -41,8 +41,12 @@ ing
 ## STEP 2. Min-Max Normalization(feature scaling)
 
 ### Step 2-1. Min-Max Normalization
-[image 4:27](https://www.codeit.kr/learn/3321)
-[image 3:39](https://www.codeit.kr/learn/3321)
+
+
+
+| Equation                                                     | Example                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./../../../images/menu6-sub1-sub2-data-preprocessing/image-20230418085526200.png" alt="image-20230418085526200" style="zoom: 80%;" /> | <img src="./../../../images/menu6-sub1-sub2-data-preprocessing/image-20230418085601375.png" alt="image-20230418085601375" style="zoom: 80%;" /> |
 
 ### Step 2-2. sklearn
 
@@ -63,9 +67,9 @@ nomalized_df = pd.DataFrame(nomalized_data, columns=df_to_nomalized.columns.toli
 
 ### Step 2-3. Relation with Gradient Descent
 
-|[image 02:31](https://www.codeit.kr/learn/3331)|
-|---|
-|[image 05:52](https://www.codeit.kr/learn/3331)<br>일반 : x<sub>1</sub>의 크기가 큰 경우|
+| <img src="./../../../images/menu6-sub1-sub2-data-preprocessing/image-20230418085656553.png" alt="image-20230418085656553" style="zoom:67%;" /> |
+| ------------------------------------------------------------ |
+| <img src="./../../../images/menu6-sub1-sub2-data-preprocessing/image-20230418085753920.png" alt="image-20230418085753920" style="zoom:67%;" /><br>*일반 : x<sub>1</sub>의 크기가 큰 경우* |
 
 * Apply to not only linear regression, but also **all algorithm using gradient descent**
 
@@ -77,7 +81,7 @@ nomalized_df = pd.DataFrame(nomalized_data, columns=df_to_nomalized.columns.toli
 
 ### Step 3-1.  Standardization
 
-[x<sub>new</sub>(https://www.codeit.kr/learn/3324)
+![image-20230418090007674](./../../../images/menu6-sub1-sub2-data-preprocessing/image-20230418090007674.png)![image-20230418090046822](./../../../images/menu6-sub1-sub2-data-preprocessing/image-20230418090046822.png)
 
 * x<sub>new</sub> 
 	* mean : 0, std : 1
@@ -117,9 +121,9 @@ standardized_df = pd.DataFrame(standardized_data, columns=df_to_standardized.col
 
 * **Handling Categorical Data**
 
-|Just change|One-hot Encoding|
+|Just change|One-hot Encod|
 |---|---|
-|[image 1:50](https://www.codeit.kr/learn/3327)|[image 3:10](https://www.codeit.kr/learn/3327)|
+|<img src="./../../../images/menu6-sub1-sub2-data-preprocessing/image-20230418090136252.png" alt="image-20230418090136252" style="zoom:50%;" />|<img src="./../../../images/menu6-sub1-sub2-data-preprocessing/image-20230418090152271.png" alt="image-20230418090152271" style="zoom:50%;" />|
 
 ### Step 4-2. Example Code(pandas)
 

@@ -122,7 +122,7 @@ ing
 |Description|Expression|Matrix Expression|
 |---|---|---|
 |hypothesis function|<img src="./../../../images/menu6-sub2-sub2-linear-regression/image-20230415193845387.png" alt="image-20230415193845387" style="zoom: 80%;" />|![image-20230415211146326](./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211146326.png)|
-|error|![image-20230415211202619](./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211202619.png)|![image-20230415211214356](./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211214356.png)|
+|error|<img src="./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211202619.png" alt="image-20230415211202619" style="zoom:80%;" />|![image-20230415211214356](./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211214356.png)|
 |loss function|<img src="./../../../images/menu6-sub2-sub2-linear-regression/image-20230415195035674.png" alt="image-20230415195035674" style="zoom:80%;" />||
 |*θ*<sub>0</sub> update<br>(Gradient descent)|<img src="./../../../images/menu6-sub2-sub2-linear-regression/image-20230415210408121.png" alt="image-20230415210408121" style="zoom:80%;" />|![image-20230415211435064](./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211435064.png)<br>![image-20230415211555219](./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211555219.png)|
 |*θ*<sub>1</sub> update<br/>(Gradient descent)|<img src="./../../../images/menu6-sub2-sub2-linear-regression/image-20230415210454396.png" alt="image-20230415210454396" style="zoom:80%;" />|![image-20230415211452811](./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211452811.png)<br>![image-20230415211517138](./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211517138.png)|
@@ -176,7 +176,8 @@ ing
 ## STEP 7. Learning Rate
 
 <img src="./../../../images/menu6-sub2-sub2-linear-regression/image-20230415211738851.png" alt="image-20230415211738851" style="zoom:80%;" />
-	* *J(θ) is Quadratic expression for theta*
+
+* *J(θ) is Quadratic expression for theta*
 
 | *α*가 너무 큰 경우                                           | *α*가 너무 작은 경우                                         | *α*가 적절한 경우                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |

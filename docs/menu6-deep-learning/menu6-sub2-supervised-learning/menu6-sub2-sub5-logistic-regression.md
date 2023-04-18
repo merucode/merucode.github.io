@@ -49,10 +49,9 @@ ing
 ## STEP 2. Hypothesis Function
 
 * **Logistic hypothesis function *h(x)***
-	<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180842882.png" alt="image-20230417180842882" style="zoom:80%;" />
 	
-	<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417180914573.png" alt="image-20230417180914573" style="zoom:80%;" />
-
+	<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418085240431.png" alt="image-20230418085240431" style="zoom:80%;" />
+	
 	* *g(x)* is linear regression hypothesis function
 	
 * **output meaning**
@@ -62,11 +61,12 @@ ing
 
 |h<sub>θ</sub>(x)|θ<sub>0</sub>|θ<sub>1</sub>|
 |---|---|---|
-|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181018110.png" alt="image-20230417181018110" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181038569.png" alt="image-20230417181038569" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181054457.png" alt="image-20230417181054457" style="zoom:80%;" />|
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181018110.png" alt="image-20230417181018110"  />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181038569.png" alt="image-20230417181038569" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181054457.png" alt="image-20230417181054457" style="zoom:80%;" />|
 
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
+
 ## STEP 3. Decision Boundary
 
 * **results of *h(x)* 0.5**
@@ -81,7 +81,7 @@ ing
 
 |*h(x)*|Decision Boundary Graph|Decision Boundary|
 |---|---|---|
-|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181243317.png" alt="image-20230417181243317" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181434177.png" alt="image-20230417181434177" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181453281.png" alt="image-20230417181453281" style="zoom:80%;" />|
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181243317.png" alt="image-20230417181243317"  />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181434177.png" alt="image-20230417181434177" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181453281.png" alt="image-20230417181453281" style="zoom:80%;" />|
 
 <br>
 
@@ -124,27 +124,28 @@ ing
 
 |Loss Function|θ Update|θ Update|
 |---|---|---|
-|[image 0:56](https://www.codeit.kr/learn/3040)|[image 1:47](https://www.codeit.kr/learn/3040)|[image 2:13](https://www.codeit.kr/learn/3040)|
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084201303.png" alt="image-20230418084201303" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084225441.png" alt="image-20230418084225441" style="zoom:80%;" />| <img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084248924.png" alt="image-20230418084248924" style="zoom:80%;" /> |
 
 * **Same as Linear Regression θ Update Equation**
-	* Loss function is different, but result of partial derivative is same
+	* Loss function is different, but **result of partial derivative is same**
 	* In θ Update Equation, Only *h(x)* is different from linear regression
 
 * **Matrix Expression**
 
-|Items|Equation|Expression|
-|---|---|---|
-|**X**|[image](https://www.codeit.kr/learn/3084)||
-|**θ**|||
-|**g<sub>θ</sub>(x)**|||
-|**h<sub>θ</sub>(x)**|||
-|**error**|||
-|**loss function**|||
-|**θ Update**|||
+|Items|Expression|
+|---|---|
+|**X**|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084450384.png" alt="image-20230418084450384"  />|
+|**θ**|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084502916.png" alt="image-20230418084502916"  />|
+|**g<sub>θ</sub>(x)**|![image-20230418084540952](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084540952.png)|
+|**h<sub>θ</sub>(x)**|![image-20230418084519839](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084519839.png)![image-20230418084604322](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084604322.png)|
+|**error**|![image-20230418084625934](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084625934.png)|
+|**loss function**||
+|**θ Update**|![image-20230418084706539](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084706539.png)<br><img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084725023.png" alt="image-20230418084725023"  />|
 
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
+
 ## STEP 7. Example Code
 
 ```python
@@ -201,18 +202,19 @@ theta = gradient_descent(X, theta, y, 300, 0.1)  # 경사 하강법을 사용해
 
 |Strategy 1|Strategy 2|Strategy 3|
 |---|---|---|
-|[image](https://www.codeit.kr/learn/3072)|||
+|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084905533.png" alt="image-20230418084905533" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084916275.png" alt="image-20230418084916275" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084927138.png" alt="image-20230418084927138" style="zoom:80%;" />|
 
 * **Conclusion**
- [image 2:46](https://www.codeit.kr/learn/3041)
+ <img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084959151.png" alt="image-20230418084959151" style="zoom:50%;" />
 
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
+
 ## STEP 9. Normal Equation
 * hard to find θ using simple matrix operations,
 because sigmoid include **e**
-[image](https://www.codeit.kr/learn/3046)
+<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418085019106.png" alt="image-20230418085019106" style="zoom:67%;" />
 
 <br>
 

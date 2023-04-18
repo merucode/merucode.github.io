@@ -35,13 +35,13 @@ ing
 
 |good for only test set|not good for only test set|
 |---|---|
-|[image](https://www.codeit.kr/learn/3334)||
+|![image-20230418091432834](./../../../images/menu6-sub1-sub4-model-evaluation/image-20230418091432834.png)|![image-20230418091443250](./../../../images/menu6-sub1-sub4-model-evaluation/image-20230418091443250.png)|
 
 ### Step 1-2. k-fold cross validation
 
 |1-fold|2-fold|performance|
 |---|---|---|
-|[image](https://www.codeit.kr/learn/3334)||
+|![image-20230418091519641](./../../../images/menu6-sub1-sub4-model-evaluation/image-20230418091519641.png)|![image-20230418091531335](./../../../images/menu6-sub1-sub4-model-evaluation/image-20230418091531335.png)|![image-20230418091549429](./../../../images/menu6-sub1-sub4-model-evaluation/image-20230418091549429.png)|
 
 ### Step 1-3. sklearn
 
@@ -76,7 +76,7 @@ score = np.average(cross_val_score(logistic_model, X, y, y.values.ravel(), cv=5)
 * **Hyper Parameter** 
 	* **Parameters set before learning**
 		* `ex>alpha, interation`
-		[image 01:00](https://www.codeit.kr/learn/3338)
+		<img src="./../../../images/menu6-sub1-sub4-model-evaluation/image-20230418091615231.png" alt="image-20230418091615231" style="zoom:67%;" />
 	*  Depending on which value you use, there is a big difference in performance
 
 * **Grid Search**
@@ -84,9 +84,7 @@ score = np.average(cross_val_score(logistic_model, X, y, y.values.ravel(), cv=5)
 	* From `default value` change little by little
 
 * **Example from lasso model**
-	[image 1:13 ](https://www.codeit.kr/learn/3338)
-	[image](https://www.codeit.kr/learn/3342)
-	[image 4:33 ](https://www.codeit.kr/learn/3338)
+	<img src="./../../../images/menu6-sub1-sub4-model-evaluation/image-20230418091700463.png" alt="image-20230418091700463" style="zoom:80%;" />
 
 ### Step 2-2. sklearn
 
