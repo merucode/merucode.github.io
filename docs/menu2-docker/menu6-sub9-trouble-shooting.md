@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Trouble shooting
+title: Trouble Shooting
 parent: Docker
 nav_order: 9
 ---
 
-# Trouble shooting
+# Trouble Shooting
 {: .no_toc .d-inline-block }
 ing
 {: .label .label-green }
@@ -71,11 +71,11 @@ $ sudo usermod -aG docker $(whoami)
 
 ## STEP 4. docker compose up 시 could not import 
 
-### Step 3-1. Error
+### Step 4-1. Error
 
 <img src="./../../images/menu6-sub9-trouble-shooting/Untitled-1681827305069-4.png" alt="Untitled" style="zoom:80%;" />
 
-### Step 3-2. Solution
+### Step 4-2. Solution
 
 * volume 경로 확인 및 필요시 재지정
 
@@ -86,3 +86,19 @@ $ sudo usermod -aG docker $(whoami)
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
+
+## STEP 5. docker compose down 시 failed to remove network prod_default
+
+### Step 5-1. Error
+
+<img src="./../../images/menu6-sub9-trouble-shooting/image-20230419213431487.png" alt="image-20230419213431487" style="zoom:80%;" />
+
+### Step 5-2. Solution
+
+* `bash`
+
+  ```bash
+  $docker compose down --remove-orphans
+  ```
+
+  
