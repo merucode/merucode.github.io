@@ -24,7 +24,7 @@ ing
 
 ### Step 1-1. CloudSQL console
 
-
+![image-20230419110653118](./../../images/menu5-sub3-cloudsql(postgresql)/image-20230419110653118.png)
 
 ### Step 1-2. CloudSQL Connect
 
