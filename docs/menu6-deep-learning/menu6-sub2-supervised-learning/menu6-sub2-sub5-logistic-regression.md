@@ -95,6 +95,7 @@ ing
 
  * **Log loss**
 	 <img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417181532279.png" alt="image-20230417181532279" style="zoom: 67%;" />
+
 |y=1|y=0|
 |---|---|
 |<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417213922731.png" alt="image-20230417213922731" style="zoom: 80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417213935657.png" alt="image-20230417213935657" style="zoom:80%;" />|
@@ -112,9 +113,14 @@ ing
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | <img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417214201349.png" alt="image-20230417214201349" style="zoom: 80%;" /> | [![image-20230417214217465](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417214217465.png)](https://www.codeit.kr/learn/3039) |
 
-### Step 5-2.  Loss Function
+### Step 5-2. Loss Function
 <img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417214050573.png" alt="image-20230417214050573"  />
 ![image-20230417214133904](./../../../images/menu6-sub2-sub5-logistic-regression/image-20230417214133904.png)
+
+### Step 5-3. Convex Function
+
+* log loss graph is sum graph of y=1, y=0
+* It is convex function and we find global minimum by differential
 
 <br>
 

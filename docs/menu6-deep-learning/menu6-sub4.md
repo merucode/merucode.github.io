@@ -1,10 +1,11 @@
 ---
 layout: default
-title: Django
-parent: Backend
+title: menu6-sub4
+parent: Deep Leaning
 nav_order: 4
 has_children: true
 ---
 
-# Django
+
 {: .no_toc }
+
