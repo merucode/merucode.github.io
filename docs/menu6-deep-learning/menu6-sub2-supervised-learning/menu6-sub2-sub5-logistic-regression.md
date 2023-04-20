@@ -211,6 +211,7 @@ theta = gradient_descent(X, theta, y, 300, 0.1)  # 경사 하강법을 사용해
 |<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084905533.png" alt="image-20230418084905533" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084916275.png" alt="image-20230418084916275" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084927138.png" alt="image-20230418084927138" style="zoom:80%;" />|
 
 * **Conclusion**
+
  <img src="./../../../images/menu6-sub2-sub5-logistic-regression/image-20230418084959151.png" alt="image-20230418084959151" style="zoom:50%;" />
 
 <br>
