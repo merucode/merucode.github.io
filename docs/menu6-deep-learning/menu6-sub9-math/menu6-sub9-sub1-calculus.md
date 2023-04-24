@@ -66,3 +66,12 @@ ing
 * 편미분을 통해 기울기 벡터를 구할 수 있고, 이 기울기 벡터는 가장 가파르게 올라가는 방향을 가리킴<br>→ **기울기 벡터의 - 값은 가장 가파르게 내려가는 방향**
 
 <br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 2. Composite Function And Chain Rule
+
+### Step 2-1. Composite Function
+
+[image](https://www.codeit.kr/learn/4039)
+
+### Step 2-2. Chain Rule
