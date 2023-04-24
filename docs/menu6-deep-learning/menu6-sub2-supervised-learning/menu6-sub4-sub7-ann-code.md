@@ -1,7 +1,7 @@
 ---
 layout: default
 title: ANN Code
-parent: ANN
+parent: Supervised Learning
 grand_parent: Deep Leaning
 nav_order: 7
 ---
