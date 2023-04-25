@@ -31,9 +31,9 @@ ing
   |positive slope|negative slope|
   | ------------------------------------------------------------ | ------------------------------------------------------------ |
   | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415231348915.png" alt="image-20230415231348915" style="zoom:50%;" /> | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415231409020.png" alt="image-20230415231409020" style="zoom:50%;" /> |
-   
 
-   
+
+
 
 * **Meaning of the slope(differential value) zero in the graph** 
 
@@ -61,7 +61,6 @@ ing
   | ------------------------------------------------------------ | ------------------------------------------------------------ |
   | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415232517251.png" alt="image-20230415232517251" style="zoom:65%;" /> | <img src="./../../../images/menu6-sub9-sub1-calculus/image-20230415232538608.png" alt="image-20230415232538608" style="zoom:67%;" /> |
   
-
 * 편미분 개념과 기울기 개념은 인풋 변수가 아무리 많아도(고차원의 경우에도) 똑같이 적용 가능
 * 편미분을 통해 기울기 벡터를 구할 수 있고, 이 기울기 벡터는 가장 가파르게 올라가는 방향을 가리킴<br>→ **기울기 벡터의 - 값은 가장 가파르게 내려가는 방향**
 
@@ -72,6 +71,16 @@ ing
 
 ### Step 2-1. Composite Function
 
-[image](https://www.codeit.kr/learn/4039)
+*When f(y) = y<sup>3</sup>, y(x) = x<sup>2</sup> + 2x + 1*
+
+*f(x) = f(y(x)) = (x<sup>2</sup> + 2x + 1)<sup>3*</sup>
+
+
 
 ### Step 2-2. Chain Rule
+
+![image-20230425122742428](./../../../images/menu6-sub9-sub1-calculus/image-20230425122742428.png)
+
+* Generalize
+
+  ![image-20230425122802253](./../../../images/menu6-sub9-sub1-calculus/image-20230425122802253.png)
