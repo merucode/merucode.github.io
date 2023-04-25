@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Recommendation System
-parent: project
+parent: Project
 grand_parent: Deep Leaning
 nav_order: 2
 ---
