@@ -188,3 +188,85 @@ ing
 | **Weight**         | ![image-20230425135421569](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135421569.png)<br>![image-20230425135440956](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135440956.png)<br>![image-20230425135510768](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135510768.png)<br>![image-20230425135527656](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135527656.png) | ![image-20230425135617583](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135617583.png) | ![image-20230425135635560](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135635560.png) |
 | **Pre activation** | ![image-20230425135828356](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135828356.png)<br>![image-20230425135840961](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135840961.png)<br>![image-20230425135908946](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135908946.png) | ![image-20230425135921143](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425135921143.png) | ![image-20230425140007008](./../../../images/menu6-sub4-sub6-ann-basic/image-20230425140007008.png) |
 
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 7. Apply to other dataset
+
+### Step 7-1. Example
+
+|Dataset|Model|
+|---|---|
+|[image 1:19](https://www.codeit.kr/learn/4028)|[2:27](https://www.codeit.kr/learn/4028)|
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 8. Non-linearity in Neural Networks
+
+### Step 8-1. Non-linearity
+
+* Non-linearity is achieved through the **hidden layer**
+* If Activation function is linear, Neural networks is also linear
+	* Decision boundary is also linear
+
+
+### Step 8-2. Why Logestic Regression is Linearity
+
+<br>
+<!------------------------------------ STEP ------------------------------------>
+## STEP 9. Hidden Layer Activation Function 
+
+|Activation Function|Expression|Graph|Note|
+|---|---|---|---|
+|Sigmoid|[image](https://www.codeit.kr/learn/4032)||- Vanishing gradient problem|
+|ReLU<br>(Rectified Linear Unit)|||
+|leak ReLU|||- Improvement of vanishing gradient problem|
+
+* **Gradient descent calculation speed of ReLU is very fast**
+	* ReLU is recommended to use activation function
+* **Vanishing gradient problem**
+	* [image](https://www.codeit.kr/learn/4032)
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 10. Output Layer Activation Function 
+
+### Step 10-1. Sigmoid
+[image](https://www.codeit.kr/learn/4034)
+
+### Step 10-2. Softmax 
+
+### Step 10-3. Linear
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 11. Loss Function 
+
+### Step 11-1. Regression(MSE)
+
+[image](https://www.codeit.kr/learn/4035)
+
+### Step 11-2. Binary Classification(Log Loss)
+
+### Step 11-3. Multiple Classification(Log Loss)
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 12. Method of Gradient Descent
+
+* **batch** : Use all training data when performing gradient descent once
+	* Low learning speed
+* **Mini batch** : Use a small batch of training data for one gradient descent
+	* Most use mini batch gradient descent
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 13. Normalization
+
+[image](https://www.codeit.kr/learn/4037)
+
