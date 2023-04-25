@@ -61,6 +61,8 @@ array1 = numpy.arange(3, 17, 3)
 
 ### Element extraction
 array1[2][1]  # index 2, 1 elemnet extration
+array1[3, :]  # 3rd row return
+array1[:, 3]  # 3rd column return
 
 ```
   
@@ -89,14 +91,15 @@ array1[filter]		# [] 대괄호 사용
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
-## STEP 3. numpy 기본 통계 연산
+## STEP 3. numpy 기본 연산
 ```python
 import numpy as np 
 array1 = np.array([14, 6, 13, 21, 23, 31, 9, 5])
 
+print(array1.sum()) # 요소합 # array1.nansum()
 print(array1.max()) # 최댓값  
 print(array1.min()) # 최솟값
-print(array1.mean()) # 평균값
+print(array1.mean()) # 평균값 # array1.nanmean()
 print(array1.std()) # 표준 편차  
 print(array1.var()) # 분산
 
@@ -146,4 +149,18 @@ A * B     # Multiply element by element
 A.T               # transposed matrix
 np.indentity(3)   # indentity matrix
 np.linalg.pinv(A) # inverse matrix, if not exist it return matrix similar to inverse matrix
+```
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEp 5. 
+
+```python
+arr =np.array([
+    [1,2,3,4],
+    [5,6,7,8]
+    ])
+row = arr[1]
+row[-1] = 15  # arr[1][-1] also change to 15
 ```

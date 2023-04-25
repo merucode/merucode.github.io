@@ -42,6 +42,8 @@ array1 = numpy.arange(3, 17, 3) # [3 6 9 12 15]
 
 ### Element extraction
 array1[2][1]  # index 2, 1 elemnet extration
+array1[3, :]  # 3rd row return
+array1[:, 3]  # 3rd column return
 
 
 ### Filter
@@ -51,11 +53,12 @@ array1[filter]		          # array([5, 5])
 
 
 ### statistics
+array1.sum()    # 요소합 # array1.nansum()
 array1.max()    # 최댓값  
 array1.min()    # 최솟값
-array1.mean()   # 평균값
+array1.mean()   # 평균값 # array1.nanmean()
 array1.std()    # 표준 편차  
-array1.var()    #  분산
+array1.var()    # 분산
 
 ### Matrix calculation
 A + B     # Sum matrix
