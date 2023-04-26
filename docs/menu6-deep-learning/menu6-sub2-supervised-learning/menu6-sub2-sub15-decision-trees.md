@@ -24,41 +24,41 @@ ing
 
 ### Step 1-1. Decision Tree
 
-[image](https://www.codeit.kr/learn/3112)
+![image-20230426121052440](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121052440.png)
 
 * In machine learning, **node question is made by learning**
 	* **Purpose of decision tree is we find the nodes** that can best classify the data though classifying the training data, 
 	
 ### Step 1-2. Gini Impurity
 
-* Gini impurity : The degree of shuffling of the data set
+* **Gini impurity** : The degree of shuffling of the data set
 	* High value mean more impure
 
 |Example Function|Example Data|
 |---|---|
-|[image](https://www.codeit.kr/learn/3113)||
+|![image-20230426121258032](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121258032.png)|![image-20230426121219105](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121219105.png)<br>![image-20230426121244413](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121244413.png)|
 
 ### Step 1-3. Node
 
 * **Good Node** : **Low gini impourity** of dataset divided by node 
 	* Node Evaluation Example
-		[image](https://www.codeit.kr/learn/3115)
+		![image-20230426121415074](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121415074.png)
 * Type of Node : Classification, Question
 * Node Selection
-	[image](https://www.codeit.kr/learn/3116)
+	![image-20230426121450989](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121450989.png)
 * Depth of decision tree
-[image](https://www.codeit.kr/learn/3117)
+![image-20230426121525083](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121525083.png)
 * Node for numerical features
-[image](https://www.codeit.kr/learn/3111)
+![image-20230426121613151](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121613151.png)
 
 ### Step 1-4. Feature Importance
 
 
 |Node importance|Example|
 |---|---|
-|[image 3:35](https://www.codeit.kr/learn/3098)|[2:41]|
-|**Feature Importance**||
-|[image](https://www.codeit.kr/learn/3118)||
+|![image-20230426121745528](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121745528.png)|![image-20230426121706479](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121706479.png)|
+|**Feature Importance**|**Feature Importance**|
+|![image-20230426121801087](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121801087.png)|![image-20230426121810949](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121810949.png)|
 
 
 ### Step 1-5. sklearn
@@ -108,12 +108,14 @@ plt.xticks(range(len(importances)), X.columns[indeics_sorted], rotation=90)
 ### Step 2-2. Random Forest(bagging)
 
 * Bootstrapping dataset
-	[image](https://www.codeit.kr/learn/3119)
-* Bagging
- 	[image 00:43](https://www.codeit.kr/learn/3104)
-* Randomly Creating Decision Trees
-	[image]https://www.codeit.kr/learn/3120
+	![image-20230426121914216](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426121914216.png)
 	
+* Bagging
+
+  ![image-20230426122000412](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122000412.png)
+
+* Randomly Creating Decision Trees
+	![image-20230426122050389](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122050389.png)
 ### Step 2-3. sklearn
 
 ```python
@@ -144,43 +146,43 @@ print(predictions, score)
 
 ### Step 3-1. Boosting
 
-[image 02:02](https://www.codeit.kr/learn/3104)
+![image-20230426122129693](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122129693.png)
 
 ### Step 3-2. Adaboost
 
 |Stump|Dataset|
 |---|---|
-|[image](https://www.codeit.kr/learn/3122)||
+|![image-20230426122159237](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122159237.png)|![image-20230426122232788](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122232788.png)|
 |**Predict**|**Summary**|
-|||
+|![image-20230426122246136](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122246136.png)|![image-20230426122257863](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122257863.png)|
 
 ### Step 3-3. Stump Performance
 
 |Dataset|First Stump|
 |---|---|
-|[image 02:51](https://www.codeit.kr/learn/3106)|[image](https://www.codeit.kr/learn/3123)|
+|<img src="./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122422420.png" alt="image-20230426122422420" style="zoom:80%;" />|![image-20230426122532765](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122532765.png)|
 |**Performance**|**Summary**|
-|[image 04:15](https://www.codeit.kr/learn/3106)||
+|<img src="./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122456776.png" alt="image-20230426122456776" style="zoom:80%;" />|![image-20230426122542621](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122542621.png)|
 
 ### Step 3-4. Update importance
 
-|Data importance|Weight function|
+|Weight function| graph                                                        |
 |---|---|
-|[image](https://www.codeit.kr/learn/3124)||
+|![image-20230426122755767](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122755767.png)|![image-20230426122806324](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122806324.png)|
 |**Update**|**Rebalancing**|
-||||
+|![image-20230426122622277](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122622277.png)|![image-20230426122628143](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426122628143.png)|
 
 ### Step 3-5. Update Stump
 
 |Method|New Dataset|
 |---|---|
-|[image](https://www.codeit.kr/learn/3125)||
+|![image-20230426123434869](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426123434869.png)|![image-20230426123450005](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426123450005.png)|
 |**Stump**|**Summary**|
-||||
+|<img src="./../../../images/menu6-sub2-sub15-decision-trees/image-20230426123507084.png" alt="image-20230426123507084" style="zoom:80%;" />|<img src="./../../../images/menu6-sub2-sub15-decision-trees/image-20230426123519230.png" alt="image-20230426123519230" style="zoom:80%;" />|
 
 ### Step 3-6. Predict
 
-[image 01:23](https://www.codeit.kr/learn/3109)
+![image-20230426123557599](./../../../images/menu6-sub2-sub15-decision-trees/image-20230426123557599.png)
 
 ### Step 3-7. skleran
 

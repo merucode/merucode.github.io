@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Project
+title: ML Project
 parent: Deep Leaning
 nav_order: 19
 has_children: true
 ---
 
-# Project
+# ML Project
 {: .no_toc }
