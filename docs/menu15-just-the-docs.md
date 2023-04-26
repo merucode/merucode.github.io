@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Just-the-docs
-nav_order: 10
+nav_order: 15
 math: katex
 ---
 # Just-the-docs

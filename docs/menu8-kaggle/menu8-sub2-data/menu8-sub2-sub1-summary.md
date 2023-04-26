@@ -1,12 +1,12 @@
 ---
 layout: default
-title: menu8 sub2 sub1
-parent: menu8 sub2
-grand_parent: menu8
+title: Summary
+parent: Data
+grand_parent: Kaggle
 nav_order: 1
 ---
 
-# menu6 sub2 sub1
+# Summary
 {: .no_toc }
 
 menu6 sub1 sub1 test

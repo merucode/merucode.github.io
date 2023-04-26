@@ -1,11 +1,11 @@
 ---
 layout: default
-title: menu8
+title: Kaggle
 nav_order: 8
 has_children: true
 ---
 
-# Menu6
+# Kaggle
 {: .no_toc }
 
 Menu6 test

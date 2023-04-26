@@ -1,7 +1,7 @@
 ---
 layout: default
-title: menu8 sub2
-parent: menu8
+title: Data
+parent: Kaggle
 nav_order: 2
 has_children: true
 ---
