@@ -68,45 +68,50 @@ ing
 
 ## STEP 4. Example Dockerfile Code
 
-* `Dockerfile`
+* `./jupyter/Dockerfile`
 
   ```dockerfile
   FROM jupyter/minimal-notebook:latest
-  
+    
   WORKDIR /usr/src/app
-      
+        
   # docker jupyter notebook 권한 관련 환경변수 설정
   ENV CHOWN_EXTRA="/usr/src/app"
   ENV CHOWN_EXTRA_OPTS="-R"
-  
+    
   COPY ./requirements.txt .
-  
+    
   # install pakages
   RUN pip install --upgrade pip
   COPY ./requirements.txt .
   RUN pip install -r requirements.txt
-  
+    
   # build : $ docker build -t jupyter .
   # run   : $ docker run -v $PWD:/usr/src/app -p 8888:8888 --user root jupyter
   ```
 
-* `docker-compose.yml`
+* `./docker-compose.yml`
 
   ```dockerfile
   version: '3.7'
-  
+    
   services:
-    dev:
+    jupyter:
+      container_name: jupyter
       build:
-        context: ./
+        context: ./jupyter/
         dockerfile: Dockerfile
       volumes:
-        - ${PWD}:/usr/src/app
-      env_file:
-        - ./.env
+        - ${PWD}/jupyter:/usr/src/app
       ports:
         - 8888:8888
       user: root
+      # if you need to connect env_file(DB)
+      env_file:
+        - ./.env
+  
+  # build & run : docker compose up -d --build
+  # token check : docker logs jupyter
   ```
-
+  
   
