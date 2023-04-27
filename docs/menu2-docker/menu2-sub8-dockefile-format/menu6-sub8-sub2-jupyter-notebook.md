@@ -1,8 +1,10 @@
 ---
 layout: default
 title: Jupyter Notebook
-parent: Docker
-nav_order: 8
+parent: Docker Format
+grand_parent: Docker
+nav_order: 2
+
 ---
 
 # Jupyter Notebook(with docker)

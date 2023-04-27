@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Pandas
+title: pandas
 parent: Python
 nav_order: 2
 has_children: true
 ---
 
-# Pandas
+# pandas
 {: .no_toc }

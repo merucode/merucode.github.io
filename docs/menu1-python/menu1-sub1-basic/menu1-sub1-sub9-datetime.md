@@ -1,15 +1,25 @@
 ---
 layout: default
 title: datetime
-parent: Basic
+parent: Python Basic
 grand_parent: Python
-nav_order: 3
+nav_order: 9
 ---
 
 # datetime
 {: .no_toc }
 
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
 
+
+<!------------------------------------ STEP ------------------------------------>
 
 ### Step. Repeat day by day
 

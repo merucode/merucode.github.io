@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Numpy Basic
-parent: Numpy
+title: numpy Basic
+parent: numpy
 grand_parent: Python
 nav_order: 2
 ---
 
-# Numpy Basic
+# numpy Basic
 {: .no_toc .d-inline-block }
 ing
 {: .label .label-green }
@@ -65,7 +65,7 @@ array1[3, :]  # 3rd row return
 array1[:, 3]  # 3rd column return
 
 ```
-  
+
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
@@ -87,7 +87,7 @@ filter = np.where(array1 > 4)
 array1[filter]		# [] 대괄호 사용
 # array([5, 5])		# array1에서 4보다 큰 요소들만 추출
 ```
-  
+
 <br>
 
 <!------------------------------------ STEP ------------------------------------>

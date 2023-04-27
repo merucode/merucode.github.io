@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Numpy
+title: numpy
 parent: Python
 nav_order: 3
 has_children: true
 ---
 
-# Pandas
+# numpy
 {: .no_toc }

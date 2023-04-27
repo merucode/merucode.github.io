@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Basic
+title: Python Basic
 parent: Python
 nav_order: 1
 has_children: true
 ---
 
-# menu1 sub1
+# Python Basic
 {: .no_toc }
 
 menu1sub1 test

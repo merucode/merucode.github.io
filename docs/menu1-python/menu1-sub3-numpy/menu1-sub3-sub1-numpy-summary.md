@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Numpy Summary
+title: numpy Summary
 parent: Numpy
 grand_parent: Python
 nav_order: 1
 ---
 
-# Numpy Summary
+# numpy Summary
 {: .no_toc .d-inline-block }
 ing
 {: .label .label-green }
