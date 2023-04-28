@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Database
+title: Data
 nav_order: 5
 has_children: true
 ---
