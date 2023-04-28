@@ -3,6 +3,7 @@ layout: default
 title: Database
 parent: Data
 nav_order: 2
+has_children: true
 ---
 
 # Database

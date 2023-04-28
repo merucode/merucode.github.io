@@ -1,10 +1,10 @@
 ---
 layout: default
-title: NLP
-parent: Data Science
-nav_order: 1
+title: Git
+parent: Etc
+nav_order: 5
 has_children: true
 ---
 
-# NLP
+# Git
 {: .no_toc }

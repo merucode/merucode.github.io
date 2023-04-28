@@ -2,7 +2,7 @@
 layout: default
 title: Korean
 parent: NLP
-grand_parent: Data Science
+grand_parent: Data
 nav_order: 3
 ---
 
@@ -151,7 +151,7 @@ print('단어 집합의 크기 : {}'.format(len(vocab)))
 [자연어 처리 전처리 이해하기]: https://wikidocs.net/64517
 [명사 추출 및 빈도 계산]: https://liveyourit.tistory.com/57
 [pip install 실패시]: https://www.codeit.kr/tutorials/42/py-hanspell-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0
-[soyspacing]: https://github.com/lovit/soynlp 
+[soyspacing]: https://github.com/lovit/soynlp
 [PyKoSpacinb]: https://github.com/haven-jeon/PyKoSpacing
 
 [KorQuAD 데이터]: https://korquad.github.io/

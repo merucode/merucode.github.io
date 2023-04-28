@@ -2,7 +2,7 @@
 layout: default
 title: NLP Basic
 parent: NLP
-grand_parent: Data Science
+grand_parent: Data
 nav_order: 2
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: pandas Summary
-parent: Pandas
+parent: pandas
 grand_parent: Python
 nav_order: 2
 ---

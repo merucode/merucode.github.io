@@ -1,9 +1,6 @@
 ---
 layout: default
-title: Note
-nav_order: 99
+title: Etc
+nav_order: 14
 has_children: true
 ---
-
-
-
