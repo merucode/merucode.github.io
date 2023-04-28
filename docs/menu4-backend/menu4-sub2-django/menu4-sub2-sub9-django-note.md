@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Backend
+title: Django Note
 parent: Django
-grand_parent: Django Note
+grand_parent: Backend
 nav_order: 9
 ---
 

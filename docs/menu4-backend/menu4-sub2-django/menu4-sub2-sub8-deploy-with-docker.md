@@ -2,7 +2,7 @@
 layout: default
 title: Deploy with Docker
 parent: Django
-grand_parent: Django Note
+grand_parent: Backend
 nav_order: 8
 ---
 
