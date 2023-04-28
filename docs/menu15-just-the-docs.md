@@ -2,7 +2,6 @@
 layout: default
 title: Just-the-docs
 nav_order: 15
-math: katex
 ---
 # Just-the-docs
 {: .no_toc }

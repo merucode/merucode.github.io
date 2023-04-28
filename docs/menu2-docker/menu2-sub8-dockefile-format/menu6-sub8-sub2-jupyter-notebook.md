@@ -69,11 +69,12 @@ ing
 
 ## STEP 4. Example Dockerfile Code
 
-* `File structure`
+* **File structure**
 
   ```bash
   .
   ├── 📄docker-compose.yml
+  ├── 📄.env
   └── 📁jupyter
       ├── 📄Dockerfile
       └── 📄requirements.txt
