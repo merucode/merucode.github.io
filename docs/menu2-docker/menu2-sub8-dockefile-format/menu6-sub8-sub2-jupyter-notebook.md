@@ -1,10 +1,9 @@
 ---
 layout: default
 title: Jupyter Notebook
-parent: Docker Format
+parent: Dockerfile Format
 grand_parent: Docker
 nav_order: 2
-
 ---
 
 # Jupyter Notebook(with docker)
@@ -70,6 +69,16 @@ ing
 
 ## STEP 4. Example Dockerfile Code
 
+* `File structure`
+
+  ```bash
+  .
+  ├── 📄docker-compose.yml
+  └── 📁jupyter
+      ├── 📄Dockerfile
+      └── 📄requirements.txt
+  ```
+  
 * `./jupyter/Dockerfile`
 
   ```dockerfile
@@ -115,5 +124,5 @@ ing
   # build & run : docker compose up -d --build
   # token check : docker logs jupyter
   ```
-  
+
   
