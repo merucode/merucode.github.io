@@ -3,7 +3,7 @@ layout: default
 title: Linux Trouble Shooting
 parent: Linux
 grand_parent: Etc
-nav_order: 1
+nav_order: 8
 ---
 
 # Linux Trouble Shooting
