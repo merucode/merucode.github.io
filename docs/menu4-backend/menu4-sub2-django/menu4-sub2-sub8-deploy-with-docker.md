@@ -35,9 +35,7 @@ ing
 
     * WSL(Ubuntu 20.04) setting
 
-  
-    ​	
-  
+* You can find **final file structure** at last step
 
 <br>
 
@@ -283,7 +281,7 @@ ing
   $ docker-compose up -d --build
   
   # Create db
-  $ docke exec db psql --username=mysite_user --dbname=mysite_dev
+  $ docker exec db psql --username=mysite_user --dbname=mysite_dev
   
   # Check db
   $ docker volume ls
@@ -420,23 +418,442 @@ ing
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 3.
+## STEP 3. Gunicorn and Nginx(Deployment Environment)
+
+### Step 3-1. Connect Gunicorn and Make env file for deployment
+
+* **`./docker-compose.prod.yml`**(Create)
+
+  ```dockerfile
+  version: '3.7'
+  
+  services:
+    backend:
+      container_name: backend
+      build:
+        context: ./backend/django/
+        dockerfile: Dockerfile
+      ports:
+        - 8000:8000
+      command: gunicorn mysite.wsgi:application --bind 0.0.0.0:8000	# Update
+      env_file:	
+        - ./.env.prod		# Update
+      depends_on:
+        - db
+    
+    db:
+      container_name: db
+      image: postgres:12.0-alpine
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      env_file:
+        - ./.env.prod.db	  # Update
+        
+  volumes:
+    postgres_data:
+  ```
+
+  * 운영 환경에서 더이상 필요하지 않기 떄문에 backend에서 volume 제거
+
+* **`./.env.prod`**(Create)
+
+  ```
+  ### Django settings
+  DEBUG=0
+  SECRET_KEY=change_me
+  DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+  
+  ### DB
+  SQL_ENGINE=django.db.backends.postgresql
+  SQL_DATABASE=mysite_prod
+  SQL_USER=mysite_user
+  SQL_PASSWORD=mysite_prod
+  SQL_HOST=db
+  SQL_PORT=5432
+  
+  ### entrypoint.sh
+  DATABASE=postgres
+  ```
+
+* **`./.env.prod.db`**(Create)
+
+  ```
+  POSTGRES_USER=mysite_user
+  POSTGRES_PASSWORD=mysite_prod
+  POSTGRES_DB=mysite_prod
+  ```
+
+### Step 3-2. Check
+
+* **`bash`**
+
+  ```bash
+  $ docker compose down -v
+  $ docker compose -f docker-compose.prod.yml up -d --build
+  # http://localhost:8000/admin
+  # Check connect well without static files
+  
+  $ docker exec db psql --username=mysite_user --dbname=mysite_prod
+  $ docker volume ls
+  $ docker volume inspect mysite_postgres_data
+  # Check db
+  # if dev db volume not deleteed by 'docker compose down -v',
+  # error occur when you migrate
+  
+  
+  $ docker compose -f docker-compose.prod.yml down
+  ```
+
+### Step 3-3. Deployment Dockerfile
+
+* **`./backend/django/entrypoint.prod.sh`**(create)
+
+  ```sh
+  #!/bin/sh
+  
+  if [ "$DATABASE" = "postgres" ]
+  then
+      echo "Waiting for postgres..."
+  
+      while ! nc -z $SQL_HOST $SQL_PORT; do
+        sleep 0.1
+      done
+  
+      echo "PostgreSQL started"
+  fi
+  
+  exec "$@"
+  ```
+
+* **`bash`**(entrypoint.prod.sh 파일 권한 변경)
+
+  ```bash
+  ./backend/django$ chmod +x entrypoint.prod.sh
+  ```
+
+* **`./backend/django/Dockerfile.prod`**(create)
+
+  ```dockerfile
+  ###########
+  # BUILDER #
+  ###########
+  
+  # 공식 베이스 이미지를 pull
+  FROM python:3.9-alpine as builder
+  
+  # 작업 공간설정
+  WORKDIR /usr/src/app
+  
+  # 환경변수 설정
+  ENV PYTHONDONTWRITEBYTECODE 1
+  ENV PYTHONUNBUFFERED 1
+  
+  # psycopg2 디펜던시 설치
+  RUN apk update \
+      && apk add postgresql-dev gcc python3-dev musl-dev
+  
+  # 디펜던시 설치
+  COPY ./requirements.txt .
+  RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+  
+  #########
+  # FINAL #
+  #########
+  
+  # 공식 베이스 이미지를 pull
+  FROM python:3.9-alpine
+  
+  # app user를 위한 폴더 생성
+  RUN mkdir -p /home/app
+  
+  # app user 생성
+  RUN addgroup -S app && adduser -S app -G app
+  
+  # 적절한 디렉토리 생성
+  ENV HOME=/home/app
+  ENV APP_HOME=/home/app/web
+  RUN mkdir $APP_HOME
+  RUN mkdir $APP_HOME/staticfiles
+  RUN mkdir $APP_HOME/mediafiles
+  WORKDIR $APP_HOME
+  
+  # 디펜던시 설치
+  RUN apk update && apk add libpq
+  COPY --from=builder /usr/src/app/wheels /wheels
+  COPY --from=builder /usr/src/app/requirements.txt .
+  RUN pip install --no-cache /wheels/*
+  
+  # entrypoint-prod.sh 복사
+  COPY ./entrypoint.prod.sh $APP_HOME
+  
+  # 프로젝트 파일 복사
+  COPY . $APP_HOME
+  
+  # app user 모든 파일 권한변경
+  RUN chown -R app:app $APP_HOME
+  
+  # app user 변경
+  USER app
+  
+  # entrypoint.prod.sh 실행
+  ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]
+  ```
+
+  * 최종 이미지 사이즈를 줄이기위해 multi-stage 빌드 도커를 사용
+  * root 가 아닌 유저를 생성(보안)
+
+* **`docker-compose.prod.yml`**
+
+  ```dockerfile
+  version: '3.7'
+  
+  services:
+    backend:
+      container_name: backend
+      build:
+        context: ./backend/django/
+        dockerfile: Dockerfile.prod	# Update
+  ...
+  ```
+
+### Step 3-4. Check
+
+* **`bash`**
+
+  ```bash
+  $ docker compose -f docker-compose.prod.yml down -v
+  $ docker compose -f docker-compose.prod.yml up -d --build
+  # http://localhost:8000/admin
+  # Check connect well without static files
+  
+  $ docker compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
+  # Check migrate well
+  
+  $ docker compose -f docker-compose.prod.yml down -v
+  ```
+
+### Step 3-5. Nginx
+
+* **`docker-compose.prod.yml`**
+
+  ```dockerfile
+  version: '3.7'
+  
+  services:
+    backend:
+      container_name: backend
+      build:
+        context: ./backend/django/
+        dockerfile: Dockerfile.prod
+      expose:			# Update
+        - 8000		# Update	
+      command: gunicorn mysite.wsgi:application --bind 0.0.0.0:8000
+      env_file:
+        - ./.env.prod
+      depends_on:
+        - db
+    
+    nginx:					# Add
+      container_name: nginx
+      build:
+        context: ./backend/nginx/
+        dockerfile: Dockerfile
+      ports:
+        - 80:80
+      depends_on:
+        - backend
+  
+    db:
+      container_name: db
+      ...
+  ```
+
+* **`./backend/nginx/Dockerfile`**(create)
+
+  ```dockerfile
+  FROM nginx:1.19.0-alpine
+  
+  RUN rm /etc/nginx/conf.d/default.conf
+  COPY nginx.conf /etc/nginx/conf.d
+  ```
+
+* **`./backend/nginx/nginx.conf`**(create)
+
+  ```nginx
+  upstream mysite {
+      server backend:8000;
+  }
+  
+  server {
+  
+      listen 80;
+  
+      location / {
+          proxy_pass http://mysite;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header Host $host;
+          proxy_redirect off;
+      }
+  }
+  ```
+
+### Step 3-6. Check
+
+* **`bash`**
+
+  ```bash
+  $ docker compose -f docker-compose.prod.yml down -v
+  $ docker compose -f docker-compose.prod.yml up -d --build
+  # http://localhost:8000/admin
+  # Check connect well without static files
+  
+  $ docker compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
+  # Check migrate well
+  
+  $ docker compose -f docker-compose.prod.yml logs -f
+  # docker compose logs check possible
+  # ctrl+c : quit
+  
+  $ docker compose -f docker-compose.prod.yml down -v
+  ```
+  
+
+<br>
 
 
 
+<!------------------------------------ STEP ------------------------------------>
 
+## STEP 4. Static/Media files(Deployment Environment) 
 
+### Step 4-1. Static files
 
+* **`./backend/django/mysite/settings.py`**
 
+  ```python
+  ...
+  STATIC_URL = "/staticfiles/"						# Update
+  STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")	# Add
+  ...
+  ```
 
+* **`docker-compose.prod.yml`**
 
+  ```dockerfile
+  version: '3.7'
+  
+  services:
+    backend:
+      container_name: backend
+      build:
+        context: ./backend/django/
+        dockerfile: Dockerfile.prod
+      volumes:
+        - static_volume:/home/app/web/staticfiles # static 공유 디렉토리
+      expose:
+        - 8000
+      command: gunicorn mysite.wsgi:application --bind 0.0.0.0:8000
+      env_file:
+        - ./.env.prod
+      depends_on:
+        - db
+    
+    nginx:
+      container_name: nginx
+      build:
+        context: ./backend/nginx/
+        dockerfile: Dockerfile
+      volumes:
+        - static_volume:/home/app/web/staticfiles # static 공유 디렉토리
+      ports:
+        - 80:80
+      depends_on:
+        - backend
+  
+    db:
+      container_name: db
+      image: postgres:12.0-alpine
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      env_file:
+        - ./.env.prod.db
+        
+  volumes:
+    postgres_data:
+    static_volume:	# static 공유 디렉토리
+  ```
 
+* **`./backend/django/Dockerfile.prod`**(description)
 
+  ```dockerfile
+  ...
+  # 적절한 디렉토리 생성
+  ENV HOME=/home/app
+  ENV APP_HOME=/home/app/web
+  RUN mkdir $APP_HOME
+  RUN mkdir $APP_HOME/staticfiles	# static 공유 디렉토리
+  RUN mkdir $APP_HOME/mediafiles
+  WORKDIR $APP_HOME
+  ...
+  ```
 
+  * docker compose는 일반적으로 root 사용자로써 볼륨을 마운트하는데 현재 우리가 사용하고 있는 root 가 아닌 사용자인 경우, 권한문제가 발생해 collectstatic 명령어가 동작하지 않을 수 있음
 
+    * 해당 이슈를 해결하려면 아래와 같은 방법을 사용(우리는 1번 사용)
 
+      1. 도커파일 안에 폴더를 생성
 
+      2. 마운트 된 폴더의 권한을 변경
 
+* **`./backend/nginx/nginx.conf`**
+
+  ```nginx
+  upstream mysite {
+      server backend:8000;
+  }
+  
+  server {
+  
+      listen 80;
+  
+      location / {
+          proxy_pass http://mysite;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header Host $host;
+          proxy_redirect off;
+      }
+  
+      # static 관련 추가 부분
+      location /staticfiles/ {
+          alias /home/app/web/staticfiles/;
+      }
+  }
+  ```
+
+  
+
+### Step 4-2. Check
+
+* **`bash`**
+
+  ```bash
+  $ docker compose down -v
+  $ docker compose -f docker-compose.prod.yml down -v
+  
+  $ docker compose -f docker-compose.prod.yml up -d --build
+  $ docker exec backend python manage.py migrate --noinput
+  # Check migrate well
+  
+  $ docker exec backend python manage.py collectstatic --no-input --clear
+  # http://localhost:8000/admin
+  # Check connect well with static files
+  
+  $ docker compose -f docker-compose.prod.yml down -v
+  ```
+
+  
+
+### Step 4-3. Media files
 
 
 
