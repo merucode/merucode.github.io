@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Linux Basic
-parent: Linux
+title: Linux
+parent: Etc
 nav_order: 2
 has_children: true
 ---
 
-# Linux Basic
+# Linux
 {: .no_toc }

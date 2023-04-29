@@ -63,6 +63,8 @@ ing
 
 * **`Dockerfile`**
 
+  
+
   ```dockerfile
   # python 3.9 이미지를 베이스 이미지로 합니다
   FROM python:3.9-alpine
@@ -367,7 +369,7 @@ ing
   DATABASE=postgres	## Add
   ```
 
-## Step 2-4. Check
+### Step 2-4. Check
 
 * **`bash`**
 

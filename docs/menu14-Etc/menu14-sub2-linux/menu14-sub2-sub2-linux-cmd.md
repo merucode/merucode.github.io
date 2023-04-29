@@ -125,5 +125,44 @@ $ addgroup [OPTION] [GROUP]
 
 
 ### 사용자 계정을 추가(root만 가능)
+$ adduser [OPTION] [user]
+# s : 사용자 생성 시 사용자가 사용할 셸을 지정한다.
+# g : 그룹을 지정할 때 사용하는데, 지정할 그룹이 미리 생성 필요
+# G : 기본 그룹 이외에 추가로 그룹에 속하게 할 경우에 쓴다.
+# useradd와 차이(ubuntu)
+    # useradd : 순수하게 계정만 생성, 기본 쉘 sh 할당, 홈 디렉토리나 비밀번호 따로 설정 필요
+    # adduser : 계정 생성 시 사용자 정보 입력 받음. 홈 디렉토리 자동 생성
+
+
+### 파일의 소유권과 그룹을 변경하는 명령어(change owner)
+$ chown [OPTION] [owner][:[group]] FILE
+# 소유자 변경 			: chown user FILE
+# 소유자그룹 변경(. 사용) : chown .group FILE
+# 둘다 변경				: chwon user:group FILE
+$ chown -R user apple
+# R(--recursive) : 지정한 파일의 하위까지 변경
+
+
+### 파일의 권한을 변경하는 명령어(change mode)
+$ chmod [OPTION] [MODE] [FILE]
+## [OPTION]
+# v        : 모든 파일에 대해 모드가 적용되는 진단(diagnostic) 메시지 출력.
+# f        : 에러 메시지 출력하지 않음.
+# c        : 기존 파일 모드가 변경되는 경우만 진단(diagnostic) 메시지 출력.
+# R        : 지정한 모드를 파일과 디렉토리에 대해 재귀적으로(recursively) 적용.
+## [MODE] : 파일에 적용할 모드(mode) 문자열 조합
+# u,g,o,a : 소유자(u), 그룹(g), 그 외 사용자(o), 모든 사용자(a) 지정.
+# +,-,=   : 현재 모드에 권한 추가(+), 현재 모드에서 권한 제거(-), 현재 모드로 권한 지정(=)
+# r,w,x   : 읽기 권한(r), 쓰기 권한(w), 실행 권한(x)
+# X       : "디렉토리" 또는 "실행 권한(x)이 있는 파일"에 실행 권한(x) 적용.
+# s       : 실행 시 사용자 또는 그룹 ID 지정(s). "setuid", "setgid".
+# t       : 공유모드에서의 제한된 삭제 플래그를 나타내는 sticky(t) bit.
+# 0~7     : 8진수(octet) 형식 모드 설정 값.
+$ chmod u+w FILE        # 파일 소유 사용자에게 쓰기 권한 추가.
+$ chmod u=rwx FILE      # 파일 소유 사용자에게 읽기, 쓰기, 실행 권한 지정.
+$ chmod u-x FILE        # 파일 소유 사용자의 실행 권한 제거.
+$ chmod g+w FILE        # 파일 소유 그룹에 쓰기 권한 추가.
+$ chmod -R g+x DIR      # DIR 디렉토리 하위 모든 파일 및 디렉토리에 그룹 실행(x) 권한 추가.
+$ chmod a-x *           # 현재 디렉토리의 모든 파일에서 모든 사용자의 읽기 권한 제거.
 ```
 
