@@ -1015,7 +1015,7 @@ ing
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 5. Mid Check 
+## STEP 5. Mid Check(File Structure)
 
 * **File Structure**
 
@@ -1155,7 +1155,7 @@ ing
 
   * 서버는 ubuntu만 이용하므로 docker-engine으로 충분
 
-* `bash`(**docker/docker compose 설치**)
+* **`instance`-`bash`**(**docker/docker compose 설치**)
 
   ```bash
   ### Set up the repository
@@ -1198,7 +1198,7 @@ ing
   - [docker install(linux)](https://docs.docker.com/desktop/install/ubuntu/)
   - [docker compose install(linux)](https://docs.docker.com/compose/install/linux/#install-using-the-repository)
 
-* **`bash`(sudo 없이 사용 가능하게 docker 권한 부여)** 
+* **`instance`-`bash`(sudo 없이 사용 가능하게 docker 권한 부여)** 
 
   ```bash
   $ sudo usermod -aG docker $USER
@@ -1210,14 +1210,13 @@ ing
 
 
 
-
-## STEP 6-5. 인스턴스 github pull 및 runserver
+### STEP 6-5. 인스턴스 github pull
 
 * 인스턴스 git pull django project 
 
   * make `.env.prod`
 
-* **`bash`(check)**
+* **`instance`-`bash`(check)**
 
   ```bash
   $ docker compose -f docker-compose.prod.yml up -d --build
@@ -1227,3 +1226,35 @@ ing
   # connect to 'http://3.38.135.129/admin'
   $ docker compose -f docker-compose.prod.yml down
   ```
+
+
+
+## STEP 7. Final File Structure
+
+* **File Structure**
+
+  ```
+  .
+  ├── 📁backend
+  │   ├── 📁django
+  │   │   ├── 📁mediafiles
+  │   │   ├── 📁mysite
+  │   │   ├── 📁staticfiles
+  │   │   ├── 📄Dockerfile
+  │   │   ├── 📄Dockerfile.prod
+  │   │   ├── 📄entrypoint.prod.sh
+  │   │   ├── 📄entrypoint.sh
+  │   │   ├── 📄manage.py
+  │   │   └── 📄requirements.txt
+  │   └── nginx
+  │       ├── 📄Dockerfile
+  │       └── 📄nginx.conf
+  ├── 📄docker-compose.prod.yml
+  ├── 📄docker-compose.yml
+  ├── 📄.env.dev
+  ├── 📄.env.prod
+  └── 📄.gitignore
+  ```
+
+  
+
