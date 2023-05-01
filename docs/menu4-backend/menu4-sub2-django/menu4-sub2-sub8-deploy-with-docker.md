@@ -47,7 +47,7 @@ ing
 
 ## STEP 1. Make File Structure
 
-## Step 1-1. Make File Structure
+### Step 1-1. Make File Structure
 
 * **Basic File Structure**
 
@@ -150,7 +150,7 @@ ing
   $ docker compose down
   ```
 
-## Step 1-4. Check runserver
+### Step 1-4. Check runserver
 
 * **`docker-compose.yml`**
 
