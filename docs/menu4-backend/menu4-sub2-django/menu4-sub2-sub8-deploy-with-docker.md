@@ -84,6 +84,7 @@ ing
   
   # 호스트상의 프로젝트 파일들을 이미지 안에 복사합니다
   COPY . .
+  ```
 
 * **`requirements.txt`**
 
@@ -243,9 +244,11 @@ ing
 
   ```python
   import os	## Add
-  
   ...
-  
+  SECRET_KEY = os.environ.get("SECRET_KEY")							## Update
+  DEBUG = int(os.environ.get("DEBUG", default=0))						## Update
+  ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ") 	## Update
+  ...
   ## Update
   DATABASES = {
       "default": {
@@ -1065,6 +1068,8 @@ ing
   * [네트워킹] : 퍼블릭 모드
   * 참고사이트 : [점프 투 장고](https://wikidocs.net/75561)
 
+
+
 ### Step 6-2. Connect django AWS DB(Prod Environment)
 
 * **`docker-compose.prod.yml`**
@@ -1138,27 +1143,13 @@ ing
 
 
 
-### git 할 때  .env.prod 조절 필요
+### Step 6-3. Git Push Project
+
+* When you push to git hub, you should remove `.env.prod.db` or add `.gitignore` `.env.prod.db` for security
 
 
 
-
-
-
-
-
-
-
-
-
-
-<br>
-
-
-
-<!------------------------------------ STEP ------------------------------------>
-
-## STEP 4. 인스턴스 docker/docker compose install
+### Step 6-4. 인스턴스 docker/docker compose install
 
 * docker-desktop은 docker-engine과 windows 혹은 mac을 연결해주는 프로그램
 
@@ -1207,37 +1198,32 @@ ing
   - [docker install(linux)](https://docs.docker.com/desktop/install/ubuntu/)
   - [docker compose install(linux)](https://docs.docker.com/compose/install/linux/#install-using-the-repository)
 
+* **`bash`(sudo 없이 사용 가능하게 docker 권한 부여)** 
+
+  ```bash
+  $ sudo usermod -aG docker $USER
+  # OR
+  $ sudo usermod -aG docker $(whoami)
+  
+  # console 종료 후 재연결
+  ```
 
 
-<br>
 
 
-
-<!------------------------------------ STEP ------------------------------------>
-
-## STEP 5. 인스턴스 github pull 및 runserver
+## STEP 6-5. 인스턴스 github pull 및 runserver
 
 * 인스턴스 git pull django project 
 
-* `bash`(runserver)
+  * make `.env.prod`
+
+* **`bash`(check)**
 
   ```bash
-  $ sudo docker compose up
+  $ docker compose -f docker-compose.prod.yml up -d --build
+  $ docker exec backend python manage.py migrate --noinput
+  $ docker exec backend python manage.py collectstatic --no-input --clear
+  
+  # connect to 'http://3.38.135.129/admin'
+  $ docker compose -f docker-compose.prod.yml down
   ```
-
-- 사이트 접속
-  - url : `http://인스턴스외부고정IP:8000`
-    - django 개발서버 https 지원 안됨
-
-
-
-<br>
-
-
-
-<!------------------------------------ STEP ------------------------------------>
-
-## STEP 6. Dockfile Format 사용으로 배포
-
-* git pull
-* 
