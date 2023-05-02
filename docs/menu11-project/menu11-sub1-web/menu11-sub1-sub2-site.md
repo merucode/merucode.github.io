@@ -6,6 +6,7 @@ grand_parent: Project
 nav_order: 2
 ---
 
+# Site
 {: .no_toc }
 
 <details open markdown="block">
@@ -18,7 +19,7 @@ nav_order: 2
 </details>
 <!------------------------------------ STEP ------------------------------------>
 
-### STEP 0. Setting
+## STEP 0. Setting
 
 * We start from [[Backend]-[Django]-[Deploy-with-Docker]]([Deploy with Docker | Just the Docs Template (merucode.github.io)](https://merucode.github.io/docs/menu4-backend/menu4-sub2-django/menu4-sub2-sub8-deploy-with-docker.html#step-7-final-file-structure))
 
@@ -149,7 +150,7 @@ nav_order: 2
 
 * Make `test table(test_1)` in AWS DB
 
-  ![image-20230502093744048](./../../../images/menu11-sub1-sub2-site/image-20230502093744048.png)
+  ![image-20230502093744048](./../../../images/menu11-sub1-sub2-sit/image-20230502093744048.png)
 
 * **`django/charts/models.py`**
 
