@@ -169,18 +169,97 @@ nav_order: 2
       volume = models.IntegerField(db_column='거래량')
       volume_price = models.IntegerField(db_column='거래대금')
       rate_return = models.IntegerField(db_column='등락률')
-      stock_name = models.IntegerField(db_column='ticker')
+      stock_name = models.CharField(max_length=20, db_column='stock_name')
       
       class Meta:
           managed = False
           db_table = "test_1"
   ```
 
+
+* **`django/charts/urls.py*`**
+
+  ```python
+  ...
+  urlpatterns = [
+      path('', views.index, name='index'),
+      path('chart/', views.chart, name='chart'),	## Add
+  ]
+  ```
+
+* **`django/charts/views.py`**
+
+  ```python
+  from django.shortcuts import render
+  from .models import test_1_model
+  
+  def index(request):
+      return render(request, 'charts/index.html')
+  
+  def chart(request):
+      search_stock_name = request.GET.get('stock_name')
+      test_list = test_1_model.objects.filter(stock_name__exact=search_stock_name)
+      context = {'test_list':test_list}
+  
+      return render(request, 'charts/chart.html', context)
+  ```
+  
+* **`django/teplates/charts/index.html`**
+
+  ```html
+  <!-- % extends 'base.html' % -->
+  <!-- % block content % -->
+  
+  <h1>index!!</h1>
+  
+  <form action = "{% url 'charts:chart' %}" method = "get">
+      <label for="stock_name">STOCK NAME : </label>
+      <input id="stock_name" type="text" name="stock_name">
+      <input type="submit" value="OK">
+  </form>
+  
+  <!-- % endblock content % -->
+  ```
+
+* **`django/teplates/charts/chart.html`**
+
+  ```html
+  <!-- % extends 'base.html' % -->
+  <!-- % block content % -->
+  
+  <h1>chart!</h1>
+  
+  <form action = "" method = "get">
+      <label for="stock_name">STOCK NAME : </label>
+      <input id="stock_name" type="text" name="stock_name">
+      <input type="submit" value="OK">
+  </form>
+  
+  {% if test_list %}
+      <ul>
+      {% for question in test_list %}
+          <li>{{question.date}} {{question.close}} {{question.stock_name}}</a></li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>해당 종목 데이터가 없습니다.</p>
+  {% endif %}
+  
+  <!-- endblock content % -->
+  ```
   
 
-  
+* **`bash`**
 
+  ```bash
+  $ docker compose docker-compose.dev.yml up -d --build
   
+  $ docker exec backend python manage.py makemigrations charts
+  $ docker exec backend python manage.py migrate charts
+  # connect to 'http://localhost:8000/'
+  
+  $ docker compose docker-compose.dev.yml down
+  ```
 
 
 

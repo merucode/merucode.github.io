@@ -186,3 +186,6 @@ $ docker exec python manage.py migrate
 
 
 
+## STEP 3. Django Model Object
+
+* [[Django] QuerySet 메소드 정리 (2) - CRUD](https://devvvyang.tistory.com/37)
