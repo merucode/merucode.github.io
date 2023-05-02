@@ -4,7 +4,6 @@ title: Site
 parent: Web
 grand_parent: Project
 nav_order: 2
-
 ---
 
 # Site
@@ -24,7 +23,7 @@ nav_order: 2
 
 ## STEP 0. Setting
 
-* We start from [[Backend]-[Django]-[Deploy-with-Docker]]([Deploy with Docker | Just the Docs Template (merucode.github.io)](https://merucode.github.io/docs/menu4-backend/menu4-sub2-django/menu4-sub2-sub8-deploy-with-docker.html#step-7-final-file-structure))
+* We start from [[Backend]-[Django]-[Deploy-with-Docker]](https://merucode.github.io/docs/menu4-backend/menu4-sub2-django/menu4-sub2-sub8-deploy-with-docker.html#step-7-final-file-structure)
 
 
 
@@ -88,3 +87,28 @@ nav_order: 2
   ```
 
 * **`django/templates/base.html`(create)**
+
+  ```html
+  {% load static %}
+  <!doctype html>
+  <html lang="ko">
+  <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!--  CSS -->
+      <!-- <link rel="stylesheet"  href="{% static 'style.css' %}"> -->
+      <title>mysite</title>
+  </head>
+  <body>
+  <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+  
+  {% block content %}
+  {% endblock content %}
+  
+  <!-- 기본 템플릿 안에 삽입될 내용 End -->
+  </body>
+  </html>
+  ```
+
+  
