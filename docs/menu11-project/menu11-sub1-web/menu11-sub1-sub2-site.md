@@ -89,6 +89,7 @@ nav_order: 2
 * **`django/templates/base.html`(create)**
 
   ```html
+  <!-- % load static % -->
   <!doctype html>
   <html lang="ko">
   <head>
@@ -100,6 +101,8 @@ nav_order: 2
   <body>
   <!-- 기본 템플릿 안에 삽입될 내용 Start -->
   
+  <!-- % block content % -->
+  <!-- % endblock content % -->
       
   <!-- 기본 템플릿 안에 삽입될 내용 End -->
   </body>
@@ -107,3 +110,95 @@ nav_order: 2
   ```
 
   
+
+
+* **`django/templates/charts/index.html`(create)**
+
+  ```html
+  <!-- % load static % -->
+  <!-- % block content % -->
+  
+  <h1>Hello!</h1>
+  
+  <!-- % endblock content % -->
+  ```
+
+* **`django/mysite/settings.py`**
+
+  ```python
+  ...
+  TEMPLATES = [
+      {
+          'BACKEND': 'django.template.backends.django.DjangoTemplates',
+          'DIRS': [BASE_DIR / 'templates'],	## Update
+          ...
+  ```
+
+  
+
+### Step 1-2. [Dev] Check
+
+* **`bash`**
+
+  ```bash
+  $ docker compose up -d --build
+  # connect to 'http://localhost:8000/'
+  
+  $ docker compose down -v
+  ```
+
+
+
+###  Step 1-3. Load Data
+
+* Make `test table(test_1)` in AWS DB
+
+  ![image-20230502093744048](./../../../images/menu11-sub1-sub2-site/image-20230502093744048-1682997331877-1.png)
+
+* **`django/charts/models.py`**
+
+  ```python
+  from django.db import models
+  
+  class test_1_model(models.Model):
+      date = models.DateField(primary_key=True, db_column='날짜')
+      open = models.IntegerField(db_column='시가')
+      high = models.IntegerField(db_column='고가')
+      low = models.IntegerField(db_column='저가')
+      close = models.IntegerField(db_column='종가')
+      volume = models.IntegerField(db_column='거래량')
+      volume_price = models.IntegerField(db_column='거래대금')
+      rate_return = models.IntegerField(db_column='등락률')
+      stock_name = models.IntegerField(db_column='ticker')
+      
+      class Meta:
+          managed = False
+          db_table = "test_1"
+  ```
+
+  
+
+  
+
+  
+
+
+
+<br>
+
+
+
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP
+
+
+
+<br>
+
+
+
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP
+
