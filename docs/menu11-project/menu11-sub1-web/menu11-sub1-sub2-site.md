@@ -89,7 +89,6 @@ nav_order: 2
 * **`django/templates/base.html`(create)**
 
   ```html
-  load static	<!-- {} -->
   <!doctype html>
   <html lang="ko">
   <head>
@@ -102,9 +101,6 @@ nav_order: 2
   </head>
   <body>
   <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-  
-  block content		<!-- {} -->
-  endblock content	<!-- {} -->
   
   <!-- 기본 템플릿 안에 삽입될 내용 End -->
   </body>
