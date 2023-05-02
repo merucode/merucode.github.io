@@ -88,11 +88,8 @@ nav_order: 2
 
 * **`django/templates/base.html`(create)**
 
-  * Should change [] → {}(Because of github blog error)
-
-
   ```html
-  [% load static %]
+  load static	<!-- {} -->
   <!doctype html>
   <html lang="ko">
   <head>
@@ -106,8 +103,8 @@ nav_order: 2
   <body>
   <!-- 기본 템플릿 안에 삽입될 내용 Start -->
   
-  [% block content %]
-  [% endblock content %]
+  block content		<!-- {} -->
+  endblock content	<!-- {} -->
   
   <!-- 기본 템플릿 안에 삽입될 내용 End -->
   </body>
