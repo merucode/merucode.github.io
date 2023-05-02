@@ -25,7 +25,7 @@ nav_order: 2
 
 
 
-## STEP 1. Create App and Load Data
+## STEP 1. Create App and Data
 
 ### Step 1-1. [Dev] Creat App
 
@@ -87,7 +87,6 @@ nav_order: 2
 * **`django/templates/base.html`(create)**
 
   ```html
-  
   <!doctype html>
   <html lang="ko">
   <head>
@@ -108,7 +107,7 @@ nav_order: 2
   </body>
   </html>
   ```
-
+  
 * **`django/templates/charts/index.html`(create)**
 
   ```html
@@ -146,7 +145,7 @@ nav_order: 2
 
 
 
-###  Step 1-3. Load Data
+###  Step 1-3. Data
 
 * Make `test table(test_1)` in AWS DB
 
