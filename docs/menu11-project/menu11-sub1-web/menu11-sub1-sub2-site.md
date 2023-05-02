@@ -147,7 +147,36 @@ nav_order: 2
 
 ###  Step 1-3. Load Data
 
-* 
+* Make `test table(test_1)` in AWS DB
+
+  ![image-20230502093744048](./../../../images/menu11-sub1-sub2-site/image-20230502093744048.png)
+
+* **`django/charts/models.py`**
+
+  ```python
+  from django.db import models
+  
+  class test_1_model(models.Model):
+      date = models.DateField(primary_key=True, db_column='날짜')
+      open = models.IntegerField(db_column='시가')
+      high = models.IntegerField(db_column='고가')
+      low = models.IntegerField(db_column='저가')
+      close = models.IntegerField(db_column='종가')
+      volume = models.IntegerField(db_column='거래량')
+      volume_price = models.IntegerField(db_column='거래대금')
+      rate_return = models.IntegerField(db_column='등락률')
+      stock_name = models.IntegerField(db_column='ticker')
+      
+      class Meta:
+          managed = False
+          db_table = "test_1"
+  ```
+
+  
+
+  
+
+  
 
 
 
