@@ -89,7 +89,7 @@ nav_order: 2
 * **`django/templates/base.html`(create)**
 
   ```html
-  {% load static %}
+  <!-- {% load static %} -->
   <!doctype html>
   <html lang="ko">
   <head>
