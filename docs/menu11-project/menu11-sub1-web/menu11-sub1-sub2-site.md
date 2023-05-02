@@ -25,7 +25,7 @@ nav_order: 2
 
 
 
-## STEP 1. Create App and Data
+## STEP 1. Create App and Load Data
 
 ### Step 1-1. [Dev] Creat App
 
@@ -87,6 +87,7 @@ nav_order: 2
 * **`django/templates/base.html`(create)**
 
   ```html
+  #{% load static %}
   <!doctype html>
   <html lang="ko">
   <head>
@@ -100,23 +101,25 @@ nav_order: 2
   <body>
   <!-- 기본 템플릿 안에 삽입될 내용 Start -->
   
-  {% block content %}
-  {% endblock content %}
+  #{% block content %}
+  #{% endblock content %}
   
   <!-- 기본 템플릿 안에 삽입될 내용 End -->
   </body>
   </html>
   ```
-  
+
+  * .html 안에 # 표시는 지우고 코드 입력(ruby 언어 오류 발생 관련)
+
 * **`django/templates/charts/index.html`(create)**
 
   ```html
-  {% extends 'base.html' %}
-  {% block content %}
+  #{% extends 'base.html' %}
+  #{% block content %}
   
   <h1>Hello!</h1>
   
-  {% endblock content %}
+  #{% endblock content %}
   ```
 
 * **`django/mysite/settings.py`**
@@ -145,7 +148,7 @@ nav_order: 2
 
 
 
-###  Step 1-3. Data
+###  Step 1-3. Load Data
 
 * Make `test table(test_1)` in AWS DB
 
