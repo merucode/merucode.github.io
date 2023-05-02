@@ -212,7 +212,7 @@ nav_order: 2
   
   <h1>index!!</h1>
   
-  <form action = "{% url 'charts:chart' %}" method = "get">
+  <form action = "<!-- % url 'charts:chart' % -->" method = "get">
       <label for="stock_name">STOCK NAME : </label>
       <input id="stock_name" type="text" name="stock_name">
       <input type="submit" value="OK">
@@ -235,17 +235,17 @@ nav_order: 2
       <input type="submit" value="OK">
   </form>
   
-  {% if test_list %}
+  <!-- % if test_list % -->
       <ul>
-      {% for question in test_list %}
+      <!-- % for question in test_list % -->
           <li>{{question.date}} {{question.close}} {{question.stock_name}}</a></li>
-      {% endfor %}
+      <!-- % endfor % -->
       </ul>
-  {% else %}
+  <!-- % else % -->
       <p>해당 종목 데이터가 없습니다.</p>
-  {% endif %}
+  <!-- % endif % -->
   
-  <!-- endblock content % -->
+  <!-- % endblock content % -->
   ```
   
 
