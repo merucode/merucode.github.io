@@ -23,9 +23,59 @@ nav_order: 9
 
 ## STEP 1. 주사위게임
 
-### Step 1-1. ch1
-- **`bash`**
+### Step 1-1. 기본 배치 및 컴포넌트
 
+* **`public/index.html`**
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="ko">
+    <head>
+      <meta charset="utf-8" />
+      <title>주사위 게임</title>
+    </head>
+    <body>
+      <div id="root"></div>
+    </body>
+  </html>
+  ```
+
+* **`scr/index.js`**
+
+  ```javascript
+  import ReactDOM from 'react-dom';
+  import App from './App';
+
+  ReactDOM.render(<App />, document.getElementById('root'));
+  ```
+
+* **`src/App.js`**
+
+  ```javascript
+  import Dice from './Dice';
+
+  function App() {
+    return (
+      <div>
+        <Dice />
+      </div>
+    );
+  }
+
+  export default App;
+  ```
+
+* **`scr/Dics.js`**
+
+  ```javascript
+  import diceBlue01 from './assets/dice-blue-1.svg';
+
+  function Dice() {
+    return <img src={diceBlue01} alt="주사위" />;
+  }
+
+  export default Dice;
+  ```
 
 ### Step 1-2. 
 
@@ -64,4 +114,41 @@ nav_order: 9
   , document.getElementById('root'));
   ```
 
-### Step 2-2. ch2
+### Step 2-2. JSX에서 자바스크립트를 추가
+
+* **`src/index.js`**
+
+  ```javascript
+  import ReactDOM from 'react-dom';
+
+  const WINS = {
+    rock: 'scissor',
+    scissor: 'paper',
+    paper: 'rock',
+  };
+
+  function getResult(left, right) {
+    if (WINS[left] === right) return '승리';
+    else if (left === WINS[right]) return '패배';
+    return '무승부';
+  }
+
+  function handleClick() {
+    console.log('가위바위보!');
+  }
+
+  const me = 'rock';
+  const other = 'scissor';
+
+  ReactDOM.render(
+    <>
+      <h1>가위바위보</h1>
+      <h2>{getResult(me, other)}</h2>
+      <button onClick={handleClick}>가위</button>
+      <button onClick={handleClick}>바위</button>
+      <button onClick={handleClick}>보</button>
+    </>,
+    document.getElementById('root')
+  );
+  ```
+

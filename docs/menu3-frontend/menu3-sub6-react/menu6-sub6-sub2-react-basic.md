@@ -121,11 +121,69 @@ nav_order: 2
   // <></> 없이 사용 시 오류 발생
   ```
 
+### Step 2-4. JSX에서 javascript 표현식 사용하기
 
+- 중괄호`{}` 사용 javascript 표현식 사용
+- 중괄호 안에서 for, if문 등의 javascript 문장식 사용 불가
+  - 필요하다면 조건 연산자, 배열의 반복 메소드를 활용
 
+- 예제
 
+  ```javascript
+  import ReactDOM from 'react-dom';
 
+  const product = 'MacBook';
+  const model = 'Air';
+  const imageUrl =
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/MacBook_with_Retina_Display.png/500px-MacBook_with_Retina_Display.png';
 
+  function handleClick(e) {
+    alert('곧 도착합니다!');
+  }
+
+  ReactDOM.render(
+    <>
+      <h1>{product + ' ' + model} 주문하기</h1>
+      <img src={imageUrl} alt="제품 사진" />
+      <button onClick={handleClick}>확인</button>
+    </>,
+    document.getElementById('root')
+  );
+  ```
+
+### Step 2-5. React Element and Component
+
+- **react element** : JSX 문법으로 작성한 하나의 요소(javascript object)
+- ReactDOM.rende 함수로 해석해서 HTML 형태로 브라우저에 띄움
+
+  ```javascript
+  import ReactDOM from 'react-dom';
+
+  const element = <h1>안녕 리액트!</h1>;
+  console.log(element);
+  ReactDOM.render(element, document.getElementById('root'));
+  // log : {$$typeof: Symbol(react.element), type: "h1", key: null, ref: null, props: {…}, …}
+  ```
+
+- **react component** : react element를 자유롭게 다루기 위한 하나의 문법
+- 간단한 방법으로 javascript function 사용하며, 첫 글자를 **대문자**로 작성해야 함
+- 아래 코드에서 JSX 문법으로 작성된 하나의 요소를 리턴하는 Hello 함수가 하나의 컴포넌트
+
+  ```javascript
+  function Hello() {
+  return <h1>안녕 리액트</h1>;
+  }
+
+  const element = (
+    <>
+      <Hello />
+      <Hello />
+      <Hello />
+    </>
+  );
+
+  ReactDOM.render(element, document.getElementById('root'));
+  ```
 
 <br>
 
