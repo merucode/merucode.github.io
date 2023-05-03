@@ -33,3 +33,23 @@ $ npm run start           # 개발서버 실행(localhost:3000)
 
 
 ```
+
+### Step 1-2. **`.js`**
+
+```javascript
+// 기본 구성
+import ReactDOM from 'react-dom/client';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<h1>안녕 리액트!</h1>);
+
+
+// fragment
+root.render(<>
+  <h1>안녕 리액트!</h1>
+  <h1>안녕 리액트!</h1>
+  </>); 
+
+
+
+```

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Fronted
+title: Frontend
 nav_order: 3
 has_children: true
 ---
