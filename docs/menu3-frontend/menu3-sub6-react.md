@@ -1,9 +1,11 @@
 ---
 layout: default
-title: Fronted
-nav_order: 3
+title: React
+parent: Fronted
+nav_order: 6
 has_children: true
 ---
 
-# Menu3
+# React
 {: .no_toc }
+
