@@ -63,3 +63,14 @@ root.render(<>
 //
 
 ```
+
+
+## STEP 9. utils.js
+
+```react
+/*  1~n 사이 랜덤한 정수 반환 */
+function random(n) {
+  return Math.ceil(Math.random() * n);
+}
+
+```
