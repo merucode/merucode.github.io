@@ -438,7 +438,7 @@ nav_order: 2
 
 [image 4:11](https://www.codeit.kr/learn/4753) 
 
-- [BABEL]](https://babeljs.io/)
+- [BABEL](https://babeljs.io/)
   - Try it out 메뉴에서 transpiling 직접 확인 가능
 
 <br>
