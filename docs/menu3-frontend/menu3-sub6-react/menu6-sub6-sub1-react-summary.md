@@ -31,6 +31,8 @@ $ npm -v      # npm 버전 확인
 $ npm init react-app .    # 현재 폴더에서 react 프로젝트 시작
 $ npm run start           # 개발서버 실행(localhost:3000)
 
+$ npm run build           # react 프로젝트 빌드(create build folder)
+$ npx server build        # npm 저장소에서 server 프로그램 다운 후 build 폴더에서 서버 실행(localhost:5000)
 
 ```
 

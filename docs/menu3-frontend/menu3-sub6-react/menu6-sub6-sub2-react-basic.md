@@ -393,7 +393,7 @@ nav_order: 2
   ```
 
   ```react
-  ### App.js JSX
+  //### App.js JSX
   import './App.css';
   ..
     <div className="App">
@@ -403,11 +403,12 @@ nav_order: 2
   ..
 
 
-  ### Button.js
+  //### Button.js
   import './Button.css';
+  import Button from './Button';
 
   function Button({ className = '', color = 'blue', children, onClick }) {
-    const classNames = `Button ${color} ${className}`;  # 부모 className prop도 적용 될 수 있도록 추가(부모.css의 import는 부모.jss에서)
+    const classNames = `Button ${color} ${className}`;  //# 부모 className prop도 적용 될 수 있도록 추가(부모.css의 import는 부모.jss에서)
     return (
       <button className={classNames} onClick={onClick}>
         {children}
@@ -422,9 +423,24 @@ nav_order: 2
 <br> 
 
 <!------------------------------------ STEP ------------------------------------>
-## STEP 2. 
+## STEP 4. 배포하기
+
+### Step 4-1. 빌드
+
+- **build** : JSX 문법을 순수 javascript 문법으로 변경(transpiling)하고 압축(bundling)하여 웹서버가 사용하기 좋도록 변환하는 과정
+
+- **`bash`**
+
+  ```bash
+  $ npm run build     # create build folder
+  $ npx server build  # npm 저장소에서 server 프로그램 다운 후 build 폴더에서 서버 실행(localhost:5000)
+  ```
+
+[image 4:11](https://www.codeit.kr/learn/4753) 
+
+- [BABEL]](https://babeljs.io/)
+  - Try it out 메뉴에서 transpiling 직접 확인 가능
 
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
-## STEP 2. 

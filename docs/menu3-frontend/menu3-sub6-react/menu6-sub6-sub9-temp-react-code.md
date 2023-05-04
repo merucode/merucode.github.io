@@ -196,7 +196,7 @@ nav_order: 9
 
 ### Step 1-6. [CSS 클래스네임 적용](https://www.codeit.kr/learn/4749)
 
-
+### Step 1-7. [마무리 디자인](https://www.codeit.kr/learn/4658)
 
 
 
@@ -229,3 +229,5 @@ nav_order: 9
 ### Step 2-7. (가위바위보 배점_state)[https://www.codeit.kr/learn/4742]
 
 ### Step 2-8. (가위바위보 클래스네임 적용_style)[https://www.codeit.kr/learn/4750]
+
+### Step 2-9. [마무리 디자인](https://www.codeit.kr/learn/4658)
