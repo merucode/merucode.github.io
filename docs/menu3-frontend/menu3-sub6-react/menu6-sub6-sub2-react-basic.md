@@ -169,7 +169,7 @@ nav_order: 2
 - 간단한 방법으로 javascript function 사용하며, 첫 글자를 **대문자**로 작성해야 함
 - 아래 코드에서 JSX 문법으로 작성된 하나의 요소를 리턴하는 Hello 함수가 하나의 컴포넌트
 
-  ```javascript
+  ```react
   function Hello() {
   return <h1>안녕 리액트</h1>;
   }
@@ -184,6 +184,17 @@ nav_order: 2
 
   ReactDOM.render(element, document.getElementById('root'));
   ```
+
+### Step 2-6. props
+
+- **props(properties)** : 컴포넌트에 지정한 속성
+
+  ```react
+  ```
+
+
+
+
 
 <br>
 
