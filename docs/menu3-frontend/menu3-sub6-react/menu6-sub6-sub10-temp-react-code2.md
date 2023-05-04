@@ -27,7 +27,7 @@ nav_order: 10
   - 네트워크 연동 전 까시 사용할 데이터
 
 
-
+### Step 1-2. [map으로 배열 렌더링하기](https://www.codeit.kr/learn/5026)
 
 
 
@@ -42,4 +42,4 @@ nav_order: 10
 
 ## STEP 2. Practice
 
-### Step 2-1. 
+### Step 2-1. [map 배열 렌더링](https://www.codeit.kr/learn/5027)
