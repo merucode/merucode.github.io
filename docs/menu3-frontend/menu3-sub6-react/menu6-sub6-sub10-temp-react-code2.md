@@ -1,12 +1,12 @@
 ---
 layout: default
-title: React Temp Code2
+title: React Handling Data Code
 parent: React
 grand_parent: Frontend
 nav_order: 10
 ---
 
-# React Basic
+# React Handling Data Code
 {: .no_toc}
 
 <details open markdown="block">
@@ -21,9 +21,10 @@ nav_order: 10
 
 ### codeit react handling data project
 
-## STEP 1. Lesson
+## STEP 1. Movie Review Site(Lesson)
 
-### Step 1-1. 
+### Step 1-1. [mock 데이터 추가](https://www.codeit.kr/learn/5025)
+  - 네트워크 연동 전 까시 사용할 데이터
 
 
 
