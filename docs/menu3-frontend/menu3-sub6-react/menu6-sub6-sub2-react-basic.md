@@ -83,7 +83,7 @@ nav_order: 2
 
 - **`index.js`**
 
-  ```javascript
+  ```react
   import ReactDOM from 'react-dom/client';
 
   const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -110,7 +110,7 @@ nav_order: 2
 - `<Fragment>` 사용 시 `import { Fragement } from 'react';` 필요(축약형인 `<>`은 import 불필요)
 - 예제
 
-  ```javascript
+  ```react
   ReactDOM.render(
     <>
       <p>안녕</p>
@@ -129,7 +129,7 @@ nav_order: 2
 
 - 예제
 
-  ```javascript
+  ```react
   import ReactDOM from 'react-dom';
 
   const product = 'MacBook';
@@ -156,7 +156,7 @@ nav_order: 2
 - **react element** : JSX 문법으로 작성한 하나의 요소(javascript object)
 - ReactDOM.rende 함수로 해석해서 HTML 형태로 브라우저에 띄움
 
-  ```javascript
+  ```react
   import ReactDOM from 'react-dom';
 
   const element = <h1>안녕 리액트!</h1>;
@@ -185,18 +185,241 @@ nav_order: 2
   ReactDOM.render(element, document.getElementById('root'));
   ```
 
-### Step 2-6. props
+### Step 2-6. Props
 
 - **props(properties)** : 컴포넌트에 지정한 속성
 
   ```react
+  ### App.js JSX
+  <Dice color="blue" />
+
+  ### Dice.js component
+  function Dice(props) {
+    console.log(props)
+    return <img src={diceBlue01} alt="주사위" />;
+  }
+
+ 
+  ### App.js JSX
+  <Dice color="red" num={2} /> 
+
+  ### Dics.js component
+  function Dice(props) {
+  const src = DICE_IMAGES[props.color][props.num - 1];
+  const alt = `${props.color} ${props.num}`;
+  return <img src={src} alt={alt} />;
+  }
+  
+  # or
+  
+  function Dice({ color = 'blue', num = 1 }) {
+  const src = DICE_IMAGES[color][num - 1];
+  const alt = `${color} ${num}`;
+  return <img src={src} alt={alt} />;
+  }
+  ```
+
+### Step 2-7. Children
+
+- JSX 문법으로 컴포넌트를 작성할 때, 단일태그가 아니라 여는/닫는 태그의 형태로 작성하면, 그 안의 코드가 children
+- 자주 사용하는 props를 직관적으로 작성하고 싶을 때 children으로 사용
+
+  ```react
+  ### App.js JSX
+  <div>
+    <Button>던지기</Button>
+    <Button>처음부터</Button>
+  </div>
+
+  ### Button.js component
+  function Button({ children }) {
+    return <button>{children}</button>;
+  }
+  ```
+
+### Step 2-8. State
+
+- state : setState()는 컴포넌트의 state 객체에 대한 업데이트를 실행. setState에 의해 state가 변경되면, 컴포넌트는 리렌더링 됨
+- 기본문법
+
+  ```react
+  import { useState } from 'react';
+  // ...
+    const [num, setNum] = useState(1);
+  // ...
+  ```
+
+- 예제
+
+  ```react
+  import { useState } from 'react';
+  import Button from './Button';
+  import Dice from './Dice';
+
+  function App() {
+    const [num, setNum] = useState(1);
+
+    const handleRollClick = () => {
+      setNum(3); // num state를 3으로 변경!
+    };
+
+    const handleClearClick = () => {
+      setNum(1); // num state를 1로 변경!
+    };
+
+    return (
+      <div>
+        <Button onClick={handleRollClick}>던지기</Button>
+        <Button onClick={handleClearClick}>처음부터</Button>
+        <Dice color="red" num={num} />
+      </div>
+    );
+  }
+
+  export default App;
+  ```
+
+### Step 2-9. 참조형 state
+
+- spread 문법(`...`) 사용 : 기존 배열 분해 후 참조값 재지정
+- 예제
+
+  ```react
+  setGameHistory([...gameHistory, nextNum]);
+
+  const handleRollClick = () => {
+    const nextNum = random(6);
+    setGameHistory([...gameHistory, nextNum]); // state가 제대로 변경된다!
+  };
+
+  /*
+    const nextNum = random(6);
+    gameHistory.push(nextNum);
+    setGameHistory(gameHistory); // state가 제대로 변경되지 않는다!
+  의 경우 push로 배열 안에 요소를 변경해도 결과적으로 참조하는 배열의 주소값은
+  변경된 것이 아니게 되어 state가 제대로 반영되지 않음
+  */
   ```
 
 
-
-
-
 <br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 3. 디자인 적용하기
+
+### Step 3-1. 이미지 불러오기
+
+- 이미지 파일은 `import` 구문을 통해 불러오고, 불러온 이미지 주소를 `src` 속성으로 사용
+
+  ```react
+  import diceImg from './assets/dice.png';
+
+  function Dice() {
+    return <img src={diceImg} alt="주사위 이미지" />;
+  }
+
+  export default App;
+  ```
+
+
+### Step 3-2. 인라인 스타일 적용
+
+- css와 차이점
+  - `;` 대신 `,` 사용
+  - 속성값들은 `''`로 감싸줌
+  - `-` 대신 Camel case 사용 : background-color backgroundColor
+
+- 예제
+
+  ```react
+  const baseButtonStyle = {
+    padding: '14px 27px',
+    outline: 'none',
+    cursor: 'pointer',
+    borderRadius: '9999px',
+    fontSize: '17px',
+  };
+
+  const blueButtonStyle = {
+    ...baseButtonStyle,
+    border: 'solid 1px #7090ff',
+    color: '#7090ff',
+    backgroundColor: 'rgba(0, 89, 255, 0.2)',
+  };
+
+  const redButtonStyle = {
+    ...baseButtonStyle,
+    border: 'solid 1px #ff4664',
+    color: '#ff4664',
+    backgroundColor: 'rgba(255, 78, 78, 0.2)',
+  };
+
+  function Button({ color, children, onClick }) {
+    const style = color === 'red' ? redButtonStyle : blueButtonStyle;
+    return (
+      <button style={style} onClick={onClick}>
+        {children}
+      </button>
+    );
+  }
+
+  ```
+
+### Step 3-3. CSS 불러오기
+
+- `import` 구문으로 파일을 불러올 수 있는데요, 이때 `from` 키워드 없이 사용
+
+  ```react
+  import diceImg from './assets/dice.png';
+  import './Dice.css';
+
+  function Dice() {
+    return <img src={diceImg} alt="주사위 이미지" />;
+  }
+
+  export default App;
+  ```
+
+### Step 3-4. className 적용하기
+
+- CSS 파일에 정의된 클래스명을 className prop에 문자열로 넣어주면 됨 
+- 재사용성을 위해 컴포넌트 구성을 제외한 className prop(마진, 크기 등)을 부모 컴포넌트에서 받으면 더 좋음
+
+  ```css
+  /* App.css */
+  .App .App-button {
+  margin: 6px;
+  }
+  ```
+
+  ```react
+  ### App.js JSX
+  import './App.css';
+  ..
+    <div className="App">
+    <Button className="App-button" color="blue" onClick={handleRollClick}>
+      던지기
+    </Button>
+  ..
+
+
+  ### Button.js
+  import './Button.css';
+
+  function Button({ className = '', color = 'blue', children, onClick }) {
+    const classNames = `Button ${color} ${className}`;  # 부모 className prop도 적용 될 수 있도록 추가(부모.css의 import는 부모.jss에서)
+    return (
+      <button className={classNames} onClick={onClick}>
+        {children}
+      </button>
+    );
+  }
+
+  export default Button;
+  ```
+
+
+<br> 
 
 <!------------------------------------ STEP ------------------------------------>
 ## STEP 2. 

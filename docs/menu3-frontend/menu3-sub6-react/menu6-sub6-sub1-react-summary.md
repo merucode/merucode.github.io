@@ -39,10 +39,8 @@ $ npm run start           # 개발서버 실행(localhost:3000)
 ```javascript
 // 기본 구성
 import ReactDOM from 'react-dom/client';
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<h1>안녕 리액트!</h1>);
-
+root.render(<h1>안녕 리액트!</h1>);   // render 안에 JSX
 
 // fragment
 root.render(<>
@@ -50,6 +48,16 @@ root.render(<>
   <h1>안녕 리액트!</h1>
   </>); 
 
+//  
 
+
+
+
+//
+
+
+
+
+//
 
 ```
