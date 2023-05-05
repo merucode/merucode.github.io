@@ -23,7 +23,19 @@ nav_order: 2
 
 ### Step 1-1. 개발환경 세팅하기
 
-- node.js 설치
+- 
+
+  - **`Dockerfile`**
+
+    ```dockerfile
+    
+    ```
+
+  * **`docker-compose-yml`**
+
+    ```dockerfile
+    
+    ```
 
 - **`bash`**
 
@@ -40,7 +52,7 @@ nav_order: 2
   ```bash
   $ npm init react-app [폴더이름]
   $ npm init react-app .  # 현재 폴더에서 react 프로젝트 시작
-
+  
   $ npm run start         # 개발서버 실행(localhost:3000)
   ```
 
@@ -85,7 +97,7 @@ nav_order: 2
 
   ```react
   import ReactDOM from 'react-dom/client';
-
+  
   const root = ReactDOM.createRoot(document.getElementById('root'));
   root.render(<h1>안녕 리액트!</h1>);
   ```
@@ -131,16 +143,16 @@ nav_order: 2
 
   ```react
   import ReactDOM from 'react-dom';
-
+  
   const product = 'MacBook';
   const model = 'Air';
   const imageUrl =
     'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/MacBook_with_Retina_Display.png/500px-MacBook_with_Retina_Display.png';
-
+  
   function handleClick(e) {
     alert('곧 도착합니다!');
   }
-
+  
   ReactDOM.render(
     <>
       <h1>{product + ' ' + model} 주문하기</h1>
@@ -173,7 +185,7 @@ nav_order: 2
   function Hello() {
   return <h1>안녕 리액트</h1>;
   }
-
+  
   const element = (
     <>
       <Hello />
@@ -181,7 +193,7 @@ nav_order: 2
       <Hello />
     </>
   );
-
+  
   ReactDOM.render(element, document.getElementById('root'));
   ```
 
@@ -190,52 +202,53 @@ nav_order: 2
 - **props(properties)** : 컴포넌트에 지정한 속성
 
   ```react
-  ### App.js JSX
+  //### App.js JSX
   <Dice color="blue" />
-
-  ### Dice.js component
+  
+  //### Dice.js component
   function Dice(props) {
     console.log(props)
     return <img src={diceBlue01} alt="주사위" />;
   }
-
- 
-  ### App.js JSX
+  
+  //### App.js JSX
   <Dice color="red" num={2} /> 
-
-  ### Dics.js component
+  
+  //### Dics.js component
   function Dice(props) {
   const src = DICE_IMAGES[props.color][props.num - 1];
   const alt = `${props.color} ${props.num}`;
   return <img src={src} alt={alt} />;
   }
-  
-  # or
-  
+  //# or
   function Dice({ color = 'blue', num = 1 }) {
   const src = DICE_IMAGES[color][num - 1];
   const alt = `${color} ${num}`;
   return <img src={src} alt={alt} />;
   }
-  ```
+  
+
+
 
 ### Step 2-7. Children
 
 - JSX 문법으로 컴포넌트를 작성할 때, 단일태그가 아니라 여는/닫는 태그의 형태로 작성하면, 그 안의 코드가 children
+
 - 자주 사용하는 props를 직관적으로 작성하고 싶을 때 children으로 사용
 
-  ```react
-  ### App.js JSX
+    ```react
+  //### App.js JSX
   <div>
-    <Button>던지기</Button>
-    <Button>처음부터</Button>
+  <Button>던지기</Button>
+  <Button>처음부터</Button>
   </div>
-
-  ### Button.js component
+  
+  //### Button.js component
   function Button({ children }) {
-    return <button>{children}</button>;
+  return <button>{children}</button>;
   }
-  ```
+
+
 
 ### Step 2-8. State
 
@@ -255,18 +268,18 @@ nav_order: 2
   import { useState } from 'react';
   import Button from './Button';
   import Dice from './Dice';
-
+  
   function App() {
     const [num, setNum] = useState(1);
-
+  
     const handleRollClick = () => {
       setNum(3); // num state를 3으로 변경!
     };
-
+  
     const handleClearClick = () => {
       setNum(1); // num state를 1로 변경!
     };
-
+  
     return (
       <div>
         <Button onClick={handleRollClick}>던지기</Button>
@@ -275,7 +288,7 @@ nav_order: 2
       </div>
     );
   }
-
+  
   export default App;
   ```
 
@@ -286,12 +299,12 @@ nav_order: 2
 
   ```react
   setGameHistory([...gameHistory, nextNum]);
-
+  
   const handleRollClick = () => {
     const nextNum = random(6);
     setGameHistory([...gameHistory, nextNum]); // state가 제대로 변경된다!
   };
-
+  
   /*
     const nextNum = random(6);
     gameHistory.push(nextNum);
@@ -302,9 +315,13 @@ nav_order: 2
   ```
 
 
+
 <br>
 
+
+
 <!------------------------------------ STEP ------------------------------------>
+
 ## STEP 3. 디자인 적용하기
 
 ### Step 3-1. 이미지 불러오기
@@ -313,11 +330,11 @@ nav_order: 2
 
   ```react
   import diceImg from './assets/dice.png';
-
+  
   function Dice() {
     return <img src={diceImg} alt="주사위 이미지" />;
   }
-
+  
   export default App;
   ```
 
@@ -339,21 +356,21 @@ nav_order: 2
     borderRadius: '9999px',
     fontSize: '17px',
   };
-
+  
   const blueButtonStyle = {
     ...baseButtonStyle,
     border: 'solid 1px #7090ff',
     color: '#7090ff',
     backgroundColor: 'rgba(0, 89, 255, 0.2)',
   };
-
+  
   const redButtonStyle = {
     ...baseButtonStyle,
     border: 'solid 1px #ff4664',
     color: '#ff4664',
     backgroundColor: 'rgba(255, 78, 78, 0.2)',
   };
-
+  
   function Button({ color, children, onClick }) {
     const style = color === 'red' ? redButtonStyle : blueButtonStyle;
     return (
@@ -362,7 +379,7 @@ nav_order: 2
       </button>
     );
   }
-
+  
   ```
 
 ### Step 3-3. CSS 불러오기
@@ -372,11 +389,11 @@ nav_order: 2
   ```react
   import diceImg from './assets/dice.png';
   import './Dice.css';
-
+  
   function Dice() {
     return <img src={diceImg} alt="주사위 이미지" />;
   }
-
+  
   export default App;
   ```
 
@@ -401,31 +418,33 @@ nav_order: 2
       던지기
     </Button>
   ..
-
-
+    
   //### Button.js
   import './Button.css';
   import Button from './Button';
-
+  
   function Button({ className = '', color = 'blue', children, onClick }) {
-    const classNames = `Button ${color} ${className}`;  //# 부모 className prop도 적용 될 수 있도록 추가(부모.css의 import는 부모.jss에서)
-    return (
-      <button className={classNames} onClick={onClick}>
-        {children}
-      </button>
-    );
+  const classNames = `Button ${color} ${className}`;  //# 부모 className prop도 적용 될 수 있도록 추가(부모.css의 import는 부모.jss에서)
+  return (
+    <button className={classNames} onClick={onClick}>
+      {children}
+    </button>
+  );
   }
-
+  
   export default Button;
-  ```
+
 
 
 <br> 
 
 <!------------------------------------ STEP ------------------------------------>
+
 ## STEP 4. 배포하기
 
 ### Step 4-1. 빌드
+
+<img src="./../../../images/menu6-sub6-sub2-react-basic/image-20230505091919820.png" alt="image-20230505091919820" style="zoom: 80%;" />
 
 - **build** : JSX 문법을 순수 javascript 문법으로 변경(transpiling)하고 압축(bundling)하여 웹서버가 사용하기 좋도록 변환하는 과정
 
@@ -434,12 +453,11 @@ nav_order: 2
   ```bash
   $ npm run build     # create build folder
   $ npx server build  # npm 저장소에서 server 프로그램 다운 후 build 폴더에서 서버 실행(localhost:5000)
-  ```
-
-[image 4:11](https://www.codeit.kr/learn/4753) 
 
 - [BABEL](https://babeljs.io/)
   - Try it out 메뉴에서 transpiling 직접 확인 가능
+  
+    
 
 <br>
 
