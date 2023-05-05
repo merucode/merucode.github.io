@@ -69,11 +69,11 @@ nav_order: 9
 
   ```react
   import diceBlue01 from './assets/dice-blue-1.svg';
-
+  
   function Dice() {
     return <img src={diceBlue01} alt="주사위" />;
   }
-
+  
   export default Dice;
   ```
 
@@ -131,11 +131,7 @@ nav_order: 9
 * **`src/Button.js`**
 
   ```react
-  function Button({ children }) {
-    return <button>{children}</button>;
-  }
-
-  export default Button;
+  
   ```
 
 ### Step 1-3. [state 적용](https://www.codeit.kr/learn/4740)
@@ -145,29 +141,29 @@ nav_order: 9
   import { useState } from 'react';
   import Button from './Button';
   import Dice from './Dice';
-
+  
   function random(n) {
     return Math.ceil(Math.random() * n);
   }
-
+  
   function App() {
     const [num, setNum] = useState(1);
     const [sum, setSum] = useState(0);
     const [gameHistory, setGameHistory] = useState([]);
-
+  
     const handleRollClick = () => {
       const nextNum = random(6);
       setNum(nextNum);
       setSum(sum + nextNum);
       setGameHistory([...gameHistory, nextNum]);
     };
-
+  
     const handleClearClick = () => {
       setNum(1);
       setSum(0);
       setGameHistory([]);
     };
-
+  
     return (
       <div>
         <div>
@@ -185,7 +181,7 @@ nav_order: 9
       </div>
     );
   }
-
+  
   export default App;
   ```
 
