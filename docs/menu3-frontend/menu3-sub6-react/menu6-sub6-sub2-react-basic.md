@@ -404,6 +404,7 @@ nav_order: 2
 ### Step 3-4. className 적용하기
 
 - CSS 파일에 정의된 클래스명을 className prop에 문자열로 넣어주면 됨 
+
 - 재사용성을 위해 컴포넌트 구성을 제외한 className prop(마진, 크기 등)을 부모 컴포넌트에서 받으면 더 좋음
 
   ```css
@@ -417,12 +418,13 @@ nav_order: 2
   //### App.js JSX
   import './App.css';
   ..
+  
     <div className="App">
     <Button className="App-button" color="blue" onClick={handleRollClick}>
       던지기
     </Button>
   ..
-    
+  
   //### Button.js
   import './Button.css';
   import Button from './Button';
@@ -437,6 +439,7 @@ nav_order: 2
   }
   
   export default Button;
+  ```
 
 
 
@@ -457,6 +460,7 @@ nav_order: 2
   ```bash
   $ npm run build     # create build folder
   $ npx server build  # npm 저장소에서 server 프로그램 다운 후 build 폴더에서 서버 실행(localhost:5000)
+  ```
 
 - [BABEL](https://babeljs.io/)
   - Try it out 메뉴에서 transpiling 직접 확인 가능
