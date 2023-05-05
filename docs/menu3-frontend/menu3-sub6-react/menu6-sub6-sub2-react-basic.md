@@ -166,6 +166,7 @@ nav_order: 2
 ### Step 2-5. React Element and Component
 
 - **react element** : JSX 문법으로 작성한 하나의 요소(javascript object)
+
 - ReactDOM.rende 함수로 해석해서 HTML 형태로 브라우저에 띄움
 
   ```react
@@ -178,7 +179,9 @@ nav_order: 2
   ```
 
 - **react component** : react element를 자유롭게 다루기 위한 하나의 문법
+
 - 간단한 방법으로 javascript function 사용하며, 첫 글자를 **대문자**로 작성해야 함
+
 - 아래 코드에서 JSX 문법으로 작성된 하나의 요소를 리턴하는 Hello 함수가 하나의 컴포넌트
 
   ```react
@@ -226,7 +229,7 @@ nav_order: 2
   const alt = `${color} ${num}`;
   return <img src={src} alt={alt} />;
   }
-  
+  ```
 
 
 
@@ -247,8 +250,9 @@ nav_order: 2
   function Button({ children }) {
   return <button>{children}</button>;
   }
-
-
+  ```
+  
+  
 
 ### Step 2-8. State
 
