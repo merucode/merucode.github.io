@@ -23,19 +23,7 @@ nav_order: 2
 
 ### Step 1-1. 개발환경 세팅하기
 
-- 
-
-  - **`Dockerfile`**
-
-    ```dockerfile
-    
-    ```
-
-  * **`docker-compose-yml`**
-
-    ```dockerfile
-    
-    ```
+* `node.js` LST 버전 설치
 
 - **`bash`**
 
@@ -45,7 +33,7 @@ nav_order: 2
   $ npm -v  
   ```
 
-### Step 1-2. 프로젝트 시작하기
+### Step 1-2. 프로젝트 시작하기(일반)
 
 - **`bash`**
 
