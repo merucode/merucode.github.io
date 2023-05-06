@@ -25,6 +25,15 @@ nav_order: 7
 
 ## STEP 1. React app 생성하기
 
+- **`filestructure`**
+
+  ```
+  .
+  ├── 📄Dockerfile
+  ├── 📄docker-compose.yml
+  └── 📁myapp(create)
+  ```
+  
 - **`Dockerfile`**
 
   ```dockerfile

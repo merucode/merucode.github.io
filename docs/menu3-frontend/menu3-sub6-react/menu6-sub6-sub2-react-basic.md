@@ -290,7 +290,7 @@ nav_order: 2
 - 예제
 
   ```react
-  setGameHistory([...gameHistory, nextNum]);
+  const [gameHistory, setGameHistory] = useState([]);
   
   const handleRollClick = () => {
     const nextNum = random(6);

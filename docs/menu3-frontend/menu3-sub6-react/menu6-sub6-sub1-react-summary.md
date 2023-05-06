@@ -38,31 +38,95 @@ $ npx server build        # npm 저장소에서 server 프로그램 다운 후 b
 
 ### Step 1-2. **`.js`**
 
-```javascript
-// 기본 구성
+```react
+//---------- 기본 구성 ----------//
 import ReactDOM from 'react-dom/client';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<h1>안녕 리액트!</h1>);   // render 안에 JSX
 
-// fragment
-root.render(<>
+            
+//---------- Fragment ----------//
+root.render(
+  <>
   <h1>안녕 리액트!</h1>
   <h1>안녕 리액트!</h1>
-  </>); 
-
-//  
-
+  </>
+); 
 
 
+//---------- Component ----------// 
+function Hello() {
+return <h1>안녕 리액트</h1>;
+}
 
-//
+const element = (
+  <>
+    <Hello />
+    <Hello />
+  </>
+);
 
 
+//---------- Props ----------// 
+/* Dics.js */
+function Dice({ color = 'blue', num = 1 }) {
+  const src = DICE_IMAGES[color][num - 1];
+  const alt = `${color} ${num}`;
+  return <img src={src} alt={alt} />;
+}
+export default Dice;
+
+/* App.js */
+import Dice from './Dice';
+...
+<Dice color='blue' num={num} />
 
 
-//
+//---------- Chiledren ----------//
+/* Button.js */
+function Button({ children, onClick }) {
+  return <button onClick={onClick}>{children}</button>;
+}
+export default Button;
 
+/* App.js */
+import Button from './Button';
+...
+<Button onClick={handleRollClick}>던지기</Button>
+
+
+//---------- State ----------//
+import { useState } from 'react';
+const [num, setNum] = useState(1);
+setNum(1);
+
+//reference type state
+const [gameHistory, setGameHistory] = useState([]);
+setGameHistory([...gameHistory, 1]); 
+
+
+//---------- className----------//
+/* App.js */
+import './App.css';
+...
+<Button className="App-button" onClick={handleRollClick}>던지기</Button>
+
+/* Button.js */
+import './Button.css';
+function Button({ className = '', color = 'blue', children, onClick }) {
+  const classNames = `Button ${color} ${className}`;
+  return (
+  <button className={classNames} onClick={onClick}>
+    {children}
+  </button>
+  );
+}
 ```
+
+
+
+<br>
+
 
 
 ## STEP 9. utils.js
