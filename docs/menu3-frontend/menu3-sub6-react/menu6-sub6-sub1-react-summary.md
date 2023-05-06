@@ -24,7 +24,6 @@ nav_order: 1
 ### Step 1-1. **`bash`**
 
 ```bash
-$             # node.js 설치
 $ node -v     # node.js 버전 확인 
 $ npm -v      # npm 버전 확인
 
