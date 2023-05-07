@@ -197,7 +197,7 @@ ing
 
 |Dataset|Model|
 |---|---|
-|[image 1:19](https://www.codeit.kr/learn/4028)|[2:27](https://www.codeit.kr/learn/4028)|
+|![image-20230508081201780](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081201780.png)|![image-20230508081220055](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081220055.png)|
 
 <br>
 
@@ -210,8 +210,9 @@ ing
 * If Activation function is linear, Neural networks is also linear
 	* Decision boundary is also linear
 
-
 ### Step 8-2. Why Logestic Regression is Linearity
+
+
 
 <br>
 <!------------------------------------ STEP ------------------------------------>
@@ -219,14 +220,16 @@ ing
 
 |Activation Function|Expression|Graph|Note|
 |---|---|---|---|
-|Sigmoid|[image](https://www.codeit.kr/learn/4032)||- Vanishing gradient problem|
-|ReLU<br>(Rectified Linear Unit)|||
-|leak ReLU|||- Improvement of vanishing gradient problem|
+|Sigmoid|![image-20230508081528682](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081528682.png)|![image-20230508081405759](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081405759.png)|- Vanishing gradient problem|
+|ReLU<br>(Rectified Linear Unit)|![image-20230508081508070](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081508070.png)|![image-20230508081416390](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081416390.png)|- Calculation speed of ReLU is very fast|
+|leak ReLU|![image-20230508081457933](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081457933.png)|![image-20230508081427776](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081427776.png)|- Improvement of vanishing gradient problem|
 
 * **Gradient descent calculation speed of ReLU is very fast**
+	
 	* ReLU is recommended to use activation function
 * **Vanishing gradient problem**
-	* [image](https://www.codeit.kr/learn/4032)
+	
+	![image-20230508081318522](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081318522.png)
 
 <br>
 
@@ -234,11 +237,17 @@ ing
 ## STEP 10. Output Layer Activation Function 
 
 ### Step 10-1. Sigmoid
-[image](https://www.codeit.kr/learn/4034)
+![image-20230508081549808](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081549808.png)
 
 ### Step 10-2. Softmax 
 
+![image-20230508081601136](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081601136.png)
+
 ### Step 10-3. Linear
+
+![image-20230508081616067](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081616067.png)
+
+
 
 <br>
 
@@ -247,11 +256,15 @@ ing
 
 ### Step 11-1. Regression(MSE)
 
-[image](https://www.codeit.kr/learn/4035)
+![image-20230508081638286](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081638286.png)
 
 ### Step 11-2. Binary Classification(Log Loss)
 
+![image-20230508081654443](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081654443.png)
+
 ### Step 11-3. Multiple Classification(Log Loss)
+
+![image-20230508081708741](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081708741.png)
 
 <br>
 
@@ -268,5 +281,7 @@ ing
 <!------------------------------------ STEP ------------------------------------>
 ## STEP 13. Normalization
 
-[image](https://www.codeit.kr/learn/4037)
+![image-20230508081849763](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081849763.png)
+
+![image-20230508081909973](./../../../images/menu6-sub2-sub6-ann-basic/image-20230508081909973.png)
 

@@ -327,7 +327,7 @@ nav_order: 2
     return <img src={diceImg} alt="주사위 이미지" />;
   }
   
-  export default App;
+  export default Dice;
   ```
 
 

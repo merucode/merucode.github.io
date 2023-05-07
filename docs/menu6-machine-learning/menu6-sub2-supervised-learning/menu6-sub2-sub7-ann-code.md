@@ -42,7 +42,8 @@ initialize_parameters(neurons_per_layer)
 ```
 
 * 가중치와 편향의 표준오차 조절
-	* [image](https://www.codeit.kr/learn/4001)
+	
+	<img src="./../../../images/menu6-sub2-sub7-ann-code/image-20230508081043186.png" alt="image-20230508081043186" style="zoom:80%;" />
 
 
 ### Step 1-2. Forward Propagation
