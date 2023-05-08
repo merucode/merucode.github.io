@@ -146,3 +146,39 @@ nav_order: 1
   console.log(letters); // (3) ["b", "c", "a"]
   console.log(numbers); // (3) [353, 721, 421]
   ```
+
+
+
+<br>
+
+
+## STEP 2. 웹 개발 기초
+
+* 크롬 개발자도구-console 에서 연습 가능
+
+### Step 2-1. fetch
+
+```javascript
+fetch('https://www.google.com')
+  .then((response) => response.text())
+  .then((result) => { console.log(result); });
+
+/* 
+fetch('https://www.google.com')
+  .then((response) => { console.log(response); }); 
+
+위 코드로는 
+response 파라미터로는 리스폰스의 실제 내용 자체가 넘어오는 게 아닙니다. response 파라미터에는, 리스폰스에 관한 각종 부가 정보들과, 실제 내용을 함께 갖고 있는 하나의 객체(object)가 넘어오기 때문에
+내용을 보기 위해선
+reponse 객체의 text라는 메소드를 호출해야 합니다. 그리고 이 text 메소드의 리턴값이 바로 리스폰스의 실제 내용입니다.
+*/
+```
+
+위 코드의 fetch 함수의 실행 원리를 다시 정리하자면,
+
+1. fetch 함수는 어떤 객체를 리턴하는데(Promise 객체, 챕터 3에서 배웁니다)
+2. 이 객체의 then 메소드로, '리스폰스가 왔을 때 실행할 콜백'을 등록할 수 있습니다.
+3. 이렇게 등록된 콜백들은 then 메소드로 등록한 순서대로 실행되고, 이때 이전 콜백의 리턴값을 이후 콜백이 넘겨받아서 사용할 수 있음
+
+
+### step 2-2. 
