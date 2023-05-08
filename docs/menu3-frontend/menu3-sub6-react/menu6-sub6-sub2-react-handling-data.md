@@ -19,7 +19,7 @@ nav_order: 2
 </details>
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 1. 
+## STEP 1. Randering Array
 
 ### Step 1-1. mock 데이터 추가하기
 
@@ -203,7 +203,93 @@ nav_order: 2
 <br> 
 
 <!------------------------------------ STEP ------------------------------------>
-## STEP 4. 
+## STEP 2. Load Data
+
+### Step 2-1. fetch
+
+* 실습 서버 주소 : https://learn.codeit.kr/2001/film-reviews/
+
+* 예문
+
+  ```react
+  /* api.js */
+  export async function getReviews() {
+    const response = await fetch('https://learn.codeit.kr/api/film-reviews');
+    const body = await response.json();
+    return body;
+  }
+
+  /* App.js */
+  import { getReviews } from '../api';
+  ...
+  function App() {
+    const [items, setItems] = useState([]);
+    ...
+    const handleLoadClick = async () => {
+      const { reviews } = await getReviews();
+      setItems(reviews);
+    };
+  ...
+  }
+  ```
+
+### Step 2-2. useEffect
+
+* 처음 한 번만 실행하기 : 컴포넌트가 처음 렌더링 되고 나면 리액트가 콜백 함수를 기억해뒀다가 실행. 그 이후로는 콜백 함수를 실행하지 않습니다.
+
+  ```react
+  useEffect(() => {
+    // 실행할 코드
+  }, []);
+  ```
+
+* 값이 바뀔 때마다 실행하기 : 디펜던시 리스트에 있는 값들을 확인해서 하나라도 바뀌면  콜백 함수를 기억해뒀다가 실행
+
+  ```react
+  useEffect(() => {
+    // 실행할 코드
+  }, [dep1, dep2, dep3, ...]);
+  ```
+
+* 예문
+
+  ```react
+  import { useEffect, useState } from 'react';
+
+  function App() {
+    const [first, setFirst] = useState(1);
+    const [second, setSecond] = useState(1);
+
+    const handleFirstClick = () => setFirst(first + 1);
+    const handleSecondClick = () => setSecond(second + 1);
+
+    useEffect(() => {
+      console.log('렌더링 이후', first, second);
+    }, [first]);
+    // 디펜던시 리스트에 [] , [first], [first, second] 바꾸어가며 확인
+
+    console.log('렌더링', first, second);
+
+    return (
+      <div>
+        <h1>
+          {first}, {second}
+        </h1>
+        <button onClick={handleFirstClick}>First</button>
+        <button onClick={handleSecondClick}>Second</button>
+      </div>
+    );
+  }
+
+  export default App;
+  ```
+
+  
+
+
+
+
+
 
 <br>
 
