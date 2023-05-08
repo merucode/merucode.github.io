@@ -1,12 +1,12 @@
 ---
 layout: default
-title: React Temp Code
+title: React Note
 parent: React
 grand_parent: Frontend
 nav_order: 9
 ---
 
-# React Basic
+# React Note
 {: .no_toc}
 
 <details open markdown="block">
@@ -19,38 +19,57 @@ nav_order: 9
 </details>
 <!------------------------------------ STEP ------------------------------------>
 
-### codeit react basic project
+## Step 1. usestate
+
+
+```react
+// 초기값 지정하기
+const [state, setState] = useState(initialState);
 
 
 
+// 콜백으로 초기값 지정하기
+const [state, setState] = useState(() => {
+  // 초기값을 계산
+  return initialState;
+});
+
+// 예문
+function ReviewForm() {
+  const [values, setValues] = useState(() => {
+    const savedValues = getSavedValues(); // 처음 렌더링할 때만 실행됨
+    return savedValues
+});
 
 
 
+// Setter 함수 사용하기
+const [state, setState] = useState(0);
+
+const handleAddClick = () => {
+  setState(state + 1);
+}
+
+// 참조형 state
+const [state, setState] = useState({ count: 0 });
+
+const handleAddClick = () => {
+  setState({ ...state, count: state.count + 1 }); // 새로운 객체 생성
+}
 
 
 
+// 콜백으로 State 변경(비동기시 사용)
+setState((prevState) => {
+  // 다음 State 값을 계산
+  return nextState;
+});
 
+// 예문
+const [count, setCount] = useState(0);
 
-
-
-<!------------------------------------ STEP ------------------------------------>
-
-## STEP 2.가위바위보게임
-
-### Step 2-1. 기본 HTML 코드를 JSX로 바꿔서 기본요소 배치하기
-
-### Step 2-2. JSX에서 자바스크립트를 추가
-
-### Step 2-3. (가위바위보 핸드아이콘 적용_props)[https://www.codeit.kr/learn/4734]
-
-### Step 2-4. (가위바위보 버튼 적용_props)[https://www.codeit.kr/learn/4735]
-
-### Step 2-5. (초기화 버튼 생성_children)[https://www.codeit.kr/learn/4737]
-
-### Step 2-6. (가위바위보 승부기록_state)[https://www.codeit.kr/learn/4741]
-
-### Step 2-7. (가위바위보 배점_state)[https://www.codeit.kr/learn/4742]
-
-### Step 2-8. (가위바위보 클래스네임 적용_style)[https://www.codeit.kr/learn/4750]
-
-### Step 2-9. [마무리 디자인](https://www.codeit.kr/learn/4658)
+const handleAddClick = async () => {
+  await addCount();
+  setCount((prevCount) => prevCount + 1);
+}
+```
