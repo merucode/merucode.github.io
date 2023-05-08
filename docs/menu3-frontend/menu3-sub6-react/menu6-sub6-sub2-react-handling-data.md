@@ -235,7 +235,7 @@ nav_order: 2
 
 ### Step 2-2. useEffect
 
-* 처음 한 번만 실행하기 : 컴포넌트가 처음 렌더링 되고 나면 리액트가 콜백 함수를 기억해뒀다가 실행. 그 이후로는 콜백 함수를 실행하지 않습니다.
+* **처음 한 번만 실행하기** : 컴포넌트가 처음 렌더링 되고 나면 리액트가 콜백 함수를 기억해뒀다가 실행. 그 이후로는 콜백 함수를 실행하지 않습니다.
 
   ```react
   useEffect(() => {
@@ -243,7 +243,7 @@ nav_order: 2
   }, []);
   ```
 
-* 값이 바뀔 때마다 실행하기 : 디펜던시 리스트에 있는 값들을 확인해서 하나라도 바뀌면  콜백 함수를 기억해뒀다가 실행
+* **값이 바뀔 때마다 실행하기** : 디펜던시 리스트에 있는 값들을 확인해서 하나라도 바뀌면  콜백 함수를 기억해뒀다가 실행
 
   ```react
   useEffect(() => {
@@ -284,11 +284,147 @@ nav_order: 2
   export default App;
   ```
 
-  
+### Step 2-3. Pagination
 
+* Pagination : 책의 페이지처럼 데이터를 나눠서 제공하는 것
+  * 오프셋 기반, 커서 기반
 
+* 오프셋(Offset) 기반 : 받아온 데이터 갯수를 기준으로 데이터를 나눔 → 받아오는 중간에 데이터 추가/삭제 시 중복, 결실 발생 → 커서 기반 사용
 
+* 커서(Cursor) 기반 : 특정 데이터(책갈피) 기준
 
+|Items|url|
+|---|---|
+|Offset|[1:42](https://www.codeit.kr/learn/5044)|
+|Cursur|[3:45](https://www.codeit.kr/learn/5044)|
+
+### Step 2-3. 오프셋 기반
+
+* 예문
+
+  ```react
+  /* App.js */
+  import { getReviews } from '../api';
+  ...
+  const LIMIT = 6; // pagination limit
+
+  function App() {
+    const [items, setItems] = useState([]);
+    const [offset, setOffset] = useState(0);          // pagination offset
+    const [hasNext, setHasNext] = useState(false);    // pagination 마지막 페이지 확인
+
+    const handleDelete = (id) => {...};
+
+    const handleLoad = async (options) => {
+      const { reviews, paging } = await getReviews(options);  // getReviews response.json()의 구성을 보면 reviews, paging 존재
+      if (options.offset === 0) {
+        setItems(reviews);
+      } else {
+        setItems([...items, ...reviews]);   // 기존 data에 새로 불러온 데이터 추가 
+      }
+      setOffset(options.offset + reviews.length);
+      setHasNext(paging.hasNext);           // 마지막 페이지시 더보기 버튼 안보이는 기능
+    };
+
+    const handleLoadMore = () => {
+      handleLoad({ order, offset, limit:LIMIT });
+    };
+
+    useEffect(() => {
+      handleLoad({ order, offset:0, limit:LIMIT });
+    }, [order]);
+
+    return (
+      <div>
+        <div>
+          <button onClick={handleNewestClick}>최신순</button>
+          <button onClick={handleBestClick}>베스트순</button>
+        </div>
+        <ReviewList items={sortedItems} onDelete={handleDelete} />
+        {hasNext && <button onClick={handleLoadMore}>더 보기</button>}
+      </div>
+    );
+  }
+
+  export default App;
+
+  /* api.js */
+  export async function getReviews({ order = 'createdAt', offset = 0, limit = 6,}) {
+    const query = `order=${order}&offset=${offset}&limit=${limit}`;
+    const response = await fetch(
+      `https://learn.codeit.kr/api/film-reviews?${query}`
+    );
+    const body = await response.json();
+    return body;
+  }
+  ```
+
+### Step 2-4. 커서 기반 
+
+### Step 2-5. 조건부 렌더링
+
+* 예문
+
+  ```react
+  import { useState } from 'react';
+
+  function App() {
+    const [show, setShow] = useState(false);
+
+    const handleClick = () => setShow(!show);
+
+    return (
+      <div>
+        <button onClick={handleClick}>토글</button>
+        {show && <p>보인다 👀</p>}
+        {show || <p>보인다 👀</p>} 
+        {show ? <p>✅</p> : <p>❎</p>}
+      </div>
+    );
+  }
+  // && show 값이 true면 렌더링 O, false면 렌더링 X
+  // || show 값이 true면 렌더링 X, false면 렌더링 O 
+  // 삼항연산자 show 값이 true면 V, false면 X 렌더링
+
+  export default App;
+  ```
+
+* 렌더링되지 않는 값들
+
+  ```react
+  const nullValue = null;
+  const undefinedValue = undefined;
+  const trueValue = true;
+  const falseValue = false;
+  const emptyString = '';
+  const emptyArray = [];
+
+  const zero = 0; // false과 동시에 0 렌더링 
+  const one = 1;  // true 과 동시에 1 렌더링
+  ```
+
+* 조건부 렌더링 주의점
+
+  ```react
+    {num && <p>num이 0 보다 크다!</p>}        // num이 0일 경우 0이 같이 렌더링 됨
+    {(num > 0) && <p>num이 0 보다 크다!</p>}  // 다음과 같이 명확한 조건문 사용
+  ```
+
+### Step 2-6. 비동기 state 변경시 주의점
+
+만약 이전 State 값을 참조하면서 State를 변경하는 경우,
+비동기 함수에서 State를 변경하게 되면 최신 값이 아닌 State 값을 참조하는 문제가 있었습니다.(변경 중 데이터 삭제 등 작업 시 미반영됨)
+이럴 때는 콜백을 사용해서 처리할 수 있었는데요. 파라미터로 올바른 State 값을 가져와서 사용할 수 있습니다.
+이전 State 값으로 새로운 State를 만드는 경우엔 항상 콜백 형태를 사용하는 습관 사용
+
+  ```react
+  const [count, setCount] = useState(0);
+
+  const handleAddClick = async () => {
+    await addCount();
+    setCount((prevCount) => prevCount + 1); // 비동기 state 변경 시 콜백 형태 사용
+  }
+  ```
 
 
 <br>
