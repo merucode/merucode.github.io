@@ -665,6 +665,123 @@ nav_order: 2
   }
   ```
 
+### Step 3-7. File Input
+
+* 비제어 컴포넌트로 만들어야
+
+  ```react
+  /* FileInput.js */
+  function FileInput({ name, value, onChange}) {
+      const handleChange = (e) => {
+          const nextValue = e.target.files[0];
+          onChange(name, nextValue);
+      };
+
+      return <input type="file" onChange={handleChange} />;
+      // props에 value={value} 넣으면 비제어 input이라는 이유로 경보 발생
+      // file input은 반드시 비제어 컴포넌트로 만들어야
+  }
+
+  export default FileInput;
+
+
+  /* ReviewForm.js */
+  import FileInput from './FileInput';
+  ...
+  function ReviewForm() {
+    const [values, setValues] = useState({    
+      title: '',
+      rating: 0,
+      content: '',
+      imgFile: null,
+    });
+
+    const handleChange = (name, value) => {
+      setValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    };
+
+    const handleInputChange = (e) => {            
+      const { name, value } = e.target;
+      handleChange(name, value);
+    };
+
+    return (
+      <form className="ReviewForm" onSubmit={handleSubmit}>
+        <FileInput name="imgFile" value={values.imgFile} onChange={handleChange} />
+        ...
+      </form>
+    );
+  }
+  ```
+
+### Step 3-8. Clear File Input
+
+  ```react
+  /* FileInput.js */
+  // CH 11. Add file input clear(useRef)
+  import { useRef } from "react";
+
+  // CH 10. Add file input
+  // CH 11. Add file input clear(useRef)
+  function FileInput({ name, value, onChange}) {
+    const inputRef = useRef();
+
+    const handleChange = (e) => {
+        const nextValue = e.target.files[0];
+        onChange(name, nextValue);
+    };
+
+    // CH 11. Clear file input
+    const handleClearClick = () => {
+        const inputNode = inputRef.current;
+        if (!inputNode) return;
+
+        inputNode.value = '';
+        onChange(name, null);
+    }
+
+    // CH 11. Clear file input
+    return (
+    <div>
+        <input type="file" onChange={handleChange} ref={inputRef} />
+        {value && <button onClick={handleClearClick}>X</button>}
+    </div>
+  );
+  }
+  ```
+
+### Step 3-9. Preview Input File
+
+  ```react
+  const [preview, setPreview] = useState();
+  
+  useEffect(() => {
+      if (!value) return;     // 값 없는 경우 처리
+
+      const nextPreview = URL.createObjectURL(value);     // 미리보기를 위한 이미지 URL 생성
+      setPreview(nextPreview);
+
+      return () => {          // CH 12. 사이드 이펙트 메모리 할당 해제(정리)
+          setPreview();       // setPrereview 빈값으로
+          URL.revokeObjectURL(nextPreview);   // URL 설정 해제
+      }
+  }, [value]);
+
+  return (...
+      <img src={preview} alt="이미지 미리보기" />
+  ...)
+  ```
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 4.
+
+###
+
 
 <br>
 
