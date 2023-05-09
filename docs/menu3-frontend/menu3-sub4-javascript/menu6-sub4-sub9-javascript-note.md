@@ -188,13 +188,70 @@ reponse 객체의 text라는 메소드를 호출해야 합니다. 그리고 이 
 
 ## STEP 3. javascript 모던 문법
 
-### Step 3-1. 옵셔널 체이닝(`?.`)
+### Step 3-2. 모던한 프로퍼티 표기법
+
+* 프로퍼티 네임과 벨류로 사용할 변수 또는 함수의 이름이 같다면 중복해서 작성하지 않고 하나만 작성 가능
+
+* 기본 문법
+
+  ```javascript
+  // 변수 표현
+  const title = 'Codeit';
+  const brith = 2017;
+  const job = '프로그래밍 강사';
+
+  const user = {title, brith, job};
+
+  console.log(user);
+  /* 아래 코드와 같음
+  const user = {
+    title: 'Codeit',
+    birth: 2017,
+    job: '프로그래밍 강사',
+  } */
+
+  // 함수 표현
+  const user2 = {
+    title,
+    brith,
+    job,
+    getFullData() {
+      return `${this.title} ${this.brith} ${this.job}`;
+    },
+  };
+  // getFullData: funtion() {...}을 생략하여 표기
+
+  console.log(user2.getFullData());
+  ```
+
+* 계산된 속성명
+
+  ```javascript
+  // 기본 문법
+  const user = {
+    [표현식]: 값,     // 표현식 값으로 변수나 함수 리턴값 사용 가능
+  }
+
+  // 예문
+  const propertyName = 'birth';
+  const getJob = () => 'job';
+
+  const user = {
+    ['first'+'name']: 'kim',
+    [propertyName]: 2017,
+    [getJob()]: '프로그래밍 강사'
+  };
+  console.log(user)
+  ```
+
+
+### Step 3-3. 옵셔널 체이닝(`?.`)
 
 * 옵셔널 체이닝 연산자(`?.`) 왼편의 프로퍼티 값이 undefined 또는 null이 아니라면 그 다음 프로퍼티 값을 리턴하고 그렇지 않은 경우에는 undefined를 반환하는 문법
 
 * 기본 문법
 
-  ```react
+  ```javascript
   function printCatName(user) {
     console.log(user.cat?.name);
   }
