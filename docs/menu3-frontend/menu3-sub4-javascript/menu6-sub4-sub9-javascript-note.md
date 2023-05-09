@@ -182,3 +182,29 @@ reponse 객체의 text라는 메소드를 호출해야 합니다. 그리고 이 
 
 
 ### step 2-2. 
+
+
+
+
+## STEP 3. javascript 모던 문법
+
+### Step 3-1. 옵셔널 체이닝(`?.`)
+
+* 옵셔널 체이닝 연산자(`?.`) 왼편의 프로퍼티 값이 undefined 또는 null이 아니라면 그 다음 프로퍼티 값을 리턴하고 그렇지 않은 경우에는 undefined를 반환하는 문법
+
+* 기본 문법
+
+  ```react
+  function printCatName(user) {
+    console.log(user.cat?.name);
+  }
+
+  // 삼항연산자로 구현시
+  function printCatName(user) {
+    console.log((user.cat === null || user.cat === undefined) ? undefined : user.cat.name);
+  }
+  ```
+
+
+
+

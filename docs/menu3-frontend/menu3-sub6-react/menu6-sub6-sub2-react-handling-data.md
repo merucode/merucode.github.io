@@ -426,6 +426,79 @@ nav_order: 2
   }
   ```
 
+### Step 2-7. 네트워크 로딩 처리
+
+* 예문
+
+  ```react
+  function App() {
+  ...
+  const [isLoading, setIsLoading] = useState(false);
+  ...
+  const handleLoad = async (options) => {
+    let result;
+    try {                                  // 로딩 처리
+      setIsLoading(ture);
+      result = await getReviews(options);  
+    } catch (error) {
+      console.error(error);
+      return;
+    } finally {
+      setIsLoading(false);
+    }
+  ...
+  return (...
+    {hasNext && <button disabled={isLoading} onClick={handleLoadMore}>더 보기</button>}
+  ...);
+  }
+  ```
+
+### Step 2-8. 네트워크 에러 처리
+
+* 예문
+
+  ```react
+  /* App.js */
+  function App() {
+  ...
+  const [loadingError, setLoadingError] = useState(null); // CH 7-2. 에러 처리
+  ...
+  const handleLoad = async (options) => {
+    let result;
+    try {                                 // CH 7-1. 로딩 처리
+      setIsLoading(true);
+      setLoadingError(null);
+      result = await getReviews(options);  
+    } catch (error) {
+      setLoadingError(error);             // CH 7-2. 에러 처리
+      return;
+    } finally {
+      setIsLoading(false);
+    }
+  ...
+  return (...
+      {loadingError?.message && <span>{loadingError.message}</span>}
+  ...);
+  }
+
+  /* api.js */
+  export async function getReviews({
+    order = 'createdAt',
+    offset = 0,
+    limit = 6,
+  }) {
+    const query = `order=${order}&offset=${offset}&limit=${limit}`;
+    const response = await fetch(
+      `https://learn.codeit.kr/api/film-reviews?${query}`
+    );
+    if (!response.ok) {     // CH 7-2. 에러 처리
+      throw new Error('리뷰를 불러오는데 실패했습니다');
+    }
+    const body = await response.json();
+    return body;
+  }
+  ```
+
 
 <br>
 
