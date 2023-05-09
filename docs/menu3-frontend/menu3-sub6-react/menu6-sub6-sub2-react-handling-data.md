@@ -512,7 +512,158 @@ nav_order: 2
 * `htmlFor`
   * <label /> 태그에서 사용하는 속성인 `for` 는 자바스크립트 반복문 키워드인 `for` 와 겹치기 때문에 리액트에서는 `htmlFor`를 사용
 
+### Step 3-2. 폼을 다루는 기본적인 방법
 
+* 스테이트를 만들고 `target.value` 값을 사용해서 값을 변경
+
+  ```react
+  function TripSearchForm() {
+    const [location, setLocation] = useState('Seoul');
+    const [checkIn, setCheckIn] = useState('2022-01-01');
+    const [checkOut, setCheckOut] = useState('2022-01-02');
+
+    const handleLocationChange = (e) => setLocation(e.target.value);
+
+    const handleCheckInChange = (e) => setCheckIn(e.target.value);
+
+    const handleCheckOutChange = (e) => setCheckOut(e.target.value);
+      
+    return (
+      <form>
+        <h1>검색 시작하기</h1>
+        <label htmlFor="location">위치</label>
+        <input id="location" name="location" value={location} placeholder="어디로 여행가세요?" onChange={handleLocationChange} />
+        <label htmlFor="checkIn">체크인</label>
+        <input id="checkIn" type="date" name="checkIn" value={checkIn} onChange={handleCheckInChange} />
+        <label htmlFor="checkOut">체크아웃</label>
+        <input id="checkOut" type="date" name="checkOut" value={checkOut} onChange={handleCheckOutChange} />
+        <button type="submit">검색</button>
+      </form>
+    )
+  }
+  ```
+
+### Step 3-3. 폼 값을 객체 하나로 처리하기
+
+* 이벤트 객체의 `target.name` 과 `target.value` 값을 사용해서 값을 변경
+
+  ```react
+  function TripSearchForm() {
+    const [values, setValues] = useState({
+      location: 'Seoul',
+      checkIn: '2022-01-01',
+      checkOut: '2022-01-02',
+    })
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    }
+      
+    return (
+      <form>
+        <h1>검색 시작하기</h1>
+        <label htmlFor="location">위치</label>
+        <input id="location" name="location" value={values.location} placeholder="어디로 여행가세요?" onChange={handleChange} />
+        <label htmlFor="checkIn">체크인</label>
+        <input id="checkIn" type="date" name="checkIn" value={values.checkIn} onChange={handleChange} />
+        <label htmlFor="checkOut">체크아웃</label>
+        <input id="checkOut" type="date" name="checkOut" value={values.checkOut} onChange={handleChange} />
+        <button type="submit">검색</button>
+      </form>
+    )
+  }
+  ```
+
+### Step 3-4. 기본 submit 동작 막기
+
+* HTML 폼의 기본 동작은 submit 타입의 버튼을 눌렀을 때 페이지를 이동하는 건데요. 이벤트 객체의 preventDefault 를 사용하면 이 동작을 막을 수 있었습니다.
+
+  ```react
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // ...
+  }
+  ```
+
+### Step 3-5. 제어 컴포넌트(권장)
+
+* 인풋 태그의 `value` 속성을 지정하고 사용하는 컴포넌트
+* 리액트에서 지정한 값과 실제 인풋 value 의 값이 항상 같음
+* State냐 Prop이냐는 중요하지 않고, 리액트로 value 를 지정한다는 것이 핵심
+
+  ```react
+  function TripSearchForm() {
+    const [values, setValues] = useState({
+      location: 'Seoul',
+      checkIn: '2022-01-01',
+      checkOut: '2022-01-02',
+    })
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    }
+      
+    return (
+      <form>
+        <h1>검색 시작하기</h1>
+        <label htmlFor="location">위치</label>
+        <input id="location" name="location" value={values.location} placeholder="어디로 여행가세요?" onChange={handleChange} />
+        <label htmlFor="checkIn">체크인</label>
+        <input id="checkIn" type="date" name="checkIn" value={values.checkIn} onChange={handleChange} />
+        <label htmlFor="checkOut">체크아웃</label>
+        <input id="checkOut" type="date" name="checkOut" value={values.checkOut} onChange={handleChange} />
+        <button type="submit">검색</button>
+      </form>
+    )
+  }
+  ```
+
+### Step 3-6. 비제어 컴포넌트
+
+* 인풋 태그의 `value` 속성을 리액트에서 지정하지 않고 사용하는 컴포넌트
+* 파일 선택 인풋 등에 사용
+
+  ```react
+  function TripSearchForm({ onSubmit }) {
+    return (
+      <form onSubmit={onSubmit} >
+        <h1>검색 시작하기</h1>
+        <label htmlFor="location">위치</label>
+        <input id="location" name="location" placeholder="어디로 여행가세요?" />
+        <label htmlFor="checkIn">체크인</label>
+        <input id="checkIn" type="date" name="checkIn" />
+        <label htmlFor="checkOut">체크아웃</label>
+        <input id="checkOut" type="date" name="checkOut" />
+        <button type="submit">검색</button>
+      </form>
+    )
+  }
+
+  // 폼 태그는 참조 가능
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const location = form['location'].value;
+    const checkIn = form['checkIn'].value;
+    const checkOut = form['checkOut'].value;
+    // ....
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formValue = new FormValue(form);
+    // ...
+  }
+  ```
 
 
 <br>
