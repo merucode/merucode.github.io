@@ -901,10 +901,72 @@ function ReviewForm({ onSubmitSuccess}) {
   ...
   )
 }
+```
+
+### Step 4-3. 글 수정하기
+
+```react
+/* ReviewLsit.js */ // 수정 화면 뛰우기
+import ReviewForm from './ReviewForm';
+...
+function ReviewList({ items, onDelete }) {
+  const [editingId, setEditingId] = useState(null);
+  ...
+  return (
+    <ul>
+      {items.map((item) => {
+        if (item.id === editingId) {
+          const { imgUrl, title, rating, content } = item;
+          const initialValues = { title, rating, content };
+
+          return (
+            <li key={item.id}>
+              <ReviewForm 
+                initialValues={initialValues} 
+                initialPreview={imgUrl}
+                onCancel={handleCancel} 
+              />
+            </li>
+          );
+        }
+        return (
+          <li key={item.id}>
+            <ReviewListItem item={item}
+            onDelete={onDelete} 
+            onEdit={setEditingId} 
+            />
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+function ReviewListItem({ item, onDelete, onEdit }) {
+  ...
+  const handleEditClick = () => {
+    onEdit(item.id);
+  };
+  return (
+    ...
+    <button onClick={handleEditClick}>수정</button>
+    ...
+);
+}
+
+/* ReviewForm.js */ //수정 시 기본 값 보이게 하기 
+// 04. 글수정하기 1 2:40
+
+
+
+...
+
+
+
+/* */
 
 
 ```
-
 
 
 ###
