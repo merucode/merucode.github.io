@@ -778,7 +778,134 @@ nav_order: 2
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
-## STEP 4.
+## STEP 4. Send Data
+
+### Step 4-0. form data 보내기 예제
+
+```react
+const formData = new FormData();
+formData.append('title', '라라랜드');
+formData.append('rating', 5);
+formData.append('content', '재미있다!');
+fetch('https://learn.codeit.kr/api/film-reviews', {
+  method: 'POST',
+  body: formData,
+});
+```
+
+### Step 4-1. Send Data 관련 submit 및 api 연동
+
+```react
+/* api.js */
+...
+export async function createReview(formData) {
+  const response = await fetch(
+    `${BASE_URL}/film-reviews`, {
+      method: 'POST',
+      body: formData,
+    }
+  );
+  if (!response.ok) {     // 에러 처리
+    throw new Error('리뷰를 생성하는데 실패했습니다');
+  }
+  const body = await response.json();
+  return body;
+}
+
+/* ReviewForm.js */
+import { createReview } from '../api';
+...
+const handleSubmit = async (e) => {      
+  e.preventDefault();             
+  const formData = new FormData();
+  formData.append('title', values.title);
+  formData.append('rating', values.rating);
+  formData.append('content', values.content);
+  formData.append('imgFile', values.imgFile);
+  try {
+    setSubmittingError(null);
+    setIsSubmitting(true);
+    await createReview(formData);
+  } catch (error) {
+    setSubmittingError(error);
+    return;
+  } finally {
+    setIsSubmitting(false);
+  }
+  setValues(INITIAL_VALUES);
+};
+...
+return (
+  ...
+  <button type="submit" disabled={isSubmitting}>확인</button>
+  {submittingError?.message && <div>{submittingError.message}</div>}
+  ...
+)
+```
+
+
+### Step 4-2. Submit Data 새로고침 없이 반영하기
+
+```react
+/* App.js */
+...
+function App() {
+  ...
+  const handleSubmitSuccess = (review) => {
+    setItems((prevItems) => [review, ...prevItems]);
+  };
+  ...
+  return (
+    ...
+    <ReviewForm onSubmitSuccess={handleSubmitSuccess} />
+    ...
+  );
+}
+
+/* ReviewForm.js */
+...
+function ReviewForm({ onSubmitSuccess}) {
+  ...
+  const handleSubmit = async (e) => {      
+    e.preventDefault(); 
+                
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('rating', values.rating);
+    formData.append('content', values.content);
+    formData.append('imgFile', values.imgFile);
+    
+    let result;
+    try {
+      setSubmittingError(null);
+      setIsSubmitting(true);
+      result = await createReview(formData);
+    } catch (error) {
+      setSubmittingError(error);
+      return;
+    } finally {
+      setIsSubmitting(false);
+    }
+    const { review } = result;
+    onSubmitSuccess(review);
+    setValues(INITIAL_VALUES);
+  };
+  ...
+  return (
+  ...
+    <form className="ReviewForm" onSubmit={handleSubmit}>
+    ...
+    <button type="submit" disabled={isSubmitting}>확인</button>
+    ...
+    </form>
+  ...
+  )
+}
+
+
+```
+
+
 
 ###
 
