@@ -911,6 +911,7 @@ import ReviewForm from './ReviewForm';
 ...
 function ReviewList({ items, onDelete }) {
   const [editingId, setEditingId] = useState(null);
+  const handleCancel = () => setEditingId(null);
   ...
   return (
     <ul>
@@ -955,16 +956,34 @@ function ReviewListItem({ item, onDelete, onEdit }) {
 }
 
 /* ReviewForm.js */ //수정 시 기본 값 보이게 하기 
-// 04. 글수정하기 1 2:40
-
-
-
 ...
+function ReviewForm({ initialValues=INITIAL_VALUES, initialPreview, onSubmitSuccess, onCancel }) {
+...
+return (
+  <FileInput name="imgFile" value={values.imgFile} initialPreview={initialPreview} onChange={handleChange} />
+  ...
+  {onCancel && <button onClick={onCancel}>취소</button>}
+  ...
+);
+}
 
+/* FileInput.js */  // 수정 시 이미지 미리보기
+function FileInput({ name, value, initialPreview, onChange}) {
+  const [preview, setPreview] = useState(initialPreview);
+  ...
+  useEffect(() => {
+      if (!value) return;     // 값 없는 경우 처리
 
+      const nextPreview = URL.createObjectURL(value);     // 미리보기를 위한 이미지 URL 생성
+      setPreview(nextPreview);
 
-/* */
-
+      return () => {          // CH 12. 사이드 이펙트 메모리 할당 해제(정리)
+          setPreview(initialPreview);         // 수정 이미지 미리보기
+          URL.revokeObjectURL(nextPreview);   // URL 설정 해제
+      }
+  }, [value, initialPreview]);    // 수정 이미지 미리보기
+  ...
+}
 
 ```
 
