@@ -988,7 +988,7 @@ function FileInput({ name, value, initialPreview, onChange}) {
 ```
 
 
-### Step 4-4. 글 수정하기-4(update api 추가)
+### Step 4-4. 글 수정하기-2(update api 추가)
 
 ```react
 /* ReviewForm.js */
@@ -1100,6 +1100,47 @@ export async function updateReview(id, formData) {
   return body;
 }
 ```
+
+### Step 4-5. 글 삭제하기(delete api 추가)
+
+* 콘솔 예제
+
+```javascript
+fetch('https://learn.codeit.kr/api/film-reviews/43', {method: 'DELETE'});
+```
+
+* 코드
+
+```react
+/* api.js */
+...
+export async function deleteReview(id, formData) {
+  const response = await fetch(`${BASE_URL}/film-reviews/${id}`, {
+      method: 'DELETE',
+    }
+  );
+  if (!response.ok) {     // 에러 처리
+    throw new Error('리뷰를 삭제하는데 실패했습니다');
+  }
+  const body = await response.json();
+  return body;
+}
+
+/* App.js */
+import { createReview, getReviews, updateReview, deleteReview } from '../api';
+...
+function App() {
+  ...
+  const handleDelete = async (id) => {
+    const result = await deleteReview(id);
+    if (!result) return;  // 삭제가 성공한 경우에만 반영
+    
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+  ...
+}
+```
+
 
 
 <br>
