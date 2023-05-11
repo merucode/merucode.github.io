@@ -1141,7 +1141,63 @@ function App() {
 }
 ```
 
+### Step 4-6. Custom Hook
 
+```react
+/* hooks/useAsync.js */
+import { useState } from "react";
+
+function useAsync(asyncFunction) {
+    const [pending, setPending] = useState(false);
+    const [error, setError] = useState(null);
+
+    const wrappedFunction = async (...args) => {
+        try {
+            setError(null);
+            setPending(true);
+            return await asyncFunction(...args);
+        } catch (error) {
+            setError(error);
+            return;
+        } finally {
+            setPending(false);
+        }
+    };
+
+    return [pending, error, wrappedFunction];
+}
+
+export default useAsync;
+
+/* App.js */
+import { createReview, getReviews, updateReview, deleteReview } from '../api';
+import useAsync from '../hooks/useAsync';
+...
+function App() {
+  const [isLoading, loadingError, getReviewsAsync] = useAsync(getReviews);
+  ...
+  const handleLoad = async (options) => {
+    const result = await getReviewsAsync(options);
+    if (!result) return;  // error 처리(custom hook return 값 undefined이기 때문에)
+  ...
+  }
+  ...
+}
+
+/* ReviewForm.js */
+import useAsync from '../hooks/useAsync';
+...
+function ReviewForm({ initialValues=INITIAL_VALUES, initialPreview, onCancel, onSubmit, onSubmitSuccess }) {
+  const [isSubmitting, submittingError, onSubmitAsync] = useAsync(onSubmit);
+  ...
+  const handleSubmit = async (e) => {
+    ...
+    const result = await onSubmitAsync(formData); // CH 19. Custom hook
+    if (!result) return;   // error 처리(custom hook return 값 undefined이기 때문에)
+    ...
+  }
+}
+```
 
 <br>
 
