@@ -1199,6 +1199,61 @@ function ReviewForm({ initialValues=INITIAL_VALUES, initialPreview, onCancel, on
 }
 ```
 
+### Step 4-7. useCallback
+
+```react
+/* App.js */
+import { useCallback, useEffect, useState } from 'react';
+import useAsync from '../hooks/useAsync';
+...
+function App() {
+  ...
+  const [isLoading, loadingError, getReviewsAsync] = useAsync(getReviews); 
+  ...
+  const handleLoad = useCallback(async (options) => {
+    const result = await getReviewsAsync(options);
+    if (!result) return;
+    const { reviews, paging } = result;  
+    if (options.offset === 0) {
+      setItems(reviews);
+    } else {
+      setItems((prevItems) => [...prevItems, ...reviews]);   
+    }
+    setOffset(options.offset + reviews.length);
+    setHasNext(paging.hasNext);          
+  }, [getReviewsAsync]);
+
+  useEffect(() => {
+    handleLoad({ order, offset:0, limit:LIMIT });
+  }, [order, handleLoad]);
+  ...
+}
+
+/* useAsync.js */
+import { useCallback, useState } from "react";
+...
+function useAsync(asyncFunction) {
+  ...
+  const wrappedFunction = useCallback(async (...args) => {
+        try {
+            setError(null);
+            setPending(true);
+            return await asyncFunction(...args);
+        } catch (error) {
+            setError(error);
+            return;
+        } finally {
+            setPending(false);
+        }
+    }, [asyncFunction]);
+  ...
+}
+
+// asyncFunction에 해당하는 것은 useAsync(getReviews);에서 getReviews가 되는데
+// 해당 함수는 내부에서 별도로 선언하는 함수가 없으므로 useCallback 미적용
+```
+
+
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
