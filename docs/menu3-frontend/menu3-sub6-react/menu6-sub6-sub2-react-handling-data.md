@@ -903,10 +903,10 @@ function ReviewForm({ onSubmitSuccess}) {
 }
 ```
 
-### Step 4-3. 글 수정하기
+### Step 4-3. 글 수정하기-1(수정화면 띄우기)
 
 ```react
-/* ReviewLsit.js */ // 수정 화면 뛰우기
+/* ReviewLsit.js */ // 수정 화면 띄우기
 import ReviewForm from './ReviewForm';
 ...
 function ReviewList({ items, onDelete }) {
@@ -988,7 +988,118 @@ function FileInput({ name, value, initialPreview, onChange}) {
 ```
 
 
-###
+### Step 4-4. 글 수정하기-4(update api 추가)
+
+```react
+/* ReviewForm.js */
+function ReviewForm({ 
+  initialValues=INITIAL_VALUES, 
+  initialPreview, 
+  onCancel, 
+  onSubmit,
+  onSubmitSuccess, 
+}) {
+  ...
+  const handleSubmit = async (e) => {      
+      ...
+      
+      try {
+        ...
+        result = await onSubmit(formData);
+      } catch (error) {
+        ...
+      }
+      ...
+      const { review } = result;
+      onSubmitSuccess(review);
+      setValues(INITIAL_VALUES);
+    };
+}
+
+/* App.js */
+import { createReview, getReviews, updateReview } from '../api';
+...
+function App() {
+  ...
+  const handleCreateSuccess = (review) => {
+    setItems((prevItems) => [review, ...prevItems]);
+  };
+
+  const handleUpdateSuccess = (review) => {
+    setItems((prevItems) => {
+      const splitIdx = prevItems.findIndex((item) => item.id === review.id);
+      return [
+        ...prevItems.slice(0, splitIdx),
+        review,
+        ...prevItems.slice(splitIdx + 1),
+      ]
+    });
+  };
+  ...
+  return (...
+    <ReviewForm 
+      onSubmit={createReview} 
+      onSubmitSuccess={handleCreateSuccess} 
+    />
+    <ReviewList 
+      items={sortedItems} 
+      onDelete={handleDelete} 
+      onUpdate={updateReview} 
+      onUpdateSuccess={handleUpdateSuccess} 
+    />
+  ...
+);
+}
+
+/* ReviewList.js */
+...
+function ReviewList({ items, onDelete, onUpdate, onUpdateSuccess }) {
+  ...
+  return (
+    ...
+    {items.map((item) => {
+      if (item.id === editingId) {
+        const { id, imgUrl, title, rating, content } = item;
+        ...
+        const handleSubmit = (formData) => onUpdate(id, formData);
+        const handleSubmitSuccess = (review) => {
+            onUpdateSuccess(review);
+            setEditingId(null);
+        };
+        return (
+            <li key={item.id}>
+              <ReviewForm 
+                initialValues={initialValues} 
+                initialPreview={imgUrl}
+                onCancel={handleCancel} 
+                onSubmit={handleSubmit}
+                onSubmitSuccess={handleSubmitSuccess}
+              />
+            </li>
+          );
+        }
+        ...
+    )}
+  );
+}
+
+
+
+/* api.js */
+...
+export async function updateReview(id, formData) {
+  const response = await fetch(`${BASE_URL}/film-reviews/${id}`, {
+      method: 'PUT',
+      body: formData,
+    }
+  );
+  if (!response.ok) {     // 에러 처리
+    throw new Error('리뷰를 수정하는데 실패했습니다');
+  }
+  const body = await response.json();
+  return body;
+}
+```
 
 
 <br>
