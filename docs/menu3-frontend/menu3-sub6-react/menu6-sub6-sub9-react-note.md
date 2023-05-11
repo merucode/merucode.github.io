@@ -21,7 +21,6 @@ nav_order: 9
 
 ## STEP 1. useState
 
-
 ```react
 // 초기값 지정하기
 import { useState } from 'react';
@@ -284,3 +283,176 @@ export default App;
 ### Step 4-2. 커스텀 Hook
 
 * 다른 개발자들이 알 수 있도록 use 이름을 붙이고 사용
+
+### Step 4-3.
+
+
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+## STEP 5. 빠짐없는 디펜전시(exhaustive-deps)
+
+* `react-hooks/exhaustive-deps` 라는 경고 메시지
+
+### Step 5-1. exhaustive-deps 규칙
+
+* 컴포넌트 안에서 만든 함수를 디펜던시 리스트에 사용할 때는 useCallback 훅으로 매번 함수를 새로 생성하는 걸 막을 수 있습니다.
+
+* 예제(문제 발생)
+  * 이 코드를 실행해보면 1초마다 count 값이 증가하는데, 버튼을 클릭해서 num 스테이트의 값이 바뀌더라도 콘솔 출력에서는 숫자가 바뀌지 않고 0만 계속 출력된다는 문제가 있습니다. 그 이유는 useEffect 안에서 addCount 라는 함수를 사용하는데, 이 함수에서는 num 스테이트 값을 잘못 참조하기 때문입니다. 과거의 num 스테이트 값을 계속해서 참조하고 있기 때문이죠.
+  * 이런 문제점을 경고해주는 규칙이 react-hooks/exhaustive-deps 라는 규칙인데요. 리액트에서는 Prop이나 State와 관련된 값은 되도록이면 빠짐없이 디펜던시에 추가해서 항상 최신 값으로 useEffect 나 useCallback 을 사용하도록 권장하고 있습니다.
+
+```react
+import { useEffect, useState } from 'react';
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [num, setNum] = useState(0);
+
+  const addCount = () => {
+    setCount(c => c + 1);
+    console.log(`num: ${num}`);
+  }
+
+  const addNum = () => setNum(n => n + 1);
+
+  useEffect(() => {
+    console.log('timer start');
+    const timerId = setInterval(() => {
+      addCount();
+    }, 1000);
+
+    return () => {
+      clearInterval(timerId);
+      console.log('timer end');
+    };
+  }, []);
+
+  return (
+    <div>
+      <button onClick={addCount}>count: {count}</button>
+      <button onClick={addNum}>num: {num}</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+* 예제(useEffect 의 콜백이 매번 불필요하게 실행)
+
+```react
+function App() {
+  const [count, setCount] = useState(0);
+  const [num, setNum] = useState(0);
+
+  const addCount = () => {
+    setCount((c) => c + 1);
+    console.log(`num: ${num}`);
+  };
+
+  const addNum = () => setNum((n) => n + 1);
+
+  useEffect(() => {
+    console.log('timer start');
+    const timerId = setInterval(() => {
+      addCount();
+    }, 1000);
+
+    return () => {
+      clearInterval(timerId);
+      console.log('timer end');
+    };
+  }, [addCount]);
+
+  return (
+    <div>
+      <button onClick={addCount}>count: {count}</button>
+      <button onClick={addNum}>num: {num}</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+* 해결 예제1(useCallback 사용)
+
+```react
+import { useCallback, useEffect, useState } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [num, setNum] = useState(0);
+
+  const addCount = useCallback(() => {
+    setCount((c) => c + 1);
+    console.log(`num: ${num}`);
+  }, [num]);
+
+  const addNum = () => setNum((n) => n + 1);
+
+  useEffect(() => {
+    console.log('timer start');
+    const timerId = setInterval(() => {
+      addCount();
+    }, 1000);
+
+    return () => {
+      clearInterval(timerId);
+      console.log('timer end');
+    };
+  }, [addCount]);
+
+  return (
+    <div>
+      <button onClick={addCount}>count: {count}</button>
+      <button onClick={addNum}>num: {num}</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+* 해결 예제2(되도록이면 파라미터를 활용하자)
+  * Prop이나 State 값을 사용할 때는 이렇게 되도록이면 파라미터로 넘겨서 사용하면, 어떻게 사용되는지 코드에서 명확하게 보여줄 수 있습니다.
+
+```react
+import { useEffect, useState } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [num, setNum] = useState(0);
+
+  const addCount = (log) => {
+    setCount((c) => c + 1);
+    console.log(log);
+  }
+
+  const addNum = () => setNum((n) => n + 1);
+
+  useEffect(() => {
+    console.log('timer start');
+    const timerId = setInterval(() => {
+      addCount(`num ${num}`);
+    }, 1000);
+
+    return () => {
+      clearInterval(timerId);
+      console.log('timer end');
+    };
+  }, [num]);
+
+  return (
+    <div>
+      <button onClick={addCount}>count: {count}</button>
+      <button onClick={addNum}>num: {num}</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
