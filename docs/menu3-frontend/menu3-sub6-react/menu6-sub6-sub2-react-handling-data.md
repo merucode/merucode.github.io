@@ -1345,3 +1345,10 @@ export function LocaleProvider({ children }) {
 
 ### Step 5-3. 
 
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP 6. react 데이터 상태 관리
+
+* Recoil
