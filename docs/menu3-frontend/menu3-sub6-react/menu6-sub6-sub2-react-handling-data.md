@@ -1257,3 +1257,91 @@ function useAsync(asyncFunction) {
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
+
+## STEP 5. 전역 데이터 다루기
+
+### Step 5-1. Context
+
+* Context : Context는 프롭 드릴링을 해결하기 위해 사용하는 기능
+  
+
+|Prop Drilling|Context|
+|---|---|
+|[image](1:55)|2:45|
+|1:47|2:58|
+
+* Context 만들기
+
+```react
+import { createContext } from 'react';
+const LocaleContext = createContext();
+
+import { createContext } from 'react';
+const LocaleContext = createContext('ko');
+```
+
+* Context 적용하기 : 반드시 값을 공유할 범위를 정하고 써야 하는데요,이때 범위는 Context 객체에 있는 Provider 라는 컴포넌트로 정해줌(이때 Provider의 value prop으로 공유할 값을 내려주면 됨)
+
+  ```react
+  import { createContext } from 'react';
+
+  const LocaleContext = createContext('ko');
+
+  function App() {
+    return (
+      <div>
+        ... 바깥의 컴포넌트에서는 LocaleContext 사용불가
+
+        <LocaleContext.Provider value="en">
+            ... Provider 안의 컴포넌트에서는 LocaleContext 사용가능
+        </LocaleContext.Provider>
+      </div>
+    );
+  }
+  ```
+
+* Context 값 사용하기(`useContext`)
+
+  ```react
+  import { createContext, useContext } from 'react';
+
+  const LocaleContext = createContext('ko');
+
+  function Board() {
+    const locale = useContext(LocaleContext);
+    return <div>언어: {locale}</div>;
+  }
+
+  function App() {
+    return (
+      <div>
+        <LocaleContext.Provider value="en">
+            <Board />
+        </LocaleContext.Provider>
+      </div>
+    );
+  }
+  ```
+
+* State, Hook와 함께 활용하기 : Provider 역할을 하는 컴포넌트를 하나 만들고, 여기서 State를 만들어서 value 로 넘겨줄 수 있습니다. 그리고 아래의 useLocale 같이 useContext 를 사용해서 값을 가져오는 커스텀 Hook을 만들 수도 있겠죠. 이렇게 하면 Context에서 사용하는 State 값은 반드시 우리가 만든 함수를 통해서만 쓸 수 있기 때문에 안전한 코드를 작성하는데 도움이 됩니다.
+
+```react
+import { createContext, useContext, useState } from 'react';
+
+const LocaleContext = createContext({});
+
+export function LocaleProvider({ children }) {
+  const [locale, setLocale] = useState();
+  return (
+    <LocaleContext.Provider value={{ locale, setLocale }}>
+      {children}
+    </LocaleContext.Provider>
+  );
+}
+```
+
+### Step 5-2. 
+
+
+### Step 5-3. 
+
