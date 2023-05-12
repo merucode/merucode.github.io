@@ -280,13 +280,135 @@ export default App;
   1. 리액트 컴포넌트 함수나 커스텀 Hook 함수 안에서 실행(밖에서 사용 시 오류 발생)
   2. 함수의 최상위에서 실행(반복문이나 조건문 안에서 사용 불가)
 
-### Step 4-2. 커스텀 Hook
+### Step 4-2. Hook 종류
+
+* **useState**
+
+  ```react
+  // 사용하기
+  const [state, setState] = useState(initialState);
+
+  // 콜백으로 초깃값 지정하기 : 초깃값을 계산하는 코드가 복잡한 경우에 활용
+  const [state, setState] = useState(() => {
+    // ...
+    return initialState;
+  });
+
+  // State 변경
+  setState(nextState);
+
+  // 이전 State를 참조해서 State 변경 : 비동기 함수에서 최신 State 값을 가져와서 새로운 State 값을 만들 때
+  setState((prevState) => {
+    // ...
+    return nextState
+  });
+  ```
+
+* **useEffect** : 컴포넌트 함수에서 사이드 이펙트(리액트 외부의 값이나 상태를 변경할 때)에 활용하는 함수
+ 
+  ```react
+  // 처음 렌더링 후에 한 번만 실행
+  useEffect(() => {
+    // ...
+  }, []);
+
+
+  // 렌더링 후에 특정 값이 바뀌었으면 실행 : 참고로 처음 렌더링 후에도 한 번 실행됨
+  useEffect(() => {
+    // ...
+  }, [dep1, dep2, dep3, ...]);
+
+  // 사이드 이펙트 정리(Cleanup)하기
+  useEffect(() => {
+    // 사이드 이펙트
+    return () => {
+      // 정리
+    }
+  }, [dep1, dep2, dep3, ...]);
+  ```
+
+* **useRef**
+
+  ```react
+  // 생성하고 DOM 노드에 연결하기
+  const ref = useRef();
+  // ...
+  return <div ref={ref}>안녕 리액트!</div>;
+
+  // DOM 노드 참조하기
+  const node = ref.current;
+  if (node) {
+    // node를 사용하는 코드
+  }
+  ```
+
+* **useCallback** : 함수를 매번 새로 생성하는 것이 아니라 디펜던시 리스트가 변경될 때만 함수를 생성
+
+  ```react
+  const handleLoad = useCallback((option) => {
+    // ...
+  }, [dep1, dep2, dep3, ...]);
+  ```
+
+### Step 4-3. 커스텀 Hook
 
 * 다른 개발자들이 알 수 있도록 use 이름을 붙이고 사용
+* [useHooks](https://usehooks.com/), [streamich/react-hooks](https://github.com/streamich/react-use)
 
-### Step 4-3.
+* **useAsync** : 비동기 함수의 로딩, 에러 처리를 하는 데 사용
 
+  ```react
+  function useAsync(asyncFunction) {
+    const [pending, setPending] = useState(false);
+    const [error, setError] = useState(null);
 
+    const wrappedFunction = useCallback(async (...args) => {
+      setPending(true);
+      setError(null);
+      try {
+        return await asyncFunction(...args);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setPending(false);
+      }
+    }, [asyncFunction]);
+
+    return [pending, error, wrappedFunction];
+  }
+  ```
+
+* **useToggle** : toggle 함수를 호출할 때마다 value 값이 참/거짓 변경, ON/OFF 스위치 같은 걸 만들 때 유용
+
+  ```react
+  function useToggle(initialValue = false) {
+    const [value, setValue] = useState(initialValue);
+    const toggle = () => setValue((prevValue) => !prevValue);
+    return [value, toggle];
+  }
+  ```
+
+* **useTimer** : `start` 를 실행하면 `callback` 이라는 파라미터로 넘겨 준 함수를 `timeout` 밀리초 마다 실행하고, `stop` 을 실행하면 멈춥니다. `setInterval` 이란 함수는 웹 브라우저에 함수를 등록해서 일정한 시간 간격마다 실행. `clearInterval` 이라는 함수를 실행해서 사이드 이펙트를 정리
+
+  ```react
+  function useTimer(callback, timeout) {
+    const [isRunning, setIsRunning] = useState(false);
+
+    const start = () => setIsRunning(true);
+    const stop = () => setIsRunning(false);
+
+    useEffect(() => {
+      if (!isRunning) return;
+
+      const timerId = setInterval(callback, timeout); // 사이드 이펙트 발생
+      return () => {
+        clearInterval(timerId); // 사이드 이펙트 정리
+      };
+    }, [isRunning, callback, timeout]);
+    
+    return [start, stop];
+  }
+  ```
 
 <br>
 
