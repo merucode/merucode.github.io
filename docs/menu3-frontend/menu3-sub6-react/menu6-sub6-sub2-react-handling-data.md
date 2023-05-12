@@ -25,32 +25,28 @@ nav_order: 2
 
 - mock 데이터 : 네트워크에서 받아올 데이터를 흉내낸 데이터
 
-* `App.js`
-
   ```react
-  import ReviewList from './ReviewList';
-  import items from '../mock.json';
+  /* App.js */
+    import ReviewList from './ReviewList';
+    import items from '../mock.json';
 
-  function App() {
-    return (
-      <div>
-        <ReviewList items={items} />
-      </div>
-    );
-  }
+    function App() {
+      return (
+        <div>
+          <ReviewList items={items} />
+        </div>
+      );
+    }
 
-  export default App;
-  ```
+    export default App;
 
-* `ReviewList.js`
+  /* ReviewList.js */
+    function ReviewList({ items }) {
+    console.log(items);
+    return <ul></ul>;
+    }
 
-  ```react
-  function ReviewList({ items }) {
-  console.log(items);
-  return <ul></ul>;
-  }
-
-  export default ReviewList;
+    export default ReviewList;
   ```
 
 ### Step 1-2. map으로 배열 렌더링하기
