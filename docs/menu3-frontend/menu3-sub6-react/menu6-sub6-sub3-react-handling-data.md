@@ -3,7 +3,7 @@ layout: default
 title: React Handling Data
 parent: React
 grand_parent: Frontend
-nav_order: 2
+nav_order: 3
 ---
 
 # React Handling Data
