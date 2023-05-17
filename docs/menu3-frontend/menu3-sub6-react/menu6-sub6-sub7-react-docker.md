@@ -23,7 +23,7 @@ nav_order: 7
 
 
 
-## STEP 1. React app 생성하기
+## STEP 1. Create React App
 
 - **`filestructure`**
 
@@ -78,15 +78,20 @@ nav_order: 7
 
   - you can connent to http://localhost:3000
 
-
-
-
-
 <br>
 
-
-
 <!------------------------------------ STEP ------------------------------------>
+## STEP 2. Install Dependencies
+
+- **`bash`**
+
+```bash
+$ docker compose up -d --build
+$ docker exec -it frontend /bin/sh
+ /usr/src/app # npm install react-router-dom@6
+ /usr/src/app # npm install styled-components@5
+```
+
 
 <br>
 
