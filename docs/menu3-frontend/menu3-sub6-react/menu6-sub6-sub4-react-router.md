@@ -26,6 +26,8 @@ nav_order: 4
   ```bash
   $ npm install react-router-dom@6
   ```
+  
+  * 예제를 위해선 `npm install classnames` 설치 필요
 
 ### Step 1-2. Ract Router V6
 
