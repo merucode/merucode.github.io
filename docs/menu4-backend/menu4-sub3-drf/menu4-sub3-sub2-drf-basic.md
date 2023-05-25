@@ -199,7 +199,7 @@ nav_order: 9
 
 ## STEP 2. Serializer
 
-### Step 2-1. Data lookup
+### Step 2-1. Read Data
 
 * **Exectuion Step**
 
@@ -282,7 +282,7 @@ nav_order: 9
     ]
     ```
 
-* **4. Check **
+* **4. Check**
 
   * `movie_api/Dockerfile`
 
@@ -315,4 +315,234 @@ nav_order: 9
   * Connect to `http://localhost:8000/movies`
 
 
+
+### Step 2-2. Create Data
+
+* **Exectuion Step**
+
+  1. Modify serializers
+  2. Modify views
+  3. Check
+
+* **Modify serializers**
+
+  * `movies/serializers.py`
+
+    ```python
+    class MovieSerializer(serializers.Serializer):
+        id = serializers.IntegerField(read_only=True)		# Update 
+        name = serializers.CharField()
+        opening_date = serializers.DateField()
+        running_time = serializers.IntegerField()
+        overview = serializers.CharField()
+    
+        def create(self, validated_data):					### Add
+            return Movie.objects.create(**validated_data)	###
+    ```
+
+    * `id` 필드에 `read_only`라는 옵션이 사용. 필드를 조회 시에만 사용하고 싶을 때 쓰는 옵션
+    * `create()` 함수는 파라미터로 `validated_data`를 받습니다. `validated_data`는 유효성 검사를 마친 데이터라는 의미로, `MovieSerializer` 필드들에 해당하는 데이터가 딕셔너리 형태로 전달
+    * `Movie` 모델에 `Movie.objects.create()`로 `validated_data`를 넣어 주면 데이터가 생성됩니다. 이때, 언패킹(`**`)을 사용하면 쉽게 처리
+      * 언패킹을 사용하지 않고, 직접 입력하는 경우 : name, opening_data 등 모두 별도 입력 필요
+      * 언패킹을 사용하는 경우 : 딕셔너리 형태의 변수 하나로 언패킹하여 입력 가능
+
+* **Modify views**
+
+  * `movies/views.py`
+
+    ```python
+    ...
+    from rest_framework import status	# 상태 응답을 위한 라이브러리
+    ...
+    
+    @api_view(['GET', 'POST'])			# POST 요청도 받을 수 있도록 POST 추가
+    def movie_list(request):
+        if request.method == 'GET':		# GET 요청일 경우 이전 데이터 조회 처리
+            movies = Movie.objects.all()
+            serializer = MovieSerializer(movies, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif request.method == 'POST':	# POST 요청일 경우 데이터 생성 처리
+            data = request.data
+            serializer = MovieSerializer(data=data)
+            if serializer.is_valid():	# 유효성 검사
+                serializer.save()		# save() 함수를 통한 create() 함수 실행
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    ```
+
+    * `save()` 함수가 실행되어 `MovieSerializer`에서 정의했던 `create()` 함수가 실행되고, `Movie` 객체가 생성
+
+* **Check**
+
+  * `bash`
+
+    ```bash
+    docker compose up -d --build
+    ```
+
+  * Connect to `http://localhost:8000/movies`
+
+  * 페이지 내 Content 박스에 아래 내용 입력 후 POST 버튼 눌러서 요청
+
+    ```
+    {
+        "name": "반도",
+        "opening_date": "2020-07-15",
+        "running_time": 115,
+        "overview": "전대미문의 재난 이후 4년이 흐른 대한민국은 버려진 땅이 되어버렸다. 사람들은 고립된 섬이 된 반도에 갇혔고 누구의 생사도 확인할 수 없는 상황에서 정석은 피할 수 없는 미션을 받고 한국 땅에 다시 발을 들인다. 정석은 미지의 세계인 그곳에서 예상치 못한 습격을 받고 일촉즉발의 순간 ‘반도’의 생존자들을 만나게 된다."
+    }
+    ```
+
+
+
+
+### Step 2-3. Read, Update, Delete Specific Data
+
+* **What is End point?**
+
+  * End point: API를 생성할 때 엔드 포인트란 서버의 리소스(데이터)에 접근하게 해주는 URL
+
+  * End point for specific data
+
+    | HTTP Method | 엔드포인트  | 기능                         | CRUD           |
+    | ----------- | ----------- | ---------------------------- | -------------- |
+    | GET         | /movies/:id | 특정한 영화 데이터 조회      | Read           |
+    | PATCH       | /movies/:id | 특정한 영화 데이터 부분 수정 | Partial Update |
+    | PUT         | /movies/:id | 특정한 영화 데이터 모두 수정 | Update         |
+    | DELETE      | /movies/:id | 특정한 영화 데이터 삭제      | Delete         |
+
+* **Exectuion Step**
+
+  1. Setting URLs
+  2. Connect to endpoint
+  3. Modify serializer(for data update, delete)
+  4. Modify view(for data update, delete)
+  5. Check
+
+* **Setting URLs**
+
+  * `movies/urls.py`
+
+    ```python
+    from django.urls import path
+    from .views import movie_list, movie_detail
+    
+    urlpatterns = [
+        path('movies', movie_list), 
+        path('movies/<int:pk>', movie_detail),    
+    ]
+    ```
+
+    * 영화의 `id`는 URL 파라미터로 받으면 되는데요. 이때 `pk`라는 이름으로 파라미터가 전달됩니다(`pk`는 Primary key, 즉 `id`를 뜻합니다).
+
+* **Connect to endpoint**
+
+  * `movies/views.py`
+
+    ```python
+    @api_view(['GET', 'PATCH', 'DELETE'])
+    def movie_detail(request, pk):	
+        pass
+    ```
+
+    * `urls.py`에 작성한 변수명인 `pk`를 파라미터로 넘겨주면 영화를 구분할 수 있는 식별자를 뷰에서 사용
+
+* **Modify serializer(for data update, delete)**
+
+  * `movies/serializers.py`
+
+    ```python
+    class MovieSerializer(serializers.Serializer):
+        ...
+        
+        def create(self, validated_data):
+            ...
+            
+        def update(self, instance, validated_data):
+            instance.name = validated_data.get('name', instance.name)
+            instance.opening_date = validated_data.get('opening_date', instance.opening_date)
+            instance.running_time = validated_data.get('running_time', instance.running_time)
+            instance.overview = validated_data.get('overview', instance.overview)
+            instance.save()
+            return instance
+    ```
+
+    * `validated_data`는 `create()` 함수에서와 마찬가지로 유효성 검사를 마친 데이터
+    * `instance`는 수정할 데이터
+    * 데이터를 수정하는 방식이 `PUT`(모든 필드의 데이터 수정)이 아니라 `PATCH`(특정 필드의 데이터 수정)이므로, 수정 요청이 들어온 필드만 `validated_data`로 수정하고, 나머지는 기존의 값을 그대로 사용
+    * `get()`은 파라미터로 키(Key)와 기본값(Default Value)을 받습니다. 만약, 딕셔너리에 키에 맞는 데이터가 존재한다면 데이터를 반환하고, 키에 맞는 데이터가 존재하지 않다면 설정한 기본값을 반환
+    * 이후, `Movie` 객체에 존재하는 `save()` 함수로 수정한 값을 저장하고, 수정된 객체를 반환
+
+* **Modify view(for data update, delete)**
+
+  * `movies/views.py`
+
+    ```python
+    ...
+    from rest_framework.generics import get_object_or_404
+    # CH 3-4. 개별 객체 요청 정상 구분 처리를 위한 라이브러리
+    ...
+    
+    @api_view(['GET', 'POST'])
+    def movie_list(request):
+        ...
+    
+    @api_view(['GET', 'PATCH', 'DELETE'])                   
+    def movie_detail(request, pk):
+        movie = get_object_or_404(Movie, pk=pk)             
+        # 데이터 없을 경우 404 에러 처리
+        # 첫 번째 파라미터로는 조회할 모델을, 두 번째 파라미터로는 조회할 pk 값을 입력
+        
+        if request.method == 'GET':                         # GET 요청 처리하기
+            serializer = MovieSerializer(movie) 
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        if request.method == 'PATCH':                       # PATCH 요청 처리하기
+            serializer = MovieSerializer(movie, data=request.data, partial=True) 
+            if serializer.is_valid():
+                serializer.save()    
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+        if request.method == 'DELETE':                      # DELETE 요청 처리하기
+            movie.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+    ```
+
+    *  `@api_view()`에는 사용할 HTTP Method인 `GET`(특정한 영화 데이터 조회), `PATCH`(특정한 영화 데이터 수정), `DELETE`(특정한 영화 데이터 삭제)를 작성
+    * 특정한 영화 객체 데이터 `get_object_or_404()`로 받아오기(존재하지 않는다면 404 에러)
+    * `PATCH` 요청이 들어오면 `MovieSerializer`에 수정하려는 영화 객체(`movie`)를 넣어 주고, 수정할 데이터(`request.data`)를 `data` 옵션에 넣어줌
+      * `PATCH`는 부분 데이터 수정이기 때문에 `partial` 옵션을 `True`로 했습니다. 모든 데이터를 수정하는 `PUT` 요청을 처리해야 한다면 `partial` 옵션을 적지 않아도 됨
+      *  `is_valid()`로 검증합니다. 정상적으로 처리되면 `serializer.data`와 함께 상태 코드 `200`을 반환
+    * `DELETE` 요청이 들어오면 `movie` 객체를 `delete()` 함수로 삭제합니다. 데이터가 삭제되면 반환할 데이터가 없기 때문에 상태 코드인 `204`만 반환
+
+* **Check**
+
+  * `bash`
+
+    ```bash
+    docker compose up -d --build
+    ```
+
+  * Connect to `http://localhost:8000/movies/2`
+
+  * 페이지 내 Content 박스에 아래 내용 입력 후 PATCH 버튼 눌러서 요청
+
+    ```
+    {
+        "name": "부당거래",
+        "opening_date": "2010-10-28",
+        "running_time": 119,
+        "overview":"온 국민을 충격으로 몰아넣은 연쇄 살인 사건. 계속된 검거 실패로 대통령이 직접 사건에 개입하고, 수사 중 용의자가 사망하는 사고가 발생하자 경찰청은 마지막 카드를 꺼내든다. 가짜 범인을 만들어 사건을 종결 짓는 것. 사건의 담당인 광역수사대 최철기는 승진을 보장해주겠다는 상부의 조건을 받아들이고 사건에 뛰어들게 된다. 그는 스폰서인 해동 장석구를 이용해 배우를 세우고 대국민을 상대로 한 이벤트를 완벽하게 마무리 짓는다. 한편 부동산 업계의 큰 손 태경 김회장으로부터 스폰을 받는 검사 주양은 최철기가 입찰 비리건으로 김회장을 구속시켰다는 사실에 분개해 그의 뒤를 캐기 시작하는데..."
+    }
+    ```
+
+  * 페이지 내 DELETE 버튼 눌러서 삭제 요청
+
+  * `http://localhost:8000/movies/2` 재접속 시 404 에러 확인
+
+
+
+
+### Step 2-4. 
 
