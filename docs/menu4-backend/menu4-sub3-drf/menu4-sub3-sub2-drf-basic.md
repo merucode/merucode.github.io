@@ -543,6 +543,480 @@ nav_order: 9
 
 
 
+### Step 2-4. Model Serializer
 
-### Step 2-4. 
+* **Model Serializer** 
+  * `Serializer` 클래스를 사용하려면 모든 필드를 타입에 맞게 정의하고, 데이터 생성과 수정을 위해서 `create()`와 `update()` 함수를 사용하는 것을 간단하게 해줌
+  * `serializers` 안에 존재하는 클래스로  `Meta` 클래스를 선언하고, 어떤 모델과 필드를 사용할지 정의하는 식으로 사용
+
+* **Previous Serializer**
+
+  * `movies/serializers.py`
+
+    ```python
+    class MovieSerializer(serializers.Serializer):
+        id = serializers.IntegerField(read_only=True)
+        name = serializers.CharField()
+        opening_date = serializers.DateField()
+        running_time = serializers.IntegerField()
+        overview = serializers.CharField()
+    
+        def create(self, validated_data):
+            return Movie.objects.create(**validated_data)
+    
+        def update(self, instance, validated_data):
+            instance.name = validated_data.get('name', instance.name)
+            instance.opening_date = validated_data.get('opening_date', instance.opening_date)
+            instance.running_time = validated_data.get('running_time', instance.running_time)
+            instance.overview = validated_data.get('overview', instance.overview)
+            instance.save()
+            return instance
+    ```
+
+* **Model Serializer**
+
+  * `movies/serializers.py`
+
+    ```python
+    # create, update 가능
+    class MovieSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Movie
+            fields = ['id', 'name', 'opening_date', 'running_time', 'overview']
+    ```
+
+  * `ModelSerializer`에는 두 가지 옵션을 필수적으로 사용. `model`과 `fields`
+    * `model`은 생성한 시리얼라이저가 어떤 모델을 사용할지 지정하는 옵션입니다.
+    *  `fields`는 모델 중 어떤 필드를 사용할지 작성하는 옵션입니다. 
+    * 두 옵션을 선언하기만 하면 `Serializer` 클래스로 만든 시리얼라이저와 동일한 기능을 합니다.
+    * 이때, `id` 필드에 `read_only` 옵션이 사라졌는데요. 이는, `ModelSerializer`를 사용하면 데이터베이스에서 생성해 주는 필드에 자동으로 `read_only` 옵션을 넣기 때문입니다. 물론, 필드에 `read_only` 옵션을 별도로 추가하는 방법 역시 존재
+
+
+
+### Step 2-5. Validation
+
+* 시리얼라이저에 존재하는 모든 필드에는 `validators` 옵션을 사용 가능
+  * 보통은 유효성 검사 로직이 담긴 validator를 `validators`의 값으로 전달하는 식으로 사용
+  * 이때 사용하는 validator는 DRF와 Django에서 제공하는 것들 모두 사용 가능
+
+* **길이 제한 유효성 검사**
+
+  * **Django의 `MaxLengthValidator`와 `MinLengthValidator`**
+
+    * `movies/serializers.py`
+
+      ```python
+      ...
+      from django.core.validators import MaxLengthValidator, MinLengthValidator
+      ...
+      
+      class MovieSerializer(serializers.ModelSerializer):
+          ...
+          overview = serializers.CharField(validators=[MinLengthValidator(limit_value=10), MaxLengthValidator(limit_value=300)])
+      ```
+
+  * **유효성 검사 함수를 직접 만들어서 사용** 
+
+    * `movies/serializers.py`
+
+      ```python
+      # `value`를 파라미터로 받는 유효성 검사 함수를 생성하고, 그 함수를 이용해 `validators`를 사용
+      def overview_validator(value):
+          if value > 300:
+              raise ValidationError('소개 문구는 최대 300자 이하로 작성해야 합니다.')
+          elif value < 10:
+              raise ValidationError('소개 문구는 최소 10자 이상으로 작성해야 합니다.')
+          return value
+      ...
+      
+      class MovieSerializer(serializers.ModelSerializer):
+          overview = serializers.CharField(validators=[overview_validator])
+          ...
+      ```
+
+* **유일성 여부 확인**
+
+  * **DRF의 `UniqueValidator()` : 특정한 하나의 필드에서 값이 유일한지 확인**
+
+    * `movies/serializers.py`
+
+      ```python
+      ...
+      from rest_framework.validators import UniqueValidator
+      
+      class MovieSerializer(serializers.ModelSerializer):
+          name = serializers.CharField(validators=[UniqueValidator(
+              queryset=Movie.objects.all(),
+              message='이미 존재하는 영화 이름입니다.',
+          )])
+          
+          class Meta:
+              model = Movie
+              fields = ['id', 'name', 'opening_date', 'running_time', 'overview']
+      ```
+
+      * `queryset`은 유일성을 확인하기 위해 조회할 데이터를 적는 **필수 옵션**.  `Movie` 모델 전체에서 유일성을 확인할 것이기 때문에 모든 데이터(`Movie.objects.all()`)를 입력
+      *  `message`는 이미 값이 존재할 때 보여줄 에러 메시지를 작성하는 옵션. 비필수 옵션
+
+  * **DRF의 `UniqueTogetherValidator()` : 두 개 이상의 필드에서 값이 유일한지 확인**
+
+    * `movies/serializers.py`
+
+      ```python
+      # 영화의 이름이 같더라도 소개 문구가 같지 않으면 데이터를 생성할 수 있도록 한 코드
+      ...
+      from rest_framework.validators import UniqueTogetherValidator
+      
+      class MovieSerializer(serializers.ModelSerializer):
+          class Meta:
+              model = Movie
+              fields = ['id', 'name', 'opening_date', 'running_time', 'overview']
+              validators = [
+                  UniqueTogetherValidator(
+                      queryset=Movie.objects.all(),
+                      fields=['name', 'overview'],
+                  )
+              ]
+      ```
+
+      * `Meta` 속성에 추가해서 사용
+      * `fields`는 `queryset`에서 조회한 데이터 중 어떤 필드들을 기준으로 유일성 검사를 할지 정의하는 **필수 옵션**
+
+* **Model Seiralizer 필드 유효성 검사**
+
+  * DRF에서는 `validate_[필드명]`이라는 함수를 이용해서 필드명에 대한 유효성 검사 가능
+
+    * `movies/serializers.py`
+
+      ```python
+      class ActorSerializer(serializers.ModelSerializer):
+          class Meta:
+              model = Actor
+              fields = ['id', 'name', 'gender', 'birth_date']
+      
+          def validate_gender(self, value):
+              if value not in ['M', 'F']:
+                  raise ValidationError('배우의 성별은 "M" 혹은 "F"로 작성되어야 합니다.')
+              return value
+      ```
+
+
+
+### Step 2-6. 관계 직렬화
+
+* **Exectuion Step**
+
+  1. Make related model
+  2. Create related model serializer
+  3. Create api endpoint
+  4. Create api view
+  5. Check
+
+* **Make related model**
+
+  * `movies/models.py`
+
+    ```python
+    ...
+    class Review(models.Model):
+        movie = models.ForeignKey(Movie, on_delete=models.CASCADE)	# 1(영화):N(리뷰)
+        username = models.CharField(max_length=30)
+        star = models.IntegerField()
+        comment = models.CharField(max_length=100)
+        created = models.DateTimeField(auto_now_add=True)	# 데이터베이스에 저장 시 자동으로 현재 시간이 저장
+    ```
+
+
+  * `dockercompose.yml`
+
+    ```dockerfile
+        ...
+        command: /bin/sh   # run -it mode 
+        stdin_open: true   # run -it mode
+        tty: true		   # run -it mode
+        # command: ["python","manage.py","runserver","--noreload","0:8000"]
+    ```
+
+  * `bash`
+
+    ```bash
+    $ docker compose up -d --build
+    $ docker exec -it drf /bin/sh
+    /usr/src/app # python manage.py makemigrations
+    /usr/src/app # python manage.py migrate
+    /usr/src/app # exit
+    $ docker compose down
+    ```
+
+  * `dockercompose.yml`
+
+    ```dockerfile
+        ...
+        command: ["python","manage.py","runserver","--noreload","0:8000"]
+        # command: /bin/sh   # run -it mode 
+        # stdin_open: true   # run -it mode
+        # tty: true			 # run -it mode
+    ```
+
+* **Create related model serializer**
+
+  * `movies/serializers.py`
+
+    ```python
+    ...
+    from .models import Movie, Review
+    ...
+    class ReviewSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Review
+            fields = ['id', 'movie', 'username', 'star', 'comment', 'created']
+            extra_kwargs = {
+                'movie': {'read_only': True},
+            }
+    ```
+
+    * `movie`와 같이 관계를 표현하는 필드를 직렬화 할 때는 `pk`, 즉 `id` 값이 사용
+    * `extra_kwargs` 옵션을 사용하여 `movie` 필드를 `'read_only': True`로 설정했는데요. 이는 리뷰를 생성할 때는 영화 정보(`id`)를 입력받지 않고 URL 받아올 예정
+    * `id`와 `created`는 데이터베이스에서 자동 생성되는 필드이기 때문에 역시 `read_only` 설정이 필요합니다. 하지만, `ModelSerializer`는 자동 생성 필드에 기본적으로 `read_only`를 추가
+
+* **Create api endpoint**
+
+  * `movies/urls.py`
+
+    ```python
+    ...
+    from .views import movie_list, movie_detail, review_list
+    
+    urlpatterns = [
+        ...
+        path('movies/<int:pk>/reviews', review_list),
+    ]
+    ```
+
+* **Create api view**
+
+  * `movies/views.py`
+
+    ```python
+    @api_view(['GET', 'POST'])	# GET 방식과 POST 방식을 받을 수 있도록 @api_view()에 설정
+    def review_list(request, pk):
+        movie = get_object_or_404(Movie, pk=pk) # 해당 movie 데이터 받기(미존재시 404 에러)
+    
+        if request.method == 'GET':             # GET 요청처리
+            reviews = Review.objects.filter(movie=movie)        
+            # 영화 ID 기준으로 작성된 리뷰 데이터 가져옴 
+            serializer = ReviewSerializer(reviews, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    
+        if request.method == 'POST':            # POST 요청처리
+            serializer = ReviewSerializer(data=request.data)
+            if serializer.is_valid():           # 유효성 검사
+                serializer.save(movie=movie)    
+                # create() 함수에 존재하는 validated_data에 movie 변수를 넘겨줌
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    ```
+
+    * `serializer.save()`에 파라미터로 `movie=movie`가 전달
+      * `ReviewSerializer`에서 영화 데이터를 직접 입력 받지 않고 URL에서 `pk` 값을 기준으로 입력 받기 때문에 `save()`에 `movie`를 전달한 것입니다. 그러면 시리얼라이저가 `create()` 함수에 존재하는 `validated_data`에 `movie` 변수를 넘겨줍니다.
+
+
+* **Check**
+
+  * `bash`
+
+    ```bash
+    docker compose up -d --build
+    ```
+
+  * Connect to `http://localhost:8000/movies/5/reviews`
+
+  * 페이지 내 Content 박스에 아래 내용 입력 후 POST 버튼 눌러서 요청
+
+    ```
+    {
+        "username": "철수",
+        "star": 4,
+        "comment": "너무 재밌게 봤어요."
+    }
+    ```
+
+  * Connect to `http://localhost:8000/movies/5/reviews` and check review
+
+
+
+### Step 2-7. 역관계 직렬화
+
+* 역관계란?
+
+  * `Review` 모델에서 `ForeignKey` 필드를 사용해 영화를 참조할 수 있었죠? 반대로 `Movie` 모델에서 `Review` 모델을 참조할 수도 있습니다. 이를 역관계라고 함
+
+  * `ForeignKey`, `ManyToManyField`, `OneToOneField` 등 관계를 표현하는 필드에 참조되는 모델에는 이런 역관계가 존재합니다. 역관계를 사용하면 데이터를 더욱 쉽게 관리
+
+    ```python
+    # 1(Movie):N(Review) 관계를 가지는 모델
+    class Movie(models.Model):
+        pass
+    
+    class Review(models.Model):
+        movie = models.ForeignKey(Movie)
+    
+    # 1번 영화의 리뷰들을 조회하는 방법(역관계를 사용하는 경우)
+    movie = Movie.objects.get(pk=1)
+    reviews = movie.review_set.all()
+    # Movie와 Review의 관계는 1:N 관계이기 때문에, 특정한 Movie 객체를 참조하는 Review 정보들은 review_set에 담겨있습니다(역관계 이름은 [역관계를 가지는 모델명]_set 형태로 사용할 수 있습니다)
+    ```
+
+* **Exectuion Step**
+
+  1. Add field for Deserialization
+  2. Check
+
+* **Add field for Deserialization**
+
+  * `movies/serializers.py`
+
+    ```python
+    class MovieSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Movie
+            fields = [
+                'id', 
+                'name', 
+                'review_set',   # Add deserialization field
+                'opening_date', 
+                'running_time', 
+                'overview'
+                ]
+            read_only_fields = ['review_set']   # Add read option to deserialization field 
+    ```
+
+    * 영화 데이터 생성(`POST`) 시 영화에 속하는 리뷰를 함께 생성하는 것은 API 기획 의도와 맞지 않죠? 때문에 `review_set` 필드에 `read_only` 옵션을 추가
+
+* **Check**
+
+  * `bash`
+
+    ```bash
+    docker compose up -d --build
+    ```
+
+  * Connect to `http://localhost:8000/movies/5`
+
+* **역관계 이름 바꾸는 경우**(`related_name`)
+
+  - `movies/models.py`
+
+    ```python
+    class Review(models.Model):
+        movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='reviews')
+    ```
+
+  - `bash`
+
+    ```bash
+    $ python manage.py makemigrations
+    $ python manage.py migrate
+    ```
+
+  - `movies/serializers.py`
+
+    ```python
+    class MovieSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Movie
+            fields = ['id', 'name', 'reviews', 'opening_date', 'running_time', 'overview']
+            read_only_fields = ['reviews']
+    ```
+
+  - 위 코드 수행시 `review_set`에서 `review`로 필드이름 사용가능
+
+* **역관계 이름과 다른 이름 사용하기**(`PrimaryKeyRelatedField`)
+
+  * 모델들의 필드 이름을 수정하는 게 어려운 특별한 상황이 생길 수 있습니다. 예를 들어 이미 많은 곳에서 `모델명_set` 형태의 이름을 사용하고 있어서, 모델 하나를 수정하면 의존된 수많은 코드를 수정하는 경우
+
+  * `PrimaryKeyRelatedField` 사용 시 `ModelSerializer`로 관계를 표현할 경우 별도로 필드를 지정하지 않아도 기본값으로 사용
+
+  * `movies/serializers.py`
+
+    ```python
+    class MovieSerializer(serializers.ModelSerializer):
+        movie_reviews = serializers.PrimaryKeyRelatedField(source='review_set', many=True, read_only=True)
+        
+        class Meta:
+            model = Movie
+            fields = ['id', 'name', 'movie_reviews', 'opening_date', 'running_time', 'overview']
+    ```
+
+  * 가장 먼저, 영화에 속한 리뷰들에 대한 변수명을 `movie_reviews`로 수정하였습니다. 이를 통해, API 조회 시 바뀐 변수명으로 영화에 속한 리뷰 데이터들을 조회할 수 있게 됩니다.
+
+  * 이때, `movie_reviews`라는 변수명은 `review_set`라는 역관계를 참조하기 때문에 `source`에 `reviews`를 설정했습니다. 또, 하나의 객체가 아닌 여러 객체를 포함하기 때문에 `many`를 사용했습니다.
+
+  * 마지막으로, 중복된 코드를 줄이기 위해 `Meta` 속성에 존재했던 `read_only_fields` 옵션을 제거하고 `read_only` 옵션을 `movie_reviews` 변수에 추가했습니다.
+
+
+
+# 여기까지 코드 수행
+
+
+
+### Step 2-8. 다양한 관계 직렬화
+
+* 관계 필드를 직렬화할 때 `pk`를 사용하지 않는 다른 방식
+
+  1. StringRelatedField
+  2. Nested Serializer
+
+* **StringRelatedField**
+
+  * `MovieSerializer`에 `Review` 정보 추가하기
+
+    * `movies/models.py`
+
+      ```python
+      class Review(models.Model):
+          ...
+          def __str__(self):
+              return self.comment
+      # 위와 같이 정의하고 리뷰 객체를 출력하면 리뷰의 comment 필드가 출력
+      # DRF에서는 관계를 직렬화할 때 관련된 객체의 __str__() 메소드가 사용되도록 할 수 있습니다. 이때 사용하는 필드가 바로 StringRelatedField
+      ```
+
+    * `movies/serializers.py`
+
+      ```python
+      class MovieSerializer(serializers.ModelSerializer):
+          reviews = serializers.StringRelatedField(many=True)
+          
+          class Meta:
+              model = Movie
+              fields = ['id', 'name', 'reviews', 'opening_date', 'running_time', 'overview']
+      # reviews의 타입을 StringRelatedField로 설정하고, 하나의 영화에 포함된 리뷰들은 여러개일 수 있기 때문에 many 속성을 True로 설정했습니다. 
+      # 이때, StringRelatedField 필드는 그 자체로 조회만 가능한 필드이기 때문에 read_only 옵션을 추가하지 않아도 됩니다.
+      ```
+
+  * `ReviewSerializer`에 `Movie` 정보 추가하기
+    * 
+
+  
+
+  
+
+
+
+
+
+### Step 2-9. 
+
+
+
+
+
+
+
+
+
+
+
+
 
