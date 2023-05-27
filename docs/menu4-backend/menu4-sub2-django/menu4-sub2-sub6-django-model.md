@@ -483,6 +483,106 @@ python manage.py showmigrations coplate # show only app
 
 
 
+### Step 3-10. Model Meta Option
+
+* **Meta Option** : 모델 자체에 대한 설정
+* **Exameple**
+	* `models.py`
+		```python
+		class Review(models.Model):
+			...
+			class Meta:
+				ordering = ['-dt_created'] 
+				# 리뷰 가져올 때 생성 시간 기준 내림차순(최신순)
+				ordering = ['dt_created']
+				# 생성 시간 기준 오름차순(오래된 순)	
+		```
+*  모델 메타 옵션:  [https://docs.djangoproject.com/en/2.2/ref/models/options/](https://docs.djangoproject.com/en/2.2/ref/models/options/)
+
+### Step 3-11. ModelAdmin
+
+[2:42](https://www.codeit.kr/learn/5232)
+
+* `admin.py`
+	```python
+	...
+	from .models import User, Review, Comment, Like	### Add Comment, Like
+	UserAdmin.fieldsets += ('Custom field', {'fields': (...,'following',)}),
+	### Add following field
+	
+	admin.site.register(User, Useradmin)
+	admin.site.register(Review)
+	admin.site.register(Comment)### Add
+	admin.site.register(Like) 	### Add		
+	```
+
+### Step 3-12. Admin:Inline Example
+
+* Admin의 Review항목에서 Review를 가르키는 오브젝트(Comment, Like)를 다루기
+* `models.py`(일반관계)
+	```python
+	...
+	class CommentInline(admin.StackedInline):
+		model = Comment		
+	...
+	class ReviewAdmin(admin.ModelAdmin):
+		inlines = (
+			CommentInline,
+		)
+	...
+	admin.site.register(Review, ReviewAdmin)
+	# admin.site.register(Review)는 기본값인 ModelAdmin 사용
+	```
+* `models.py`(Generic)
+	```python
+	...
+	from django.contrib.contenttypes.admin import GenericStackedInline
+	...
+	class LikeInline(GenericStackedInline):
+		model = Like
+	...
+	class ReviewAdmin(admin.ModelAdmin):
+		inlines = (
+			CommentInline,
+			LikeInline,
+		)
+	class CommentAdmin(admin.ModelAdmin):
+		inlines = (
+			LikeInline,
+		)
+	...
+	admin.site.register(Comment, CommentAdmin)	
+	```
+### Step 3-13. Admin:Inline Example(ManyToManyField)
+
+* Amdin 사이트 다른 값 수정 시 `ManyToManyField`에서 `필수 항목입니다.` 에러메시지 나온다면
+	`blank=True` 사용
+	* `ManyToManyField`에 `null` 옵션은 사용할 수 없지만 `blank` 옵션은 사용 가능
+* `admin.py`
+	```python
+	...
+	class UserInline(admin.StackedInline):
+		# model = <model>.<ManyToManyField>.through
+		model = User.following.through
+		# self 관계인 경우 fk_name(ForeignKey) 설정, self 아니면 설정 불필요
+		# ManyToManyField 가르키는(following) 오브젝트 수정 : 'from_<model>' 
+		# ManyToManyField 역관계(follower) 오브젝트 수정 : 'to_<model>'
+		fk_name = 'to_user'			 
+		verbose_name = 'Follower'
+		verbose_name_plural = 'Followers'
+		...
+	UserAdmin.inlines = (UserInline,) 
+	``` 
+* 어드민 사이트와  `ManyToManyField`:  [https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#working-with-many-to-many-models](https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#working-with-many-to-many-models)
+*   똑같은 모델을 가리키는 필드가 여러 개 있을 때 (`ManyToManyField('self')`도 해당):  [https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#working-with-a-model-with-two-or-more-foreign-keys-to-the-same-parent-model](https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#working-with-a-model-with-two-or-more-foreign-keys-to-the-same-parent-model)
+
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP 4. 
+
   
 
   
