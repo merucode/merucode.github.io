@@ -479,6 +479,7 @@ python manage.py showmigrations coplate # show only app
 		def __srt__(self):
 			return f"({self.user}, {self.liekd_object})"		
 	```
+	* `GenericForeignKey`를 생성할 때 ContentType 필드와 오브젝트 id 필드를 파라미터로 넘겨줘야 하는데, `content_type`과 `object_id`라는 이름을 사용했다면 이 부분을 비워놔도 됩니다.
 
 
 
