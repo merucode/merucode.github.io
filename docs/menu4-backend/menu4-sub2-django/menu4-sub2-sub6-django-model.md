@@ -205,6 +205,283 @@ python manage.py showmigrations coplate # show only app
   	...
   ```
 
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP 3. Data Modeling and Model Implementation
+### Step 3-1. Data Modeling
+
+* **Data Modeling**
+	* Determining the **structure and format of data** to suit the requirements of the service
+* 모델링 그림 시 유의
+	* `id` 필드 제외
+
+### Step 3-2. Object Modeling
+
+* 유저, 리뷰, 댓글, 좋아요, 팔로우 예제
+	|요구사항|Object Modeling|
+	|---|---|
+	|[4:22](https://www.codeit.kr/learn/5217)|[4:40](https://www.codeit.kr/learn/5217)|
+* 좋아요, 팔로우 처리
+	|좋아요, 팔로우|예제 처리|
+	|---|---|
+	|[3:27](https://www.codeit.kr/learn/5217)|[4:06](https://www.codeit.kr/learn/5217)|
+	
+### Step 3-3. Relation Modeling
+
+ [1:50](https://www.codeit.kr/learn/5218)
+
+### Step 3-4. Implement 1:N 
+
+* **구조**
+	`relation_field = model.ForeignKey(<to_model>, on_delete=...)`
+	* 1:N 관계에서 `ForeignKey` 필드를 가지고 있는 쪽이 N
+	* <to_model>의 `pk` 저장하며 관계 형성
+*  `models.py`
+
+	```python
+	class Review(models.Model):
+		...
+		autor = models.ForeignKey(User, on_delete=models.CASCADE) 
+		# 1:N의 간계에서 N쪽에 해당하는 모델에 정의
+		# autor=3 이면 id=3인 User와 Relation	 
+	```
+	
+	* `on_delete`: `ForeignKey`가 참조하는 데이터(N)가 삭제되면 어떤 액션을 취할 것인지
+		* `models.CASCADE` : 참조하고 있는 오브젝트(N)들도 삭제
+		* `models.PROTECT` : 참조하고 있는 오브젝트(N)가 있다면 의존 오브젝트(1)를 삭제 못하도록 함
+		* `models.SET_NULL` : 참조하고 있는 오브젝트(N)의 값을 모두 null로 설정
+	* `ForeignKey`도 일반 필드처럼 `null`, `blank`, `default` 같은 옵션 사용 가능
+
+* **Example**
+	[03:41](https://www.codeit.kr/learn/5219)
+	
+	* `models.py`
+		```python
+		...
+		class Commnet(models.Model):
+			content = models.TextField(max_length=500, blank=False)
+			dt_created = models.DateTimeField(auto_now_add=True)
+			dt_updated = models.DateTimeField(auto_now=True)
+			# auto_now_add=True : django model 이 최초 저장(insert) 시에만 현재날짜(date.today() 를 적용
+			# auto_now=True : django model 이 save 될 때마다 현재날짜(date.today()) 로 갱신
+
+			author = models.ForeignKey(User, on_delete=models.CASCADE)
+			review = models.ForeignKey(Review, on_delete=models.CASCADE)
+			# User와 Review 관계(1:N) 필드 설정
+			
+			def __str__(self):
+				return self.content[:30]
+			# 모델 인스턴스 문자열로 표시시 사용
+		```
+
+### Step 3-5. Implement 1:1
+
+ * **구조**
+	 `relation_field = model.OneToOneField(<to_model>, on_delete=...)`
+	 * <to_model>의 `pk` 저장
+	 * <to_model>의 인스턴스들이 이미 저장되어 있어야 함
+	 * 속해있는 model에서 `OneToOneField` 추가(User와 Profile이 있으면 Profile에 추가)
+
+### Step 3-6. 모델 나누기(1:1)
+* Example of dividing user models into user models and profile models
+	[img](https://www.codeit.kr/learn/5222)
+	* For don't loss data, we need to go through the following step
+		1. Create Profile model
+		2. Move profile data to Profile model
+		3. Delete profile data from User model
+		4. Return User model(cancel migrate)
+* **1. Create Profile model**
+	* `models.py`
+		```python
+		class User(AbstractUser): 
+			nickname = models.CharField(
+				max_length=15, 
+				unique=True,
+				null=True, 
+				validators=[validate_no_special_characters],
+				error_messages={'unique': '이미 사용중인 닉네임입니다.'}, 
+			) 
+			profile_pic = models.ImageField(default='default_profile_pic.jpg', upload_to='profile_pics') 
+			intro = models.CharField(max_length=60, blank=True) 
+			def  __str__(self): 
+				return self.email 
+				
+		class Profile(models.Model): 
+			nickname = models.CharField(
+				max_length=15, 
+				unique=True, 
+				null=True, 
+				validators=[validate_no_special_characters],
+				error_messages={'unique': '이미 사용중인 닉네임입니다.'}, 
+			) 
+			profile_pic = models.ImageField(default='default_profile_pic.jpg', upload_to='profile_pics') 
+			intro = models.CharField(max_length=60, blank=True)
+			user = models.OneToOneField(User, on_delete=models.CASCADE)
+		```
+	* `bash`
+		```bash
+		python manage.py makemigrations --name "profile" 
+		# create 0007_profile.py
+		python manage.py migrate
+		```
+* **2. Move profile data to Profile model**
+	* `bash`
+		```bash
+		python manage.py makemigrations --empty coplate --name "migrate_profile_data"
+		```
+	* `0008_migrate_profile_data.py`
+		```python
+		from django.db import migrations 
+		
+		def user_to_profile(apps, schema_editor): 
+			User = apps.get_model('coplate', 'User') 
+			Profile = apps.get_model('coplate', 'Profile') 
+			for user in User.objects.all():
+				Profile.objects.create(
+					nickname = user.nickname,
+					profile_pic = user.profile_pic, 
+					intro = user.intro, 
+					user = user, 
+				) 
+				
+		class Migration(migrations.Migration):
+			dependencies = [ 
+				('coplate', '0007_profile'), 
+			] 
+			operations = [
+				 migrations.RunPython(user_to_profile), 
+			 ]
+		```
+	* `bash`
+		```bash
+		python manage.py migrate
+		```
+* **3. Delete profile data from User model**
+	* `models.py`
+		```python
+		class User(AbstractUser): 
+			def  __str__(self): 
+				return self.email
+		...
+		```
+	* `forms.py`
+		```python
+		class ProfileForm(forms.ModelForm):
+			class  Meta: 
+				model = User 
+				fields = [ 
+					# 'nickname',  
+					# 'profile_pic',  
+					# 'intro', 
+				] 
+				widgets = { 
+					# 'intro': forms.Textarea,
+				}
+		```
+	* 이제부터 유저의 닉네임은 이제 `user.nickname` 대신 `user.profile.nickname` 이렇게 접근
+	* `bash`
+		```bash
+		python manage.py makemigrations --name "delete_user_profile_fields"
+		python manage.py migrate
+		
+		### Check
+		python manage.py shell
+		>> from coplate.models import User, Profile 
+		>> user= User.objects.first()
+		>> user.nickname
+		>> for p in Profile.objects.all():
+		>> 	print(p,user, p.nickname, p.profile_pic, p.intro)
+		# admin@example.com admin pic.jpg ...
+		```
+* **4. Return User model(cancel migrate)**
+	* `0008_migrate_profile_data.py`
+		```python
+		...
+		def profile_to_user(apps, schema_editor): 
+			User = apps.get_model('coplate', 'User') 
+			Profile = apps.get_model('coplate', 'Profile') 
+			for profile in Profile.objects.all(): 
+				user = profile.user 
+				user.nickname = profile.nickname 
+				user.profile_pic = profile.profile_pic 
+				user.intro = profile.intro 
+				user.save() 
+		class  Migration(migrations.Migration): 
+			dependencies = [ 
+				('coplate', '0007_profile'), 
+			] 
+			operations = [
+				 migrations.RunPython(user_to_profile, profile_to_user), 
+			 ]
+			 # migration 시 user_to_profile 실행
+			 # migration 취소 시 profile_to_user 실행
+		```
+	* `bash`
+		```bash
+		python manage.py migrate coplate 0006
+		```
+	* `models.py`의  `User` 및 `forms.py` 코드 원복
+	*  `0007_profile.py`, `0008_migrate_profile_data.py`, `0009_delete_user_profile_fields.py` 삭제
+
+### Step 3-7. Implement M:N
+
+ * **구조**
+	 `relation_field = models.ManyToManyField(<to_model>)`
+	 * 두 모델 중 어떤 모델에 넣어도 상관 없음
+	 * `on_delete` 옵션 없음
+	 * M:N 관계에는 `null` 옵션 없음(비어있는 것을 허용)
+	 * 자기 자신 관계 시 `<to_model>`에 `'self'` 입력
+		 * 비대칭 관계 : 팔로잉(`symmetrical=False`)
+		 * 대칭 관계 : 친구(`symmetrical=True`)
+ * **Example**(팔로잉 구현)
+	 * `models.py`
+		 ```python
+		 class User(AbstractUser):
+			 ...
+			 following = models.ManyToManyField('self', symmetrical=False)
+			 ...
+		 ```
+
+### Step 3-8. Generic Relation
+* Content Types 장고 문서 :  [https://docs.djangoproject.com/en/2.2/ref/contrib/contenttypes/](https://docs.djangoproject.com/en/2.2/ref/contrib/contenttypes/)
+
+* 좋아요 기능 확장과 일반 모델 구현시 단점 및 Generic
+
+	|좋아요 기능 확장|Database Desine|Generic|
+	|---|---|---|
+	|[00:57](https://www.codeit.kr/learn/5225)|[1:20](https://www.codeit.kr/learn/5225)|[1:36](https://www.codeit.kr/learn/5225)|
+
+
+* contenttypes : 장고 어플리케이션에 사용되는 모든 모델에 대한 정보를 관리하는 앱
+
+### Step 3-9. Implement Generic Relation
+
+* `models.py`
+	```python
+	...
+	from django.contrib.contenttypes.models import ContentType
+	from django.contrib.fields import GenericForeignKey
+	...
+	class Like(models.Model):
+		dt_created = models.DataTimeField(auto_now_add=True)
+		user = models.ForeignKey(Uesr, on_delete=CASCADE)
+		
+		# Generic Relation
+		content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+		object_id = models.PositiveIntegerField() # 양수
+		liked_object = GenericForeignKey('content_type', 'object_id') 
+		# GenericForeignKey는 on_delete 옵션 없음
+		# 일반 ForeignKey와 같이 pk 저장하는 필드가 아니라 그냥 오브젝트를 쉽게 접근할 수 있도록 해주는 필드
+		# 좋아요를 누른 리뷰가 삭제되면 liked_object가 null이 될 뿐(추후 삭제 방법 챕터에서 학습 예정)
+
+		def __srt__(self):
+			return f"({self.user}, {self.liekd_object})"		
+	```
+
+
+
   
 
   

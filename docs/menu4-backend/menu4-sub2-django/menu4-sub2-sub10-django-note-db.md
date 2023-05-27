@@ -25,7 +25,7 @@ nav_order: 10
 
   ```bash
   python manage.py shell
-  >> from app.models import User, Review    # app의 User, Review 모델 import
+  >> from ap  p_name.models import User, Review    # app의 User, Review 모델 import
   >> User.objects.all()                     # User 모델 객체 모든보기
   >> for user in User.objects.all():        # User 모델 칼럼 데이터 확인
         print(user.email, user.email_domain)  
