@@ -177,11 +177,11 @@ python manage.py showmigrations coplate # show only app
 			 
 	class  Migration(migrations.Migration):
 		dependencies = [ 
-				('coplate', '0006_user_email_domain'), 
-			]
-			operations = [
-				migrations.RunPython(save_email_domain, migrations.RunPython.noop), 
-			]
+			('coplate', '0006_user_email_domain'), 
+		]
+		operations = [
+			migrations.RunPython(save_email_domain, migrations.RunPython.noop), 
+		]
 	```
 	* 데이터 마이그레이션 함수는 보통 `apps`와 `schema_editor`를 파라미터로 받습니다
 	* 모델을 가져올 때는 꼭 `apps.get_model('coplate', 'User')` 이런 식으로 가져옴(model을 직접 import 시 migrate가 반영되지 않은 model을 가져올 우려가 존재함)
