@@ -1329,6 +1329,46 @@ nav_order: 9
 		```
 
 
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP 4. 배포 유의사항
+
+### Step 4-1. CORS 에러 처리하기
+
+* CORS(Cross-Origin Resource Sharing)
+	* 교차 출처(Origin) 리소스 공유
+	* CORS를 위해서는 별도의 설정이 필요(필요한 설정을 하지 않은 채 서로 다른 출처에서 리소스를 공유하려고 하면 에러가 발생)
+
+	|URL|Origin|
+	|---|---|
+	|[img](https://www.codeit.kr/learn/5858)||
+	
+* **DRF에서 CORS 처리하기**
+	* `bash`
+		```bash
+		pip install django-cors-headers
+		```
+	* `movie_api/settings.py`
+		```python
+		INSTALLED_APPS = [
+			..., 
+			'corsheaders', 
+		] 
+		
+		MIDDLEWARE = [ 
+		# 최상단에 작성
+		  'corsheaders.middleware.CorsMiddleware', 
+		  ..., 
+	  ] 
+	  
+	  CORS_ALLOWED_ORIGINS = [
+	  'http://localhost:3000', 
+	  ]
+		```
+	*`CORS_ALLOWED_ORIGINS` 목록에 API 요청을 허용하고 싶은 출처(예를 들어 `http://localhost:3000`)를 입력
+
 
 
 
