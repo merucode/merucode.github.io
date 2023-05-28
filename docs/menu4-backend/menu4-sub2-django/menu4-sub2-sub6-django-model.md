@@ -822,22 +822,22 @@ python manage.py showmigrations coplate # show only app
 	[img](https://www.codeit.kr/learn/5249)
 	```python
 	# 게시글 좋아요 개수
-	{{ post.likes.count }}
+	[[ post.likes.count ]]
 
 	# 게시글 댓글 갯수
-	{{ post.comments.count }}
+	[[ post.comments.count ]]
 
 	# 게시글 댓글들
-	{% for comment in post.comments.all %}
+	[% for comment in post.comments.all %]
 
 	# 댓글 작성자의 프로필 페이지 URL
-	<a href="{% url 'profile' comment.author.id %}">
+	<a href="[% url 'profile' comment.author.id %]">
 
 	# 댓글 좋아요 갯수
-	{{ comment.likes.count }}
+	[[ comment.likes.count ]]
 
 	# 현재 유저가 댓글 작성자일 경우
-	{% if user == comments.author %}
+	[% if user == comments.author %]
 	```
 
 * template에서 직접적으로 `.object` 혹은 '`filter` 사용 안됨
