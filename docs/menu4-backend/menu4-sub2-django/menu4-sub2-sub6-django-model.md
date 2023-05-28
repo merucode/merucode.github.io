@@ -582,7 +582,132 @@ python manage.py showmigrations coplate # show only app
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 4. 
+## STEP 4. Handling Data
+
+### Step 4-1. Manager and Reverse Relationship
+
+* **Manager**(`<model>.objects`)
+	* Interface connect to between model and database 
+	* `.objects`  itself don't return query set
+		```python
+		for i in <model>.objects:	 	# ERROR
+		for i in <model>.objects.all(): # OK
+		```
+	* `.objects` is used when performing CRUD calculation on Manger
+		```python
+		<model>.objects.all().order_by(...) # ERROR
+		<model>.objects.order_by(...)		# OK
+		```
+* **Reverse Relationship**
+	[04:07](https://www.codeit.kr/learn/5237)
+	```python
+	for comment in review.comment_set: # ERROR
+	# 숨겨진 쿼리셋을 그대로 사용할 수 없음
+	# review.comment_set : Manager
+	
+	for comment in review.comment_set.all(): # OK
+	print(review.comment_set.count()) 		 # OK
+	```
+* **Implement Reverse Relationship**
+	[img](https://www.codeit.kr/learn/5241)
+	* 역관계 오브젝트가 하나
+		* `OneToOneField` : `<model_name>`
+		* Manager가 아닌 오브젝트 리턴 : CRUD 연산 불필요
+			`user.profile.intro #가능`
+	* 역관계 오브젝트가 여러 개
+		* `ForeignKey`, `ManyToManyField` : `<<model_name>_set>`
+		* Manager 리턴 : CRUD 연산 필요
+
+* **Example Reverse Relationship(`related_name`)**
+	[img](https://www.codeit.kr/learn/5241)
+	* `related_name`옵션 : 디폴트 역관계 이름 말고 다른사용
+	* `related_name='+'` : 역관계 사용안함
+
+* **Rever Releationship(Generic)**
+	* `GenericForeignKey`는 자동으로 역관계를 만들어 주지 않기 때문에 직접 역관계를 만들어 줘야 하는데요. 연결된 모델에 `GenericRelation` 필드를 추가
+	* `models.py`
+		```python
+		from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+		
+		class Review(models.Model): 
+			... 
+			likes = GenericRelation('Like') 
+			
+		class Comment(models.Model): 
+			... 
+			likes = GenericRelation('Like')
+			 # Review 모델과 Comment 모델이 Like 모델보다 위에 있기 때문에 따음표로 감싸줌 'Like'
+			 # review.likes, comment.likes로 역관계 접근 가능(Manager)
+			 
+		class Like(models.Model): 
+			dt_created = models.DateTimeField(auto_now_add=True) 
+			user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes') 
+			content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE) 
+			object_id = models.PositiveIntegerField() 
+			liked_object = GenericForeignKey()
+		
+		"""
+		# content_type, object_id 외 별도 이름 사용시 역관계 별도 이름 입력 필요
+		likes = GenericRelation( 
+			'Like',
+			content_type_field='content_type_fk',
+			object_id_field='object_pk', 
+		)
+		"""
+		```
+		* 반대쪽 (제네릭 관계가 참조하는) 모델에 `GenericRelation` 필	드를 정의하면 `on_delete=CASCADE` 효과
+	* **Diagram with Relationships added**
+		[8:15](https://www.codeit.kr/learn/5238)
+
+### Step 4-2. Example Relationship
+
+* **Example Model**
+	```python
+	class Product(models.Model): 
+		name = models.CharField(max_length=50) 
+		inventory = models.PositiveIntegerField() 
+		description = models.TextField() 
+		manufacturer = models.ForeignKey('Company', on_delete=models.PROTECT, related_name='products') 
+		tags = GenericRelation('Tag') 
+	
+	class Collection(models.Model): 
+		name = models.CharField(max_length=50) 
+		products = models.ManyToManyField(Product) 
+		tags = GenericRelation('Tag') 
+	
+	class Company(models.Model): 
+		name = models.CharField(max_length=50) 
+		
+	class Tag(models.Model): 
+		name = models.CharField(max_length=20) 
+		content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE) 
+		object_id = models.PositiveIntegerField() 
+		tagged_item = GenericForeignKey()
+	```
+* `python`
+	```python
+	# `collection`에 몇 개의 물품이 있는지 확인
+	print(collection.products.count())
+	
+	# 어떤 `product`가 속해있는 컬렉션을 모두 출력
+	for collection in product.collection_set.all():
+		print(collection.name)
+	
+	# 어떤 `product`의 제조사(manufacturer) 이름을 출력
+	print(product.manufacturer.name)
+	
+	# 어떤 `company`가 제조하는 모든 물품을 출력
+	for product in company.products.all():
+		print(product.name)
+
+	# 어떤 `collection`에 달려있는 태그를 모두 출력
+	for tag in collection.tags.all(): 
+		print(tag.name)
+
+	# 어떤 `tag`가 속해있는 오브젝트의 이름을 출력
+	print(tag.tagged_item.name)
+	```
+
 
   
 
