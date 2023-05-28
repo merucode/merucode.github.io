@@ -762,6 +762,8 @@ python manage.py showmigrations coplate # show only app
 
 ### Step 4-4. CRUD operation with relationship
 
+* 일반적으로는 `Generic view` 가 알아서 수행
+
 * `python`
 	```python
 	### ForeignKey/OneToOneField
