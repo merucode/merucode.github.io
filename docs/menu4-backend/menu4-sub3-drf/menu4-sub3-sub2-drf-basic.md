@@ -1042,16 +1042,291 @@ nav_order: 9
 			```	
 
   
+<br>
 
-  
+<!------------------------------------ STEP ------------------------------------>
 
+## STEP 3. View for DRF
 
+### Step 3-1. Request and Response in DRF
 
+|Request|Response|
+|---|---|
+|[img](https://www.codeit.kr/learn/5847)||
 
+### Step 3-2. Class View : Read, Create
 
-### Step 2-9. 
+* python class name : UpperCaseCamelCase
+* **Previous view**
+	* `movies/views.py`
+		```python
+		@api_view(['GET', 'POST'])  
+		def  movie_list(request): 
+			if request.method == 'GET': 
+				movies = Movie.objects.all()
+				serializer = MovieSerializer(movies, many=True) 
+				return Response(serializer.data, status=status.HTTP_200_OK) 
+			elif request.method == 'POST': 
+				data = request.data 
+				serializer = MovieSerializer(data=data) 
+				if serializer.is_valid():
+					serializer.save() 
+					return Response(serializer.data, status=status.HTTP_201_CREATED) 
+				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		```
+* **Class view**
+	* `movies/views.py`
+		```python
+		from rest_framework.views import APIView
+		...
+		class  MovieList(APIView): 
+			def get(self, request): 	# self 필요
+			movies = Movie.objects.all()
+			serializer = MovieSerializer(movies, many=True) 
+				return Response(serializer.data) 
+			
+			def post(self, request): 
+			serializer = MovieSerializer(data=request.data) 
+			if serializer.is_valid(raise_exception=True): 
+				serializer.save() 
+				return Response(serializer.data, status=status.HTTP_201_CREATED) 
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		```
+	* `movies/urls.py`
+		```python
+		from .views import MovieList
+		urlpatterns = [ 
+			path('movies', MovieList.as_view()), 
+		]
+		```
+		* `.as_view()` 사용 
 
+### Step 3-3. Class View : Data Read, Update, Delete
 
+* **Previous view**
+	* `movies/views.py`
+		```python
+		@api_view(['GET', 'PATCH', 'DELETE'])
+		def movie_detail(request, pk): 
+			movie = get_object_or_404(Movie, pk=pk) 
+			
+			if request.method == 'GET':
+				serializer = MovieSerializer(movie) 
+				return Response(serializer.data, status=status.HTTP_200_OK) 
+			elif request.method == 'PATCH':
+				serializer = MovieSerializer( movie, data=request.data, partial=True) 
+				if serializer.is_valid():
+					serializer.save() 
+					return Response(serializer.data, status=status.HTTP_200_OK) 
+				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+			elif request.method == 'DELETE':
+				movie.delete() 
+				return Response(status=status.HTTP_204_NO_CONTENT)
+		```
+
+* **Class view**
+	* `movies/views.py`
+		```python
+		class MovieDetail(APIView): 
+			def get_object(self, pk): 
+				movie = get_object_or_404(Movie, pk=pk) 
+				return movie 
+				
+			def get(self, request, pk): 
+				movie = self.get_object(pk) 
+				serializer = MovieSerializer(movie) 
+				return Response(serializer.data) 
+			
+			def patch(self, request, pk):
+				movie = self.get_object(pk)
+				serializer = MovieSerializer(movie, data=request.data, partial=True) 
+				if serializer.is_valid(raise_exception=True):
+					serializer.save() 
+					return Response(serializer.data) 
+				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+			
+			def delete(self, request, pk): 
+				movie = self.get_object(pk)
+				movie.delete() 
+				return Response(status=status.HTTP_204_NO_CONTENT)
+		```
+	* `movies/urls.py`
+		```python
+		from .views import MovieList, MovieDetail 
+		urlpatterns = [ 
+			path('movies/<int:pk>', MovieDetail.as_view()), 
+		]
+		```
+
+### Step 3-4. Generic View : Read, Create
+
+* `ListCreateAPIView`
+	* `queryset`(또는 `get_queryset()`)과 `serializer_class`는 필수 옵션
+		* `queryset` : `GET` 요청을 처리할 때 돌려줄 객체들을 지정
+		* `serializer_class` : 조회와 생성 시 사용할 시리얼라이저를 설정
+* **Previous view** : Step 3-2. Class view
+* **Generic view**
+	* `movies/views.py`
+		```python
+		### MovieList : 일반 조회, 생성
+		from rest_framework.generics import ListCreateAPIView 
+		... 
+		class  MovieList(ListCreateAPIView): 
+			queryset = Movie.objects.all() 
+			serializer_class = MovieSerializer
+		```
+* **Previous view**
+	* `movies/views.py`
+		```python
+		@api_view(['GET', 'POST'])  
+		def review_list(request, pk): 
+			movie = get_object_or_404(Movie, pk=pk) 
+			if request.method == 'GET': 
+				reviews = Review.objects.filter(movie=movie) 
+				serializer = ReviewSerializer(reviews, many=True) 
+				return Response(serializer.data, status=status.HTTP_200_OK) 
+			elif request.method == 'POST': 
+				serializer = ReviewSerializer(data=request.data) 
+				if serializer.is_valid(): 
+					serializer.save(movie=movie) 
+					return Response(serializer.data, status=status.HTTP_201_CREATED) 
+				return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		```
+* **Generic view**
+	* `movies/views.py`
+		```python
+		### ReviewList : URL로 pk 값을 받아 특정 영화 선택 후 영화 기준으로 리뷰 조회
+		class ReviewList(ListCreateAPIView): 
+			serializer_class = ReviewSerializer 
+			
+			def get_queryset(self): 
+				movie = get_object_or_404(Movie, pk=self.kwargs.get('pk')) 
+				return Review.objects.filter(movie=movie) 
+				
+			def perform_create(self, serializer): 
+				movie = get_object_or_404(Movie, pk=self.kwargs.get('pk')) 
+				serializer.save(movie=movie)
+		```
+	* `movies/urls.py`
+		```python
+		from .views import MovieList, ReviewList
+		...
+		urlpatterns = [
+			path('movies/<int:pk>/reviews', ReviewList.as_view()),
+		]
+		```
+
+### Step 3-5. Generic View : Data Read, Updaet, Delete
+
+*  `RetrieveUpdateDestroyAPIView`
+	* `queryset`과 `serializer_class`는 필수 옵션
+* **Previous view** : Step 3-3. Class view
+* **Generic view**
+	```python
+	from rest_framework.generics import RetrieveUpdateDestroyAPIView
+	...
+	class MovieDetail(RetrieveUpdateDestroyAPIView): 
+		queryset = Movie.objects.all() 
+		serializer_class = MovieSerializer
+	```
+
+###  Step 3-6. Generic View Summary
+
+* **Kind of Generic View**
+
+	|허용 HTTP Method|이름|엔드 포인트|기능|
+	|---|---|---|---|
+	|GET|ListAPIView|/movies|데이터 목록 조회|
+	|POST|CreateAPIView|/movies|데이터 생성|
+	|GET POST|ListCreateAPIView|/movies|데이터 목록 조회 및 생성|
+	|GET|RetrieveAPIView|/movies:id|데이터 상세 조회|
+	|PUT PATCH|UpdateAPIView|/movies:id|데이터 수정|
+	|DELETE|DestoryAPIView|//movies:id|데이터 삭제|
+	|GET PUT PATCH|RetrieveUpdateAPIView|/movies:id|데이터 상세 조회 및 수정|
+	|GET DELETE|RetrieveDestroyAPIView|/movies:id|데이터 상세 조회 및 삭제|
+	|GET PUT PATCH DELETE|RetrieveUpdateDestroyAPIView|/movies:id|데이터 상세 조회, 수정 및 삭제|
+
+* **Option of Generic View**
+		```python
+
+	```
+	*  `queryset`
+		* 뷰에서 사용할 쿼리셋을 지정해 주는 속성
+		* `ListAPIView`가 들어가는 제네릭 뷰인 경우 `queryset`을 직렬화
+		* `RetrieveAPIView`, `UpdateAPIView`, `DestoryAPIView`가 들어가는 제네릭 뷰인 경우 `queryset`에서 특정한 객체를 가져옴
+		* 데이터 생성에 사용되는 `CreateAPIView`에서는 사용하지 않음
+	* `serializer_class`
+		* 시리얼라이저를 정하는 옵션
+		* 모든 제네릭 뷰에 정의해야 하는 **필수 옵션**
+		```python
+		class MovieListAPIView(ListAPIView): 
+			queryset = Movie.objects.all() 
+			serializer_class = MovieSerializer
+		```
+	* `lookup_field`와 `lookup_url_kwarg`
+		* `lookup_field`은	위에서 정의한 `queryset`에서 특정 객체를 찾을 때 어떤 필드를 기준으로 할지 정해줌
+		* `lookup_url_kwarg`은 URL로부터 받아오는 변수명을 지정
+		* 이 두 옵션은 특정한 객체를 사용해야 하는 `RetrieveAPIView`, `UpdateAPIView`, `DeleteAPIView` 혹은 이 세 개를 조합한 제네릭 뷰에서 사용
+		```python
+		# movies/models.py
+		class Movie(models.Model): 
+			... 
+			name = models.CharField(max_length=30)
+			
+		# views.py
+		class MovieRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView): 
+			queryset = Movie.objects.all() 
+			serializer_class = MovieSerializer 
+			lookup_field = 'name' 
+			lookup_url_kwarg = 'name'
+		
+		# urls.py
+		urlpatterns = [ 
+			path('movies/<str:name>', RetrieveUpdateDestroyAPIView.as_view()) 
+		]
+		"""
+		위처럼 코드를 작성하면 URL로 전달되는 name파라미터를 받아서(lookup_url_kwarg의 역할)
+		Movie의 name필드를 기준으로 영화를 찾습니다(lookup_field의 역할)
+		lookup_field`의 기본값은 pk이고 lookup_url_kwarg의 기본값은 lookup_field와 같음
+		그래서 URL에 pk(id)를 사용하면 lookup_field와 lookup_url_kwarg를 설정하지 않아도 됨
+		"""
+		```
+
+###  Step 3-7. Pagination
+
+* Implement pagination using **generic view**
+* **전역 페이지네이션**
+	* 앞으로 호출할 모든 API에서 결과의 개수를 조절
+	* `movie_api/settings.py`
+		```python
+		REST_FRAMEWORK = { 
+			'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+			'PAGE_SIZE': 3, 
+		}
+		```
+		* `rest_framework.pagination.PageNumberPagination` : 페이지네이션
+		* `PAGE_SIZE` : api 요청 시 결과 반환 갯수
+			* Pagination에 따른 추가 반환 변수
+				- `count`: 해당 API에 존재하는 실제 데이터의 개수
+				- `next`: 데이터의 개수가 최대 결과물 개수보다 클 경우 다음 데이터의 URL (없으면  `null`)
+				- `previous`: 현재 요청한 데이터 이전의 데이터가 존재하는 경우 이전 데이터의 URL (없으면  `null`)
+				- `results`: 요청한 데이터를 페이지네이션한 결과
+
+* **개별 페이지네이션**
+	* 특정한 뷰에서 페이지네이션을 처리하기 위해선 paginator를 생성 필요
+	* `movies/views.py`
+		```python
+		from rest_framework.pagination import PageNumberPagination
+		...
+		class MoviePageNumberPagination(PageNumberPagination): 
+			page_size = 2
+		...
+		class MovieList(ListCreateAPIView):
+			queryset = Movie.objects.all()
+			serializer_class = MovieSerializer 
+			pagination_class = MoviePageNumberPagination
+		# page_size에 따라 api 요청 시 2개씩 반환
+		```
 
 
 
