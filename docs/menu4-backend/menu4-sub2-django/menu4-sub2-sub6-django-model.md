@@ -708,6 +708,111 @@ python manage.py showmigrations coplate # show only app
 	print(tag.tagged_item.name)
 	```
 
+### Step 4-3. Filltering using relationship
+
+* **Filltering using relationship**
+	* `__` is used for **accessing a field** or **attaching an operator to field**
+	* `python`
+		```python
+		# 1. user가 작성한 리뷰들 필터
+		Review.objects.filter(author=user)
+		
+		# 2. id 1을 가지고 있는 유저가 작성한 리뷰들 필터 
+		Review.objects.filter(author__id=1)
+		 
+		# 3. jonghoon이라는 닉네임을 가지고 있는 유저가 작성한 리뷰들 필터 
+		Review.objects.filter(author__nickname="jonghoon") 
+		
+		# 4. 이메일이 codeit.com으로 끝나는 유저들이 작성한 리뷰들 필터 
+		Review.objects.filter(author__email__endswith='codeit.com')
+		
+		# jonghoon이라는 유저가 작성한 리뷰에 달린 코멘트들 필터
+		Comment.objects.filter(review__author__nickname='jonghoon')
+
+		# id 1을 가진 유저를 팔로우 하는 유저들 필터
+		User.objects.filter(following__id=1)
+		
+		# '코스버거' 레스토랑에 대한 리뷰를 작성한 유저들 필터
+		User.objects.filter(reviews__restaurant_name='코스버거')
+		```
+		
+* **GenericForeignKey**
+	* `GenericForeignKey`로는 필터를 할 수가 없음
+	* `related_query_name` 설정 필요(오브젝트 접근시 사용 불가), `migrate` 불필요
+	* `models.py`
+		```python
+		class Review(models.Model):
+			...
+			likes = GenericRelation('Like', related_query_name='review')
+		```
+	* `python`
+		```python
+		# 특정 리뷰에 속해있는 좋아요들 필터 
+		Like.objects.filter(review=review)
+		Like.objects.filter(review__id=1)
+		 
+		# 특정 댓글에 속해있는 좋아요들 필터 
+		Like.objects.filter(comment=comment)
+		Like.objects.filter(comment__id=1)
+		
+		# 오브젝트 접근
+		like.liked_object.all()  # OK
+		like.review.all()		 # ERROR
+		```
+
+### Step 4-4. CRUD operation with relationship
+
+* `python`
+	```python
+	### ForeignKey/OneToOneField
+	# CREATE
+	comment = Comment.objects.create(content="안녕하세요", author_id=1, review_id=1)
+	# review_id=2 대신 review=review2 사용 가능
+	# 필터 조건과 다르게 언더바 하나 사용
+
+	# UPDATE
+	comment.author_id = 2 # Update author field
+	comment.review_id = 2 # Update review field
+	comment.save()
+
+
+	### ManyToManyField
+	# .add()
+	user1.following.add(user2, user3, user4) # 유저 오브젝트들 넘겨주기 
+	user1.following.add(2, 3, 4) # id들 넘겨주기
+
+	# .remove()
+	user1.following.remove(2, 3, 5)
+
+	# 역관계
+	user1.followers.add(2, 4)
+	user1.followers.remove(2)
+
+
+	### GenericForeignKey
+	# CREATE
+	# ContentType과 오브젝트 id 넘겨주기
+	like = Like.objects.create(user=user, content_type_id=1, object_id=1)
+	# GenericForeignKey 오브젝트 넘겨주기 
+	like = Like.objects.create(user=user, liked_object=obj1)
+	# obj1는 review 또는 comment(object 자체에서 ContentType과 id 파악 가능)
+	like = Like.objects.create(user=user, liked_object_id=1) # ERROR
+	# ContentType 파악 불가로 에러 발생
+
+	# UPDATE
+	like.content_type_id = 2 
+	like.object_id = 2 
+	like.save()
+	# or
+	like.liked_object = obj2 
+	like.save()
+	# related_query_name 사용 불가(only use for filltering)
+
+
+	### DELETE
+	.delete() 
+	# object has option on_delete=CASCADE also deleted
+	```
 
   
 
