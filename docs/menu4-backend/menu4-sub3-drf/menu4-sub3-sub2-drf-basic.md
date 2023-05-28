@@ -967,7 +967,7 @@ nav_order: 9
   1. StringRelatedField
   2. Nested Serializer
 
-* **StringRelatedField**
+* **StringRelatedField** : 관련된 객체들을 문자열로 직렬화 
 
   * `MovieSerializer`에 `Review` 정보 추가하기
 
@@ -994,9 +994,52 @@ nav_order: 9
       # reviews의 타입을 StringRelatedField로 설정하고, 하나의 영화에 포함된 리뷰들은 여러개일 수 있기 때문에 many 속성을 True로 설정했습니다. 
       # 이때, StringRelatedField 필드는 그 자체로 조회만 가능한 필드이기 때문에 read_only 옵션을 추가하지 않아도 됩니다.
       ```
+	*  `ReviewSerializer`에 `Movie` 정보 추가하기
+		* `movies/models.py`
+			```python
+			class Movie(models.Model):
+				...  
+				def __str__(self): 
+					return self.name
+			```
+		* `movies/serializers.py`
+			```python
+			class ReviewSerializer(serializers.ModelSerializer):
+				movie = serializers.StringRelatedField() 
+				class Meta: 
+					model = Review 
+					fields = ['id', 'movie', 'username', 'star', 'comment', 'created']
+			``` 
 
-  * `ReviewSerializer`에 `Movie` 정보 추가하기
-    * 
+* **Nested Serializer** : 관련된 객체의 모든 정보(필드)를 직렬화
+	*  `MovieSerializer`에  `Review`  정보 추가하기
+		* `movies/serializers.py`
+			```python
+			class ReviewSerializer(serializers.ModelSerializer):
+			...  
+			class MovieSerializer(serializers.ModelSerializer):
+			# MovieSerializer 선언 전에 ReviewSerializer가 선언되어야함. 
+				reviews = ReviewSerializer(many=True, read_only=True)
+				class Meta: 
+					model = Movie 
+					fields = ['id', 'name', 'reviews', 'opening_date', 'running_time', 'overview']
+			```
+	*  `ReviewSerializer`에  `Movie`  정보 추가하기
+		* `movies/serializers.py`
+			```python
+			class MovieSerializer(serializers.ModelSerializer):
+				class Meta: 
+				model = Movie 
+				fields = ['id', 'name', 'reviews', 'opening_date', 'running_time', 'overview'] 
+				read_only_fields = ['reviews'] 
+			
+			class ReviewSerializer(serializers.ModelSerializer): 
+			# ReviewSerializer 선언 전에 MovieSerializer가 선언되어야함. 
+				movie = MovieSerializer(read_only=True) 
+				class Meta: 
+					model = Review 
+					fields = ['id', 'movie', 'username', 'star', 'comment', 'created']
+			```	
 
   
 
