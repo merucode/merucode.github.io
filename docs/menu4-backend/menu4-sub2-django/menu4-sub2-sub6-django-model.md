@@ -222,15 +222,15 @@ python manage.py showmigrations coplate # show only app
 * 유저, 리뷰, 댓글, 좋아요, 팔로우 예제
 	|요구사항|Object Modeling|
 	|---|---|
-	|[4:22](https://www.codeit.kr/learn/5217)|[4:40](https://www.codeit.kr/learn/5217)|
+	|![image-20230528124823024](./../../../images/menu4-sub2-sub6-django-model/image-20230528124823024.png)| ![image-20230528124836965](./../../../images/menu4-sub2-sub6-django-model/image-20230528124836965.png) |
 * 좋아요, 팔로우 처리
 	|좋아요, 팔로우|예제 처리|
 	|---|---|
-	|[3:27](https://www.codeit.kr/learn/5217)|[4:06](https://www.codeit.kr/learn/5217)|
+	|![image-20230528124858090](./../../../images/menu4-sub2-sub6-django-model/image-20230528124858090.png)|<img src="./../../../images/menu4-sub2-sub6-django-model/image-20230528124938549.png" alt="image-20230528124938549" style="zoom:80%;" />|
 	
 ### Step 3-3. Relation Modeling
 
- [1:50](https://www.codeit.kr/learn/5218)
+<img src="./../../../images/menu4-sub2-sub6-django-model/image-20230528124758111.png" alt="image-20230528124758111" style="zoom:50%;" />
 
 ### Step 3-4. Implement 1:N 
 
@@ -255,7 +255,7 @@ python manage.py showmigrations coplate # show only app
 	* `ForeignKey`도 일반 필드처럼 `null`, `blank`, `default` 같은 옵션 사용 가능
 
 * **Example**
-	[03:41](https://www.codeit.kr/learn/5219)
+	<img src="./../../../images/menu4-sub2-sub6-django-model/image-20230528124737044.png" alt="image-20230528124737044" style="zoom:50%;" />
 	
 	* `models.py`
 		```python
@@ -266,7 +266,7 @@ python manage.py showmigrations coplate # show only app
 			dt_updated = models.DateTimeField(auto_now=True)
 			# auto_now_add=True : django model 이 최초 저장(insert) 시에만 현재날짜(date.today() 를 적용
 			# auto_now=True : django model 이 save 될 때마다 현재날짜(date.today()) 로 갱신
-
+		
 			author = models.ForeignKey(User, on_delete=models.CASCADE)
 			review = models.ForeignKey(Review, on_delete=models.CASCADE)
 			# User와 Review 관계(1:N) 필드 설정
@@ -286,7 +286,8 @@ python manage.py showmigrations coplate # show only app
 
 ### Step 3-6. 모델 나누기(1:1)
 * Example of dividing user models into user models and profile models
-	[img](https://www.codeit.kr/learn/5222)
+	![image-20230528124655884](./../../../images/menu4-sub2-sub6-django-model/image-20230528124655884.png)
+	
 	* For don't loss data, we need to go through the following step
 		1. Create Profile model
 		2. Move profile data to Profile model
@@ -442,7 +443,7 @@ python manage.py showmigrations coplate # show only app
 			 ...
 			 following = models.ManyToManyField('self', symmetrical=False)
 			 ...
-		 ```
+		```
 
 ### Step 3-8. Generic Relation
 * Content Types 장고 문서 :  [https://docs.djangoproject.com/en/2.2/ref/contrib/contenttypes/](https://docs.djangoproject.com/en/2.2/ref/contrib/contenttypes/)
@@ -451,7 +452,7 @@ python manage.py showmigrations coplate # show only app
 
 	|좋아요 기능 확장|Database Desine|Generic|
 	|---|---|---|
-	|[00:57](https://www.codeit.kr/learn/5225)|[1:20](https://www.codeit.kr/learn/5225)|[1:36](https://www.codeit.kr/learn/5225)|
+	|![image-20230528124408008](./../../../images/menu4-sub2-sub6-django-model/image-20230528124408008.png)| ![image-20230528124619457](./../../../images/menu4-sub2-sub6-django-model/image-20230528124619457.png) | ![image-20230528124501420](./../../../images/menu4-sub2-sub6-django-model/image-20230528124501420.png) |
 
 
 * contenttypes : 장고 어플리케이션에 사용되는 모든 모델에 대한 정보를 관리하는 앱
@@ -475,7 +476,7 @@ python manage.py showmigrations coplate # show only app
 		# GenericForeignKey는 on_delete 옵션 없음
 		# 일반 ForeignKey와 같이 pk 저장하는 필드가 아니라 그냥 오브젝트를 쉽게 접근할 수 있도록 해주는 필드
 		# 좋아요를 누른 리뷰가 삭제되면 liked_object가 null이 될 뿐(추후 삭제 방법 챕터에서 학습 예정)
-
+	
 		def __srt__(self):
 			return f"({self.user}, {self.liekd_object})"		
 	```
@@ -501,7 +502,7 @@ python manage.py showmigrations coplate # show only app
 
 ### Step 3-11. ModelAdmin
 
-[2:42](https://www.codeit.kr/learn/5232)
+![image-20230528124337110](./../../../images/menu4-sub2-sub6-django-model/image-20230528124337110.png)
 
 * `admin.py`
 	```python
@@ -572,7 +573,7 @@ python manage.py showmigrations coplate # show only app
 		verbose_name_plural = 'Followers'
 		...
 	UserAdmin.inlines = (UserInline,) 
-	``` 
+	```
 * 어드민 사이트와  `ManyToManyField`:  [https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#working-with-many-to-many-models](https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#working-with-many-to-many-models)
 *   똑같은 모델을 가리키는 필드가 여러 개 있을 때 (`ManyToManyField('self')`도 해당):  [https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#working-with-a-model-with-two-or-more-foreign-keys-to-the-same-parent-model](https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#working-with-a-model-with-two-or-more-foreign-keys-to-the-same-parent-model)
 

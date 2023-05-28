@@ -29,7 +29,7 @@ nav_order: 3
   /* App.js */
     import ReviewList from './ReviewList';
     import items from '../mock.json';
-
+  
     function App() {
       return (
         <div>
@@ -37,15 +37,15 @@ nav_order: 3
         </div>
       );
     }
-
+  
     export default App;
-
+  
   /* ReviewList.js */
     function ReviewList({ items }) {
     console.log(items);
     return <ul></ul>;
     }
-
+  
     export default ReviewList;
   ```
 
@@ -56,7 +56,7 @@ nav_order: 3
 
   ```react
   import items from './pokemons';
-
+  
   function Pokemon({ item }) {
     return (
       <div>
@@ -64,7 +64,7 @@ nav_order: 3
       </div>
     );
   }
-
+  
   function App() {
     return (
       <ul>
@@ -87,7 +87,7 @@ nav_order: 3
   ```react
   import { useState } from 'react';
   import items from './pokemons';
-
+  
   function Pokemon({ item }) {
     return (
       <div>
@@ -95,16 +95,16 @@ nav_order: 3
       </div>
     );
   }
-
+  
   function App() {
     const [direction, setDirection] = useState(1);
-
+  
     const handleAscClick = () => setDirection(1);
-
+  
     const handleDescClick = () => setDirection(-1);
-
+  
     const sortedItems = items.sort((a, b) => direction * (a.id - b.id));
-
+  
     return (
       <div>
         <div>
@@ -121,7 +121,7 @@ nav_order: 3
       </div>
     );
   }
-
+  
   export default App;
   ```
 
@@ -132,10 +132,10 @@ nav_order: 3
   ```react
   import { useState } from 'react';
   import mockItems from './pokemons';
-
+  
   function Pokemon({ item, onDelete }) {
     const handleDeleteClick = () => onDelete(item.id);
-
+  
     return (
       <div>
         No.{item.id} {item.name}
@@ -143,15 +143,15 @@ nav_order: 3
       </div>
     );
   }
-
+  
   function App() {
     const [items, setItems] = useState(mockItems);
-
+  
     const handleDelete = (id) => {
       const nextItems = items.filter((item) => item.id !== id);
       setItems(nextItems);
     };
-
+  
     return (
       <ul>
         {items.map((item) => (
@@ -162,7 +162,7 @@ nav_order: 3
       </ul>
     );
   }
-
+  
   export default App;
   ```
 
@@ -213,7 +213,7 @@ nav_order: 3
     const body = await response.json();
     return body;
   }
-
+  
   /* App.js */
   import { getReviews } from '../api';
   ...
@@ -250,21 +250,21 @@ nav_order: 3
 
   ```react
   import { useEffect, useState } from 'react';
-
+  
   function App() {
     const [first, setFirst] = useState(1);
     const [second, setSecond] = useState(1);
-
+  
     const handleFirstClick = () => setFirst(first + 1);
     const handleSecondClick = () => setSecond(second + 1);
-
+  
     useEffect(() => {
       console.log('렌더링 이후', first, second);
     }, [first]);
     // 디펜던시 리스트에 [] , [first], [first, second] 바꾸어가며 확인
-
+  
     console.log('렌더링', first, second);
-
+  
     return (
       <div>
         <h1>
@@ -275,7 +275,7 @@ nav_order: 3
       </div>
     );
   }
-
+  
   export default App;
   ```
 
@@ -290,8 +290,8 @@ nav_order: 3
 
 |Items|url|
 |---|---|
-|Offset|[1:42](https://www.codeit.kr/learn/5044)|
-|Cursur|[3:45](https://www.codeit.kr/learn/5044)|
+|Offset|<img src="./../../../images/menu6-sub6-sub3-react-handling-data/image-20230528123727514.png" alt="image-20230528123727514" style="zoom:50%;" />|
+|Cursur| <img src="./../../../images/menu6-sub6-sub3-react-handling-data/image-20230528123707384.png" alt="image-20230528123707384" style="zoom:50%;" /> |
 
 ### Step 2-3. 오프셋 기반
 
@@ -302,14 +302,14 @@ nav_order: 3
   import { getReviews } from '../api';
   ...
   const LIMIT = 6; // pagination limit
-
+  
   function App() {
     const [items, setItems] = useState([]);
     const [offset, setOffset] = useState(0);          // pagination offset
     const [hasNext, setHasNext] = useState(false);    // pagination 마지막 페이지 확인
-
+  
     const handleDelete = (id) => {...};
-
+  
     const handleLoad = async (options) => {
       const { reviews, paging } = await getReviews(options);  // getReviews response.json()의 구성을 보면 reviews, paging 존재
       if (options.offset === 0) {
@@ -320,15 +320,15 @@ nav_order: 3
       setOffset(options.offset + reviews.length);
       setHasNext(paging.hasNext);           // 마지막 페이지시 더보기 버튼 안보이는 기능
     };
-
+  
     const handleLoadMore = () => {
       handleLoad({ order, offset, limit:LIMIT });
     };
-
+  
     useEffect(() => {
       handleLoad({ order, offset:0, limit:LIMIT });
     }, [order]);
-
+  
     return (
       <div>
         <div>
@@ -340,9 +340,9 @@ nav_order: 3
       </div>
     );
   }
-
+  
   export default App;
-
+  
   /* api.js */
   export async function getReviews({ order = 'createdAt', offset = 0, limit = 6,}) {
     const query = `order=${order}&offset=${offset}&limit=${limit}`;
@@ -475,7 +475,7 @@ nav_order: 3
       {loadingError?.message && <span>{loadingError.message}</span>}
   ...);
   }
-
+  
   /* api.js */
   export async function getReviews({
     order = 'createdAt',
@@ -516,11 +516,11 @@ nav_order: 3
     const [location, setLocation] = useState('Seoul');
     const [checkIn, setCheckIn] = useState('2022-01-01');
     const [checkOut, setCheckOut] = useState('2022-01-02');
-
+  
     const handleLocationChange = (e) => setLocation(e.target.value);
-
+  
     const handleCheckInChange = (e) => setCheckIn(e.target.value);
-
+  
     const handleCheckOutChange = (e) => setCheckOut(e.target.value);
       
     return (
@@ -549,7 +549,7 @@ nav_order: 3
       checkIn: '2022-01-01',
       checkOut: '2022-01-02',
     })
-
+  
     const handleChange = (e) => {
       const { name, value } = e.target;
       setValues((prevValues) => ({
@@ -597,7 +597,7 @@ nav_order: 3
       checkIn: '2022-01-01',
       checkOut: '2022-01-02',
     })
-
+  
     const handleChange = (e) => {
       const { name, value } = e.target;
       setValues((prevValues) => ({
@@ -641,7 +641,7 @@ nav_order: 3
       </form>
     )
   }
-
+  
   // 폼 태그는 참조 가능
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -651,7 +651,7 @@ nav_order: 3
     const checkOut = form['checkOut'].value;
     // ....
   }
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -671,12 +671,12 @@ nav_order: 3
           const nextValue = e.target.files[0];
           onChange(name, nextValue);
       };
-
+  
       return <input type="file" onChange={handleChange} />;
       // props에 value={value} 넣으면 비제어 input이라는 이유로 경보 발생
       // file input은 반드시 비제어 컴포넌트로 만들어야
   }
-
+  
   export default FileInput;
 
 
@@ -697,12 +697,12 @@ nav_order: 3
         [name]: value,
       }));
     };
-
+    
     const handleInputChange = (e) => {            
       const { name, value } = e.target;
       handleChange(name, value);
     };
-
+    
     return (
       <form className="ReviewForm" onSubmit={handleSubmit}>
         <FileInput name="imgFile" value={values.imgFile} onChange={handleChange} />
@@ -1262,8 +1262,8 @@ function useAsync(asyncFunction) {
 
 |Prop Drilling|Context|
 |---|---|
-|[image](1:55)|2:45|
-|1:47|2:58|
+|![image-20230528124115855](./../../../images/menu6-sub6-sub3-react-handling-data/image-20230528124115855.png)|![image-20230528124230969](./../../../images/menu6-sub6-sub3-react-handling-data/image-20230528124230969.png)|
+|<img src="./../../../images/menu6-sub6-sub3-react-handling-data/image-20230528124158216.png" alt="image-20230528124158216" style="zoom:67%;" />|![image-20230528124218449](./../../../images/menu6-sub6-sub3-react-handling-data/image-20230528124218449.png)|
 
 * Context 만들기
 
