@@ -708,9 +708,9 @@ python manage.py showmigrations coplate # show only app
 	print(tag.tagged_item.name)
 	```
 
-### Step 4-3. Filltering using relationship
+### Step 4-3. Filtering using relationship
 
-* **Filltering using relationship**
+* **Filtering using relationship**
 	* `__` is used for **accessing a field** or **attaching an operator to field**
 	* `python`
 		```python
@@ -808,7 +808,7 @@ python manage.py showmigrations coplate # show only app
 	# or
 	like.liked_object = obj2 
 	like.save()
-	# related_query_name 사용 불가(only use for filltering)
+	# related_query_name 사용 불가(only use for filtering)
 
 
 	### DELETE
@@ -816,8 +816,32 @@ python manage.py showmigrations coplate # show only app
 	# object has option on_delete=CASCADE also deleted
 	```
 
-  
+### Step 4-5. Template using relationship
 
+* **Example**
+	[img](https://www.codeit.kr/learn/5249)
+	```python
+	# 게시글 좋아요 개수
+	{{ post.likes.count }}
+
+	# 게시글 댓글 갯수
+	{{ post.comments.count }}
+
+	# 게시글 댓글들
+	{% for comment in post.comments.all %}
+
+	# 댓글 작성자의 프로필 페이지 URL
+	<a href="{% url 'profile' comment.author.id %}">
+
+	# 댓글 좋아요 갯수
+	{{ comment.likes.count }}
+
+	# 현재 유저가 댓글 작성자일 경우
+	{% if user == comments.author %}
+	```
+
+* template에서 직접적으로 `.object` 혹은 '`filter` 사용 안됨
+	* 사용하기 위해서는 `views.py`에서 연산해서 template에 넘겨줘야
   
 
   

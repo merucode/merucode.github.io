@@ -17,9 +17,86 @@ nav_order: 10
 - TOC
 {:toc}
 </details>
+
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 1. Show Model Data
+## STEP 1. Use PostgreSQL
+
+### Step 1-1. Install PostgreSQL
+
+* `bash`
+	```bash
+	$ sudo apt update
+	$ sudo apt install postgresql
+	
+	$ sudo service postgresql start	# 서버 시작
+	$ sudo service postgresql stop	# 서버 종료
+	$ sudo service postgresql restart # 서버 재시작
+	```
+
+### Step 1-2. Create Database
+
+* 자동으로 `postgres`라는 유저와 `postgres`라는 데이터베이스를 생성
+* `postgres` 유저는 모든 권한이 있는 유저
+
+* `bash`
+	```bash
+	$ sudo service postgresql start 	# 서버시작
+	$ sudo -u postgres psql 			# 서버 접속
+	# 데이터베이스 목록 조회
+	postgres=# \l 		
+					
+	# 데이터 베이스 생성
+	postgres=# CREATE DATABASE dbname;
+
+	# 새로운 유저 생성 및 권한 부여
+	postgres=# CREATE USER username WITH PASSWORD 'password';
+	postgres=# GRANT ALL PRIVILEGES ON DATABASE dbname TO username;
+	
+	# 커맨드 라인 종료
+	postgres=# \q
+
+	# 윈도우 WSL의 경우 DB 유저를 리눅스 시스템에 추가 필요
+	$ sudo adduser username
+
+	# username이라는 유저로 dbname 접속
+	$ sudo -u username psql dbname
+
+	# 데이터베이스 테이블 리스트 조회
+	postgres=# \dt
+	```
+
+###  Step 1-3. Django Setting
+
+* `bash`(install `psycopg2`)
+	```bash
+	$ sudo apt install python3-dev libpq-dev build-essential 
+	$ pip install psycopg2
+	```
+	* `psycopg2`는 파이썬과 PostgresSQL 데이터베이스를 연결하는 인터페이스
+* `settings.py`
+	```python
+	DATABASES = { 
+	'default': { 
+		'ENGINE': 'django.db.backends.postgresql', 
+		'NAME': 'dbname', 
+		'HOST': 'localhost', 
+		'PORT': '5432', 
+		'USER': 'username', 
+		'PASSWORD': 'password', 
+		} 
+	}
+	```
+* `bash`
+	```bash
+	$ python manage.py migrate
+	```
+
+<br>
+
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP 2. Show Model Data
 
 * `bash`
 
@@ -31,11 +108,15 @@ nav_order: 10
         print(user.email, user.email_domain)  
   ```
 
-## STEP 2. Show SQLite3 Data
+<br>
 
-### Step 2-1. VSCode "SQLite Viewer" Extension
+<!------------------------------------ STEP ------------------------------------>
 
-### Step 2-2. Djagno Database Shell
+## STEP 3. Show SQLite3 Data
+
+### Step 3-1. VSCode "SQLite Viewer" Extension
+
+### Step 3-2. Djagno Database Shell
 
 * `bash`
 
