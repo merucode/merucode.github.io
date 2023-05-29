@@ -1009,7 +1009,7 @@ nav_order: 9
 				class Meta: 
 					model = Review 
 					fields = ['id', 'movie', 'username', 'star', 'comment', 'created']
-			``` 
+			```
 
 * **Nested Serializer** : 관련된 객체의 모든 정보(필드)를 직렬화
 	*  `MovieSerializer`에  `Review`  정보 추가하기
@@ -1039,9 +1039,10 @@ nav_order: 9
 				class Meta: 
 					model = Review 
 					fields = ['id', 'movie', 'username', 'star', 'comment', 'created']
-			```	
+			```
 
   
+
 <br>
 
 <!------------------------------------ STEP ------------------------------------>
@@ -1052,7 +1053,7 @@ nav_order: 9
 
 |Request|Response|
 |---|---|
-|[img](https://www.codeit.kr/learn/5847)||
+|![image-20230529144053446](./../../../images/menu4-sub3-sub2-drf-basic/image-20230529144053446.png)|![image-20230529144059966](./../../../images/menu4-sub3-sub2-drf-basic/image-20230529144059966.png)|
 
 ### Step 3-2. Class View : Read, Create
 
@@ -1262,7 +1263,7 @@ nav_order: 9
 		class MovieListAPIView(ListAPIView): 
 			queryset = Movie.objects.all() 
 			serializer_class = MovieSerializer
-		```
+	```
 	* `lookup_field`와 `lookup_url_kwarg`
 		* `lookup_field`은	위에서 정의한 `queryset`에서 특정 객체를 찾을 때 어떤 필드를 기준으로 할지 정해줌
 		* `lookup_url_kwarg`은 URL로부터 받아오는 변수명을 지정
@@ -1343,7 +1344,7 @@ nav_order: 9
 
 	|URL|Origin|
 	|---|---|
-	|[img](https://www.codeit.kr/learn/5858)||
+	|![image-20230529144009359](./../../../images/menu4-sub3-sub2-drf-basic/image-20230529144009359.png)|![image-20230529144015386](./../../../images/menu4-sub3-sub2-drf-basic/image-20230529144015386.png)|
 	
 * **DRF에서 CORS 처리하기**
 	* `bash`
@@ -1367,8 +1368,7 @@ nav_order: 9
 	  'http://localhost:3000', 
 	  ]
 		```
-	*`CORS_ALLOWED_ORIGINS` 목록에 API 요청을 허용하고 싶은 출처(예를 들어 `http://localhost:3000`)를 입력
-
+		*`CORS_ALLOWED_ORIGINS` 목록에 API 요청을 허용하고 싶은 출처(예를 들어 `http://localhost:3000`)를 입력
 
 
 

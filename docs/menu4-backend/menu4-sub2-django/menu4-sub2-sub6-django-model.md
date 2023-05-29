@@ -599,7 +599,8 @@ python manage.py showmigrations coplate # show only app
 		<model>.objects.order_by(...)		# OK
 		```
 * **Reverse Relationship**
-	[04:07](https://www.codeit.kr/learn/5237)
+	![image-20230529144403981](./../../../images/menu4-sub2-sub6-django-model/image-20230529144403981.png)
+	
 	```python
 	for comment in review.comment_set: # ERROR
 	# 숨겨진 쿼리셋을 그대로 사용할 수 없음
@@ -609,7 +610,8 @@ python manage.py showmigrations coplate # show only app
 	print(review.comment_set.count()) 		 # OK
 	```
 * **Implement Reverse Relationship**
-	[img](https://www.codeit.kr/learn/5241)
+	![image-20230529144341447](./../../../images/menu4-sub2-sub6-django-model/image-20230529144341447.png)
+	
 	* 역관계 오브젝트가 하나
 		* `OneToOneField` : `<model_name>`
 		* Manager가 아닌 오브젝트 리턴 : CRUD 연산 불필요
@@ -617,12 +619,13 @@ python manage.py showmigrations coplate # show only app
 	* 역관계 오브젝트가 여러 개
 		* `ForeignKey`, `ManyToManyField` : `<<model_name>_set>`
 		* Manager 리턴 : CRUD 연산 필요
-
+	
 * **Example Reverse Relationship(`related_name`)**
-	[img](https://www.codeit.kr/learn/5241)
+	![image-20230529144328862](./../../../images/menu4-sub2-sub6-django-model/image-20230529144328862.png)
+	
 	* `related_name`옵션 : 디폴트 역관계 이름 말고 다른사용
 	* `related_name='+'` : 역관계 사용안함
-
+	
 * **Rever Releationship(Generic)**
 	* `GenericForeignKey`는 자동으로 역관계를 만들어 주지 않기 때문에 직접 역관계를 만들어 줘야 하는데요. 연결된 모델에 `GenericRelation` 필드를 추가
 	* `models.py`
@@ -657,7 +660,7 @@ python manage.py showmigrations coplate # show only app
 		```
 		* 반대쪽 (제네릭 관계가 참조하는) 모델에 `GenericRelation` 필	드를 정의하면 `on_delete=CASCADE` 효과
 	* **Diagram with Relationships added**
-		[8:15](https://www.codeit.kr/learn/5238)
+		![image-20230529144218763](./../../../images/menu4-sub2-sub6-django-model/image-20230529144218763.png)
 
 ### Step 4-2. Example Relationship
 
@@ -699,11 +702,11 @@ python manage.py showmigrations coplate # show only app
 	# 어떤 `company`가 제조하는 모든 물품을 출력
 	for product in company.products.all():
 		print(product.name)
-
+	
 	# 어떤 `collection`에 달려있는 태그를 모두 출력
 	for tag in collection.tags.all(): 
 		print(tag.name)
-
+	
 	# 어떤 `tag`가 속해있는 오브젝트의 이름을 출력
 	print(tag.tagged_item.name)
 	```
@@ -728,14 +731,14 @@ python manage.py showmigrations coplate # show only app
 		
 		# jonghoon이라는 유저가 작성한 리뷰에 달린 코멘트들 필터
 		Comment.objects.filter(review__author__nickname='jonghoon')
-
+		
 		# id 1을 가진 유저를 팔로우 하는 유저들 필터
 		User.objects.filter(following__id=1)
 		
 		# '코스버거' 레스토랑에 대한 리뷰를 작성한 유저들 필터
 		User.objects.filter(reviews__restaurant_name='코스버거')
 		```
-		
+	
 * **GenericForeignKey**
 	* `GenericForeignKey`로는 필터를 할 수가 없음
 	* `related_query_name` 설정 필요(오브젝트 접근시 사용 불가), `migrate` 불필요
@@ -771,7 +774,7 @@ python manage.py showmigrations coplate # show only app
 	comment = Comment.objects.create(content="안녕하세요", author_id=1, review_id=1)
 	# review_id=2 대신 review=review2 사용 가능
 	# 필터 조건과 다르게 언더바 하나 사용
-
+	
 	# UPDATE
 	comment.author_id = 2 # Update author field
 	comment.review_id = 2 # Update review field
@@ -782,10 +785,10 @@ python manage.py showmigrations coplate # show only app
 	# .add()
 	user1.following.add(user2, user3, user4) # 유저 오브젝트들 넘겨주기 
 	user1.following.add(2, 3, 4) # id들 넘겨주기
-
+	
 	# .remove()
 	user1.following.remove(2, 3, 5)
-
+	
 	# 역관계
 	user1.followers.add(2, 4)
 	user1.followers.remove(2)
@@ -800,7 +803,7 @@ python manage.py showmigrations coplate # show only app
 	# obj1는 review 또는 comment(object 자체에서 ContentType과 id 파악 가능)
 	like = Like.objects.create(user=user, liked_object_id=1) # ERROR
 	# ContentType 파악 불가로 에러 발생
-
+	
 	# UPDATE
 	like.content_type_id = 2 
 	like.object_id = 2 
@@ -819,29 +822,29 @@ python manage.py showmigrations coplate # show only app
 ### Step 4-5. Template using relationship
 
 * **Example**
-	[img](https://www.codeit.kr/learn/5249)
+	![image-20230529144145971](./../../../images/menu4-sub2-sub6-django-model/image-20230529144145971.png)
+	
 	```python
 	# 게시글 좋아요 개수
 	[[ post.likes.count ]]
-
+	
 	# 게시글 댓글 갯수
 	[[ post.comments.count ]]
-
+	
 	# 게시글 댓글들
 	[% for comment in post.comments.all %]
-
+	
 	# 댓글 작성자의 프로필 페이지 URL
 	<a href="[% url 'profile' comment.author.id %]">
-
+	
 	# 댓글 좋아요 갯수
 	[[ comment.likes.count ]]
-
+	
 	# 현재 유저가 댓글 작성자일 경우
 	[% if user == comments.author %]
 	```
-
+	
 * template에서 직접적으로 `.object` 혹은 '`filter` 사용 안됨
 	* 사용하기 위해서는 `views.py`에서 연산해서 template에 넘겨줘야
   
-
-  
+	
