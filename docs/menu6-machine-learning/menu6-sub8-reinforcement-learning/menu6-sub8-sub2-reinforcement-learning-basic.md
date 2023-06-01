@@ -1,9 +1,5 @@
 ---
-layout: default
-title: Reinforcement Learning Basic
-parent: Reinforcement Leaning
-grand_parent: Machine Leaning
-nav_order: 2
+
 ---
 
 # Reinforcement Learning Basic
@@ -214,7 +210,7 @@ nav_order: 2
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 4. Don't Know MDP, and Small Problem(Predict)
+## STEP 4. Don't Know MDP, and Small Problem : Prediction
 
 ### Step 4-1. Preview
 
@@ -222,8 +218,6 @@ nav_order: 2
 
   1. MonteCarlo Method
   2. Temporal difference
-
-* **Control**
 
 * **model(model of enviromnet)** : 액션에 대하여 환경이 어떻게 응답할지 예측하는 모든 것
 
@@ -282,7 +276,7 @@ nav_order: 2
   2. agent
   3. experience part
   4. learning part
-* [code url]([study_ML/ch4_MCLearning.ipynb at master · merucode/study_ML · GitHub](https://github.com/merucode/study_ML/blob/master/RL/basic/ch4_MCLearning.ipynb))
+* [code url](https://github.com/merucode/study_ML/blob/master/RL/basic/ch4_MCLearning.ipynb)
 
 
 
@@ -312,7 +306,7 @@ nav_order: 2
 
 ### Step 4-5. Implement TD Leaning
 
-* [code url]([study_ML/ch4_TDLearning.ipynb at master · merucode/study_ML · GitHub](https://github.com/merucode/study_ML/blob/master/RL/basic/ch4_TDLearning.ipynb))
+* [code url](https://github.com/merucode/study_ML/blob/master/RL/basic/ch4_TDLearning.ipynb)
 
 
 
@@ -349,3 +343,412 @@ nav_order: 2
   * N = T(end point) → MC
 
     <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602025105313.png" alt="image-20230602025105313" style="zoom: 67%;" />
+
+
+
+<br>
+
+
+
+<!------------------------------------ STEP ------------------------------------>
+
+### 초안 작성
+
+## STEP 5. Don't Know MDP, and Small Problem : Control
+
+### Step 5-1. Preview
+
+* **Control**
+  1. MC Control
+  2. TD Control : SARSA
+  3. Q Leaning
+
+
+
+### Step 5-2. MC Control
+
+* We want to use **Policy interation** but **don't know MDP(r<sub>S</sub><sup>a</sup>, P<sub>ss'</sub><sup>a</sup>)**
+
+  * don't know **r<sub>S</sub><sup>a</sup>**  → don't select 𝝅<sub>greedy</sub>
+  * don't know **P<sub>ss'</sub><sup>a</sup>** → don't select action(don't know result of action)
+
+* **Solution**
+
+  1. Policy evaluation : MC Learning
+
+  2. Policy improvement : use Q instead of V
+
+     | V                                                            | Q                                                            |
+     | ------------------------------------------------------------ | ------------------------------------------------------------ |
+     | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602032625474.png" alt="image-20230602032625474" style="zoom:67%;" /> | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602032545261.png" alt="image-20230602032545261" style="zoom:67%;" /> |
+     |                                                              | Need q(s,a) value to use MC                                  |
+
+  3. exploration
+
+     * 무조건 한 방향만 Action 시 더 좋은 value를 놓칠 수 있음
+
+     * Introduce **ε-greed**(decay)
+
+       <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602032851236.png" alt="image-20230602032851236" style="zoom:80%;" />
+
+       * decay : 초기 높은 ε, 후기 낮은 일정 ε
+
+* **MC Control**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602032958062.png" alt="image-20230602032958062" style="zoom:67%;" />
+
+
+
+### Step 5-3. Implement MC Control
+
+* **Example**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602033510256.png" alt="image-20230602033510256" style="zoom:67%;" />
+
+* [code url]
+
+
+
+### Step 5-4. TD Control : SARSA
+
+* **Policy evaluation : using TD instead of MD**
+
+  * It's help to **update not end of episode but end of step**
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602034929327.png" alt="image-20230602034929327" style="zoom:67%;" />
+
+* **SARSA**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602035015216.png" alt="image-20230602035015216" style="zoom:67%;" />
+
+  * **TD Target**
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602035151685.png" alt="image-20230602035151685" style="zoom:80%;" />
+
+    * **기대값 안의 수식 Sampling → 실제 기대값에 가까워짐**
+
+  * **SARSA**
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602035213985.png" alt="image-20230602035213985" style="zoom:80%;" />
+
+
+
+### Step 5-5. Implement TD Contorl : SARSA
+
+* [code_url]
+
+
+
+### Step 5-6. TD Contorl : Q Learning
+
+* **On/Off Policy**
+  * on-policy : same **target policy** and **behavior policy**
+  * off-policy : different **target policy** and **behavior policy**
+
+* **Target/Behavior Policy**
+
+  * target policy : 강화하고자 하는 목표가 되는 정책
+  * behavior policy : 실제 환경과 상호작용하여 경험을 쌓는 정책
+
+* **Off Policy Adventage**
+
+  1. reuse past experience
+  2. learning from data of person
+     * system learn from (s, a, r, s') data
+  3. 1:N or N:1 learning is possible
+
+* **Theory Background**
+
+  - From bellman optimality equation
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602040912800.png" alt="image-20230602040912800" style="zoom: 67%;" />
+
+    - If we know **q<sub>*</sub>**, optimal policy is below(just move to highest **q<sub>*</sub> action**)
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602041116527.png" alt="image-20230602041116527" style="zoom:67%;" />
+
+    * **Q에 대하여 greed policy**
+
+  - So, our purpose is getting **q<sub>*</sub>**
+
+    * From bellman optimality equation(step 0)
+
+      <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602041418605.png" alt="image-20230602041418605" style="zoom:67%;" />
+
+    * Replace E with sampling value
+
+* **Compare SARSA and Q-Learning**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602041624145.png" alt="image-20230602041624145" style="zoom:67%;" />
+
+  | Items           | SARSA                                                        | Q-Learning                                                   |
+  | --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | Behavior Policy | Q에 대해<br>ε-greedy                                         | Q에 대해<br/>ε-greedy                                        |
+  | Target Policy   | Q에 대해<br/>ε-greedy                                        | Q에 대해<br/>greedy                                          |
+  | Policy          | on                                                           | off<br>Difference Behavior and Target policy                 |
+  | Theory          | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602042239508.png" alt="image-20230602042239508" style="zoom:67%;" /><br>Bellman Expectaion | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602042251835.png" alt="image-20230602042251835" style="zoom:67%;" /><Br>Bellman Optimality |
+  | Difference      | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602042328635.png" alt="image-20230602042328635" style="zoom:80%;" /> | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602042335110.png" alt="image-20230602042335110" style="zoom:80%;" /><br>𝝅 only greedy select for Q |
+  | Note            |                                                              | 𝝅<sub>*</sub> is dependent on environment(q)                 |
+
+
+
+### Step 5-6. Implement Q-Learning
+
+* [code url]
+
+
+
+<br>
+
+
+
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP 6. Deep RL
+
+### Step 6-1. Function to save data
+
+* To solve large scale problem 
+  * We use deep RL(Deep Learning + Reinforce Learning)
+* Don't use tabular method to solve problem have to many state(바둑, continuous state space problem ...)
+  * Introduce function to save data
+* **Function Generalization**
+  * **Make general function for state/action data express using parameters(w or theta)**
+  * Small storage to save results of learning
+  * Use deep learning to find general function
+
+
+
+### Step 6-2. Implement Function Generalization
+
+* **Example**
+
+  * get data from below function and make general function
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602044713357.png" alt="image-20230602044713357" style="zoom:67%;" />
+
+* [code url]
+
+
+
+
+
+<br>
+
+##  여기부터 빠르게 진행 복습 필요
+
+<!------------------------------------ STEP ------------------------------------>
+
+## STEP 7. Model free, Large state/action space
+
+### Step 7-1 Preview
+
+* **Deep ML**
+
+  1. Value based : v<sub>𝝅</sub>(s), q<sub>𝝅</sub>(s,a) → neural net
+  2. Policy Based : 𝝅(a`|`s) → neural net
+
+* **RL Agent**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602050605538.png" alt="image-20230602050605538" style="zoom:67%;" />
+
+  1. value based
+     * Select action from value(q(s,a))
+     * SARSA, Q-Learning
+     * When select action, **only greedy select high q(s,a)**
+       * So, don't need 𝝅(a`|`s) and **q(s,a)** is rule of 𝝅
+  2. policy based
+     * Select action from 𝝅(a`|`s)
+     * When select action, **only use 𝝅**. So, don't need value, evaluation function
+  3.  Actor-Critic
+     * Select action from both value and policy
+       * Actor : 𝝅
+       * Critic : v(s) or q(s,a)
+
+* **value based**
+  * 𝝅가 고정되었을 떄, 𝝅의 가치함수 v<sub>𝝅</sub>(s)를 학습
+  * value network
+    * θ is neural net parameters
+    * purpose : learning proper θ, v<sub>θ</sub>(s) get proper vale per states
+
+
+
+## Step 7-2. Learn Value Network
+
+* Value network of v<sub>θ</sub>(s)(𝝅 고정)
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602051537290.png" alt="image-20230602051537290" style="zoom:50%;" />
+
+* **Loss function**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602051650244.png" alt="image-20230602051650244" style="zoom:67%;" />
+
+  * 위 식은, 어떤 s에 대한 것인지가 없음
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602051750947.png" alt="image-20230602051750947" style="zoom:67%;" />
+
+  * 𝝅에 의한 sampling 통해 기대값을 근사적으로 계산 가능, 
+
+  * gradient 수행하면(상수 생략)
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602051915991.png" alt="image-20230602051915991" style="zoom:67%;" />
+
+  * 𝝅에 의해 상태 s에 들어갈 경우
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602052018759.png" alt="image-20230602052018759" style="zoom:67%;" />
+
+  * 위 식 하나로만은 성립하지 않으나, Sampling을 통해 수많은 값으로 우변 평균을 내면 좌변에 근사하게 됨
+
+  * θ Update
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602052149815.png" alt="image-20230602052149815" style="zoom:67%;" />
+
+  * Sampling 및 gradient descent 의해 v<sub>θ</sub>(s)는 v<sub>true</sub>(s)에 근사하게 됨
+
+* **But, we don't know  v<sub>true</sub>(s)**
+
+  * To get  v<sub>true</sub>(s)
+    1. MC return
+    2. TD target
+
+
+
+### Step 7-3 MC Return
+
+* **MC return**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602052521771.png" alt="image-20230602052521771" style="zoom:67%;" />
+
+  * G<sub>t</sub> 사용 가능한 이유는 실제 가치함수 정의가 G<sub>t</sub>의 기대값이기 때문에(G<sub>t</sub> = v<sub>ture</sub>(s<sub>t</sub>))
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602052542477.png" alt="image-20230602052542477" style="zoom:67%;" />
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602052554342.png" alt="image-20230602052554342" style="zoom:67%;" />
+
+
+
+### Step 7-4. TD Target
+
+* Introduce TD target instead of G<sub>t</sub>
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602052845953.png" alt="image-20230602052845953" style="zoom:67%;" />
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602052857615.png" alt="image-20230602052857615" style="zoom:67%;" />
+
+* TD target is 상수 not function of θ → θ 편미분시 TD target 항 0
+  * 만약 상수 취급 안한다면 TD target(추측 정답값)도 변하게 되어 모델 안전성이 떨어짐
+
+
+
+### Step 7-5. Deep Q learning
+
+* Value based agent don't have **explicit policy(𝝅)**
+  * 𝝅 is not exist
+  * act for greedy at q(s,a) → **implicit policy q(s,a)**
+
+* **Theory Background**
+
+  * From Bellman optimality Equation
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602053402193.png" alt="image-20230602053402193" style="zoom:67%;" />
+
+    * 추측 정답인 TD target 과 추측인 Q(s,a) 사이 차이를 줄이는 방향으로 업데이트
+
+  * Loss function
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602053505409.png" alt="image-20230602053505409" style="zoom:67%;" />
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602053534497.png" alt="image-20230602053534497" style="zoom:67%;" />
+
+    * 정답 Q<sub>*</sub>과 Q<sub>θ</sub> 차이를 줄이는 방향으로 업데이트
+
+  * use mini-batch instead of E
+
+* **Deep Q Learning : pseudo code**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602053818494.png" alt="image-20230602053818494" style="zoom:67%;" />
+
+  * 3-A real act(Behavior policy : eps-greedy)
+
+  * 3-C is not real action but operate to calculate TD value(Target policy : greedy)
+
+  * off-policy
+
+  * When Implement we just define L(θ). don't need gradient of L(θ)
+
+    * optimizer and 역전파가 알아서 계산 수행해줌
+
+      <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602054440045.png" alt="image-20230602054440045" style="zoom:67%;" />
+
+
+
+### Step 7-6. Implement DQN
+
+* **Experience Replay**
+
+  * episode is consist of many transitions(one transition = e<sub>t</sub>)
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602054718490.png" alt="image-20230602054718490" style="zoom:67%;" />
+
+  * use replay buffer to **reuse transition**
+
+    * If save new data, delete oldest data
+
+    * mini-batch extract data from replay buffer
+
+      * mini-batch is consist of not continuous data. It's mean they are small correalation
+
+        → help to improve performance
+
+  * only use to off-policy algorithm
+
+* **Target Network**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602055229039.png" alt="image-20230602055229039" style="zoom:80%;" />
+
+  * Q-Learning 정답
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602055312486.png" alt="image-20230602055312486" style="zoom:80%;" />
+
+    * θ에 대한 함수이므로 θ가 변하면 변하게 됨
+    * 일정 시간 freezing 시키는 θ<sub>i</sub><sup>-</sup> 도입
+
+  * **Target and Q network**
+
+    * Target network : Calculate answer, freezing θ<sub>i</sub><sup>-</sup>
+    * Q network :  Learning, θ updated, 일정 주기마다 θ → θ<sub>i</sub><sup>-</sup>
+
+
+
+
+
+<br>
+
+
+
+<!------------------------------------ STEP ------------------------------------>
+
+
+
+https://github.com/seungeunrho/RLfrombasics/blob/master/ch8_DQN.py
+
+<br>
+
+
+
+<!------------------------------------ STEP ------------------------------------>
+
+
+
+
+
+<br>
+
+
+
+<!------------------------------------ STEP ------------------------------------>
+
+
+
+
+
