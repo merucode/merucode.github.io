@@ -144,19 +144,19 @@ nav_order: 2
 
 
 
-### Step 3-2. Prediction : Iterative Policy Evaluation
+### Step 3-2. Prediction : Iterative Policy Evaluation(𝝅 given)
 
 * **Method**
 
   1. Initialize table
 
-  2. Update on state
+  2. Update one state
 
      <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230531023832922.png" alt="image-20230531023832922" style="zoom:67%;" />
 
      * 무의미한 값에 실제 값이 섞여 반복에 의해 실제 값에 가까워 짐
 
-     * ex) 𝝅(동서남북|s) = 0.25, r = -1, P = 1, 초기 value = 0
+     * ex) 𝝅(동서남북`|`s) = 0.25, r = -1, P = 1, 초기 value = 0
 
        <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230531023934269.png" alt="image-20230531023934269" style="zoom:50%;" />
 
@@ -214,7 +214,7 @@ nav_order: 2
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 4. Don't Know MDP, and Small Problem
+## STEP 4. Don't Know MDP, and Small Problem(Predict)
 
 ### Step 4-1. Preview
 
@@ -231,11 +231,11 @@ nav_order: 2
 
   <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230531030203345.png" alt="image-20230531030203345" style="zoom:50%;" />
 
-  * We know r=-1, P=1, but system don't know about r, P
+  * We know r=-1, P=1, but **system don't know about r, P**
 
 
 
-### Step 4-2. MonteCarlo Method
+### Step 4-2. MC(MonteCarlo) Learning
 
 * Get value from **many sampling**
 
@@ -263,22 +263,89 @@ nav_order: 2
 
 * **Version of partial update**
 
+  * Above method is need **many episode to update v<sub>𝝅</sub>**(Because it need average)
+    * Below expression is need only **one episode finishing to update  v<sub>𝝅</sub>**
+    * Don't need to save N(s<sub>t</sub>)
+
+  
   <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230531031043039.png" alt="image-20230531031043039" style="zoom:67%;" />
-
+  
   <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230531031114200.png" alt="image-20230531031114200" style="zoom:67%;" />
-
-  * Don't need to save N(s<sub>t</sub>)
-
+  
 
 
-### Step 4-3. Implement MonteCalro Method
+
+### Step 4-3. Implement MonteCalro Learning
 
 * 4 things needed for implement 
   1. environment
   2. agent
   3. experience part
   4. learning part
-* [code url](https://github.com/merucode/study_ml/blob/master/reinforcement/basic/ch1_montecarlo/Untitled.ipynb)
+* [code url]([study_ML/ch4_MCLearning.ipynb at master · merucode/study_ML · GitHub](https://github.com/merucode/study_ML/blob/master/RL/basic/ch4_MCLearning.ipynb))
 
 
 
+### Step 4-4. TD(Temporal Difference) Learning
+
+* **MC and TD**
+
+  | Items        | MC                                                           | TD                                                           |
+  | ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | Update point | One episode finish                                           | **After operate step**<br>Don't need to finish episode       |
+  | Theory       | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602021630218.png" alt="image-20230602021630218" style="zoom:67%;" /> | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602021653149.png" alt="image-20230602021653149" style="zoom:67%;" /> |
+  | Note         | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602021714113.png" alt="image-20230602021714113" style="zoom:67%;" /> |                                                              |
+
+* **TD target**
+  * r<sub>t+1</sub> +γ v<sub>𝝅</sub>(s<sub>t+1</sub>) 을 여러번 sampling 하여 평균을 내면 v<sub>𝝅</sub>(s<sub>t</sub>) 에 수렴
+  * 즉, **r<sub>t+1</sub> +γ v<sub>𝝅</sub>(s<sub>t+1</sub>)** 는 우리의 목표(정답)가 되는 값이기 때문에 **TD target**
+
+* **TD Learning Algorithm**
+
+  <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602021856194.png" alt="image-20230602021856194" style="zoom:67%;" />
+
+  * ex> s<sub>0</sub> → s<sub>1</sub> →  s<sub>2</sub> →  ...  s<sub>11</sub> →  종료
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602021927693.png" alt="image-20230602021927693" style="zoom:50%;" />
+
+
+
+### Step 4-5. Implement TD Leaning
+
+* [code url]([study_ML/ch4_TDLearning.ipynb at master · merucode/study_ML · GitHub](https://github.com/merucode/study_ML/blob/master/RL/basic/ch4_TDLearning.ipynb))
+
+
+
+### Step 4-6. MC vs TD
+
+* **Compare MC and TD**
+
+  | Items    | MC                                                           | TD                                                           |
+  | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | Leaning  | Episodic MDP<br>(종료상태가 있는 것)                         | Episodic MDP<br>Non-Episodic MDP                             |
+  | Bias     | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602021630218.png" alt="image-20230602021630218" style="zoom:67%;" /><br>**unbiased** | <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602021653149.png" alt="image-20230602021653149" style="zoom:67%;" /><br>**biased** |
+  | Variance | 서울시청 → 강릉<br>변동성 큼(작은 **α**)                     | 서울시청 → 앞 편의점<br>변동성 낮음(큰 **α**)                |
+
+* **Reason that TD is biased**
+
+  * **r<sub>t+1</sub> +γ v<sub>𝝅</sub>(s<sub>t+1</sub>)**(실제 TD target) is **unbiased**
+
+  * **r<sub>t+1</sub> +γ V(s<sub>t+1</sub>)**(우리가 사용하는 TD target) is **baised**
+
+    * TD에서는 실제 값(**v<sub>𝝅</sub>**)모름으로 추측 값(**V**)을 정답으로 사용하여 update 수행
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602024721754.png" alt="image-20230602024721754" style="zoom: 67%;" />
+
+​	
+
+### Step 4-7. n Step MDP
+
+* **Relation between MC and TD**
+
+  * N step TD target
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602024943233.png" alt="image-20230602024943233" style="zoom:67%;" />
+
+  * N = T(end point) → MC
+
+    <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602025105313.png" alt="image-20230602025105313" style="zoom: 67%;" />
