@@ -115,7 +115,7 @@ nav_order: 2
 
   <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230531022427461.png" alt="image-20230531022427461" style="zoom:67%;" />
 
-  *  𝝅(a|s) → max<sub>a</sub>
+  *  𝝅(a`|`s) → max<sub>a</sub>
     * **Bellman Expectation Equation** : 2 stochastic factor(P, 𝝅)
       * use to evaluate 𝝅
     * **Bellman Optimality Equation** : 1 stochastic factor(P)
