@@ -1,5 +1,9 @@
 ---
-
+layout: default
+title: Basic
+parent: Reinforcement Learning
+grand_parent: Machine Leaning
+nav_order: 2
 ---
 
 # Reinforcement Learning Basic
