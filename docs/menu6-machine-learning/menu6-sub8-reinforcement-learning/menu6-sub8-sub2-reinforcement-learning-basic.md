@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Basic
+title: Reinforcement Learning Basic
 parent: Reinforcement Learning
 grand_parent: Machine Leaning
 nav_order: 2
@@ -115,6 +115,8 @@ nav_order: 2
 
   <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230531022427461.png" alt="image-20230531022427461" style="zoom:67%;" />
 
+  *  Reason that is not max operator in front of q(s,a) equation
+    *   우리가 평가하려는 a에 대한 value에서 a는 항상 최선의 행동을 의미하지는 않기 때문에 max 연산자가 앞에 붙지 않음
   *  𝝅(a`|`s) → max<sub>a</sub>
     * **Bellman Expectation Equation** : 2 stochastic factor(P, 𝝅)
       * use to evaluate 𝝅
