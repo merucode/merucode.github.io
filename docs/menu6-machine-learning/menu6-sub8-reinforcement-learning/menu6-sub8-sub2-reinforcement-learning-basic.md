@@ -411,7 +411,7 @@ nav_order: 2
 
   <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602033510256.png" alt="image-20230602033510256" style="zoom:67%;" />
 
-* [code url]
+* [code url](https://github.com/merucode/study_ML/blob/master/RL/basic/ch5_MCContorl.ipynb)
 
 
 
@@ -441,7 +441,7 @@ nav_order: 2
 
 ### Step 5-5. Implement TD Contorl : SARSA
 
-* [code_url]
+* [code_url](https://github.com/merucode/study_ML/blob/master/RL/basic/ch5_SARSA.ipynb)
 
 
 
@@ -500,7 +500,7 @@ nav_order: 2
 
 ### Step 5-6. Implement Q-Learning
 
-* [code url]
+* [code url](https://github.com/merucode/study_ML/blob/master/RL/basic/ch5_QLearning.ipynb)
 
 
 
@@ -533,10 +533,7 @@ nav_order: 2
 
     <img src="./../../../images/menu6-sub8-sub2-reinforcement-learning-basic/image-20230602044713357.png" alt="image-20230602044713357" style="zoom:67%;" />
 
-* [code url]
-
-
-
+* [code url](https://github.com/merucode/study_ML/blob/master/RL/basic/ch6_Fitting.ipynb)
 
 
 <br>
@@ -575,7 +572,7 @@ nav_order: 2
   * 𝝅가 고정되었을 떄, 𝝅의 가치함수 v<sub>𝝅</sub>(s)를 학습
   * value network
     * θ is neural net parameters
-    * purpose : learning proper θ, v<sub>θ</sub>(s) get proper vale per states
+    * purpose : learning proper θ, to v<sub>θ</sub>(s) get proper value per states
 
 
 
@@ -725,7 +722,7 @@ nav_order: 2
     * Q network :  Learning, θ updated, 일정 주기마다 θ → θ<sub>i</sub><sup>-</sup>
 
 
-
+* [code url](https://github.com/merucode/study_ML/blob/master/RL/basic/ch7_DQN.ipynb)
 
 
 <br>
