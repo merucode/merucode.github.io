@@ -19,6 +19,8 @@ nav_order: 2
 </details>
 <!------------------------------------ STEP ------------------------------------>
 
+* https://github.com/seungeunrho/RLfrombasics/blob/master/ch8_DQN.py
+
 ## STEP 1. MDP(Markov Decision Process)
 
 ### Step 1-1. MDP
@@ -542,7 +544,7 @@ nav_order: 2
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 7. Model free, Large state/action space
+## STEP 7. Value Based Agent: Model free, Large state/action space
 
 ### Step 7-1 Preview
 
@@ -728,12 +730,145 @@ nav_order: 2
 <br>
 
 
-
 <!------------------------------------ STEP ------------------------------------>
 
+## STEP 8. Policy Based Agent: Model free, Large state/action space
+### Step 8-1.  Preview
+* **Value based Agent : Deterministic**
+	* 모든 상태 s에 대해 각 상태에서 선택하는 액션이 변하지 않음
+	* Q값에 따라 가장 높은 액션을 선택하지만 학습이 끝났다면 Q값은 고정
+	* 가위, 바위, 보에서 하나의 액션 밖에 선택하지 못함 → **Stochastic policy(𝝅) 필요**
+*  **Policy based**
+	* 𝝅<sub>θ</sub>(s,a)를 학습
+	* θ is neural net parameters
+	* purpose : learning proper θ, to reinforece  𝝅<sub>θ</sub>(s,a)
 
+### Step 8-2. 목적 함수 J(θ)
+* **What is loss function of 𝝅<sub>θ</sub>(s,a)?**
+	* We don't know answer of 𝝅<sub>θ</sub>(s,a)
+	* If we know 𝝅<sub>θ</sub>(s,a), It is 𝝅<sub>*</sub>(s,a), and we don't need to solve problem
+* **Introduce J(θ)**
+	* [img 219]
+	* Evaluate 𝝅<sub>θ</sub>(s,a)
+	* Input : 𝝅<sub>θ</sub>(can be expressed only using θ) → θ
+	* output : score
+	* 좋은 정책 → 보상합 큰 정책 → 𝝅가 고정이라도 다른 상태에서는 다른 보상 → 기대값 사용
+	* 기대값 → 가치함수로 표현 가능
+	
+	|s<sub>o</sub> 고정|s<sub>o</sub> 미고정(일반화)|
+	|---|---|
+	|[img 219]|img 219]|
+	||d(s) 시작상태 s의 확률분포|
+* **gradient ascent**(경사 상승법)
+	* 가장 높은 J(θ) 값을 갖도록 경사 이동
+		[img 220]
 
-https://github.com/seungeunrho/RLfrombasics/blob/master/ch8_DQN.py
+### Step 8-3. 1-Step MDP
+* To easliy undertand. use 1-Step MDP
+	* When we proceed only 1-step, episode finish
+	* We can get s<sub>o</sub>, a, R<sub>s,a</sub>(reward = return) 
+* **J(θ) and gradient**
+	* [img 220]
+	* 직접 계산하기에는 R<sub>s,a</sub>의 값을 모르고 s의 상태가 많음 → 기대값 연산자 사용할 수 있도록 변형
+	* [img 221]
+* 핵심 of policy gradient
+	[img 222]
+	* 위 는  𝝅<sub>θ</sub>(s,a)의 가중치를 곱해서 더해주라는 뜻이고, 이는 곧 기대값 연산자 E<sub> 𝝅<sub>θ</sub></sub>의 정의
+	* 목적 함수에 대한  gradient를 𝝅<sub>θ</sub>(s,a)가 경험한 데이터를 기반으로 계산할 수 있게 해줌
+
+### Step 8-4. 일반 MDP에서의 Policy Gradient
+* **Policy gradient**
+[img 222]
+
+### Step 8-5. REINFORCE Algorithm
+
+* **Theory**
+	[img 223]
+	* use G<sub>t</sub> instead of Q<sub>𝝅<sub>θ</sub></sub>(s,a)
+		[img 223]
+		* G<sub>t</sub> Sampling 시 Q<sub>𝝅<sub>θ</sub></sub>(s,a) 근사
+* **REINFORCE pseudo code**
+	[img 224]
+* 식의 의미
+
+	|항목|식|의미|
+	|---|---|---|
+	|G<sub>t</sub>=+1 or -1|[img 225]|좋은 행동 강화|
+	|G<sub>t</sub>= 100 or 1|[img 225]|나쁜 행동 약화|
+	* ∵ log𝝅<sub>θ</sub>(s,a) 단조증가 함수
+	* [img 225 ~ 226]
+
+### Step 8-5. Implement REINFORCE
+* 주의점(gradient)
+	* [img 226]
+	* Code에서 Loss Function을 정의해주면 optmizer가 이를 최소화 하도록 update(gradient descent)
+	* 앞의 gradient가 나오는 값
+		[img 227]
+	* 우리는 J(θ)가 최대 값(gradient aescent)을 가져야 하므로
+		[img 227]
+	
+* [code url]
+
+<br>
+
+## STEP 9. Actor-Critic
+### Step 9-1. Preview
+* Actor-Critic Method
+	1. Q AC
+	2. Adventage AC
+	3. TD AC
+
+### Step 9-2. Q Actor-Critic
+* **Policy gradient**
+	[img 231]
+*	**Neural Network**
+	1. 𝝅<sub>θ</sub> : Actor(실행할 a 선택)
+	2. Q<sub>w</sub> : Critic(선택된 a 벨류 평가)
+* **Q AC pseudo code**
+	[img 232]
+
+### Step 9-3. Adventage Actor-Critic
+* **Policy gradient**
+	[img 233]
+	* Q(s', a<sub>0</sub>)과 Q(s', a<sub>1</sub>)의 값이 근소하게 차이가 발생할 경우 수많은 샘플을 필요하게 함
+	* 효율적으로 하기 위하여 Adventage 도입
+* **Adventage**
+	* 상태 s에 있는 것보다 액션 a를 실행함으로써 추가로 얼마의 가치를 얻게 되느냐
+		[img 233, 234]
+		* V<sub>𝝅<sub>θ</sub></sub>(s) : baseline(기저)
+* **증명**
+	[img 234]
+	[img 235, 236]
+	* 즉 상태 s에 대한 임의의 함수를 빼줘도 됨(함수가 a에 대한 함수가 아니기만 하면 됨)
+* **Adventage AC policy gradient**
+	[img 237]
+	* 실제 가치 함수를 알 수 없기 때문에 뉴럴넷을 이용하여 근사
+*	**Neural Network**
+	1. 𝝅<sub>θ</sub> : Actor(실행할 a 선택)
+	2. Q<sub>w</sub> : 액션-가치 함수
+	3. V<sub>ϕ</sub> : 가치 함수
+* **Adventage AC pseudo code**
+
+### Step 9-4. TD Actor-Critic
+* **using Adventage AC**, only need to learn **2 Neural Network**
+* **Error δ**
+	[img 238]
+	* δ is **unbiased estimate of A(s,a)**
+	* δ값은 같은 상태  s와 같은 액션 a를 선택해도 상태 전이에 따라 다른 값을 얻게 됨
+	* Sampling 결과는 A(s,a)에 근사함
+* **TD AC policy gradient**
+	[img 239]
+* **TD AC pseudo code**
+	[img 239]
+
+### Step 9-5. Implement TD AC
+
+* [code url]
+
+### Step 9-6. Policy gradient
+
+[img 246]
+
 
 <br>
 
