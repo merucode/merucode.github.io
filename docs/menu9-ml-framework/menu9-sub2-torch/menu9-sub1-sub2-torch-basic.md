@@ -2,7 +2,7 @@
 layout: default
 title: Basic
 parent: Torch
-grand_parent: Kaggle
+grand_parent: ML Framework
 nav_order: 2
 ---
 

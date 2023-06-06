@@ -1,12 +1,10 @@
 ---
 layout: default
-title: menu9
+title: ML Framework
 nav_order: 9
 has_children: true
 ---
 
-# Menu6
+# ML Framework
 {: .no_toc }
 
-Menu6 test
-{: .fs-6 .fw-300 }

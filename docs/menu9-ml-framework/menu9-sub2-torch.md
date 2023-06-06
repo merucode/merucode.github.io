@@ -1,8 +1,8 @@
 ---
 layout: default
 title: Torch
-parent: Kaggle
-nav_order: 3
+parent: ML Framework
+nav_order: 2
 has_children: true
 ---
 
