@@ -300,9 +300,6 @@ model = torch.load('model.pth')
 model.eval()    # 드롭아웃(dropout)과 배치 정규화 층 (batch normalization layers)을 평가(evaluation) 모드로 바꿔줌
 ```
 
-
-```python
-
 * [파이토치 체크포인트 저장하기](https://tutorials.pytorch.kr/recipes/recipes/saving_and_loading_a_general_checkpoint.html)
 
 
