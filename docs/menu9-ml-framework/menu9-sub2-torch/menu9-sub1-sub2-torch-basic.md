@@ -306,6 +306,80 @@ model.eval()    # 드롭아웃(dropout)과 배치 정규화 층 (batch normaliza
 * [파이토치 체크포인트 저장하기](https://tutorials.pytorch.kr/recipes/recipes/saving_and_loading_a_general_checkpoint.html)
 
 
+## STEP 2. Tensor control
+
+```python
+### Tensor
+# |t| = (batch size, width, height) 		# Computer vision
+# |t| = (batch size, length, dim of word) # NLP
+
+### Broadcasting
+
+### Opearator
+t = torch.FloatTensor([[1, 2], [3, 4]])
+print(t.max()) 		# Returns one value: max
+# tensor(4.)
+print(t.max(dim=0)) # Returns two values: max and argmax
+# (tensor([3., 4.]), tensor([1, 1]))
+print('Max: ', t.max(dim=0)[0])
+print('Argmax: ', t.max(dim=0)[1])
+# Max:  tensor([3., 4.])
+# Argmax:  tensor([1, 1])
+print(t.max(dim=1))
+print(t.max(dim=-1))
+# (tensor([2., 4.]), tensor([1, 1]))
+
+### View
+ft.shape
+# torch.Size([2, 2, 3])
+print(ft.view([-1, 3]).shape)  # ft라는 텐서를 (?, 3)의 크기로 변경
+# torch.Size([4, 3])
+print(ft.view([-1, 1, 3]).shape)
+# torch.Size([4, 1, 3])
+
+### squeez - 1인 차원을 제거한다.
+ft = torch.FloatTensor([[0], [1], [2]]) # torch.Size([3, 1])
+ft.squeeze().shape						# torch.Size([3])
+
+### unsqueez - 특정 위치에 1인 차원을 추가
+ft = torch.Tensor([0, 1, 2]) # torch.Size([3])
+# 인덱스가 0부터 시작하므로 0은 첫번째 차원을 의미
+ft.unsqueeze(0).shape		 # torch.Size([1, 3])
+ft.view(1, -1).shape		 # torch.Size([1, 3])
+ft.unsqueeze(1).shape		 # torch.Size([3, 1])
+ft.unsqueeze(-1).shape		 # torch.Size([3, 1])
+
+### Type casting
+
+### concatenate
+x = torch.FloatTensor([[1, 2], [3, 4]])
+y = torch.FloatTensor([[5, 6], [7, 8]])
+torch.cat([x, y], dim=0)  # [4, 2]
+torch.cat([x, y], dim=1)  # [2, 4]
+
+### stacking
+x = torch.FloatTensor([1, 4])
+y = torch.FloatTensor([2, 5])
+z = torch.FloatTensor([3, 6])
+torch.stack([x, y, z])   # [3, 2]
+# = torch.cat([x.unsqueeze(0), y.unsqueeze(0), z.unsqueeze(0)], dim=0)
+torch.stack([x, y, z], dim=1) # [2, 3]
+
+### ones_like, zeros_like
+torch.ones_like(x)  # 입력 텐서와 크기를 동일하게 하면서 값을 1로 채우기
+torch.zeros_like(x) 
+
+### In-place Operation(_)
+x = torch.FloatTensor([[1, 2], [3, 4]])
+x.mul_(2.)
+```
+
+
+
+
+
+
+
 <br>
 
 <br>
