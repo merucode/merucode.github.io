@@ -1,7 +1,7 @@
 ---
 layout: default
-title: DRF
-parent: FastApi
+title: FastApi
+parent: Backend
 nav_order: 4
 has_children: true
 ---
