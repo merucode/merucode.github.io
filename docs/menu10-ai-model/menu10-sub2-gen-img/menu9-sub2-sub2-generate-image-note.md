@@ -13,4 +13,6 @@ nav_order: 2
 
 ### Related Site
 
-* [https://arca.live/b/aiart/70255821](https://arca.live/b/aiart/70255821)
+* [webui](https://arca.live/b/aiart/70255821)
+
+* [mov2mov](https://arca.live/b/aiart/74528475)
