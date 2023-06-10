@@ -86,8 +86,7 @@ nav_order: 9
 	 <h1>{message}</h1>
 	```
 
-* `backend/myapi/main.py`
-	* CORS 예외 URL 등록
+* (**CORS 예외 URL 등록**)`backend/myapi/main.py`
 	```python
 	from fastapi import FastAPI 
 	from starlette.middleware.cors import CORSMiddleware # ADD
@@ -112,6 +111,7 @@ nav_order: 9
 	def hello(): 
 		return {"message": "안녕하세요 파이보"}
 	```
+	
  * Connect to `http://127.0.0.1:3000`
 
 <!------------------------------------ STEP ------------------------------------>
