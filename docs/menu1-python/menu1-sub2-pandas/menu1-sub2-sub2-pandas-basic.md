@@ -3,7 +3,7 @@ layout: default
 title: pandas Basic
 parent: pandas
 grand_parent: Python
-nav_order: 1
+nav_order: 2
 ---
 
 # pandas Basic
@@ -98,6 +98,7 @@ df = pd.read_csv('path/data.csv', index_col='column_name')	# 인덱스 열 지�
 | 하나의 column 이름            | `df.loc[:, "col1"]`                   | `df["col1"]`                   |
 | column 이름의 리스트          | `df.loc[:, ["col4", "col6", "col3"]]` | `df[["col4", "col6", "col3"]]` |
 | column 이름의 리스트 슬라이싱 | `df.loc[:, "col2":"col5"]`            |                                |
+
 * 1 줄 인덱싱의 경우 Series로 반환
 
   
@@ -112,6 +113,7 @@ df = pd.read_csv('path/data.csv', index_col='column_name')	# 인덱스 열 지�
 | 하나의 column 위치            | `df.iloc[:, 3]`         |           |
 | column 위치의 리스트          | `df.iloc[:, [3, 5, 6]]` |           |
 | column 위치의 리스트 슬라이싱 | `df.iloc[:, 3:7]`       |           |
+
 * 1 줄 인덱싱의 경우 Series로 반환
 
   

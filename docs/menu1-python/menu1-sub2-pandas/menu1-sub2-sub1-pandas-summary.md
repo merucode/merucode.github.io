@@ -3,7 +3,7 @@ layout: default
 title: pandas Summary
 parent: pandas
 grand_parent: Python
-nav_order: 2
+nav_order: 1
 ---
 
 # pandas Summary
