@@ -1,7 +1,7 @@
 ---
 layout: default
 title: FastApi Summary
-parent: DRF
+parent: FastApi
 grand_parent: Backend
 nav_order: 9
 ---
