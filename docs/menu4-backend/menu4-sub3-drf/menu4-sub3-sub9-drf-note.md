@@ -9,7 +9,6 @@ nav_order: 9
 # DRF Note
 {: .no_toc }
 
-
 <details open markdown="block">
   <summary>
     Table of contents
