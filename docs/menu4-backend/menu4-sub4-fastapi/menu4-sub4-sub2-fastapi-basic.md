@@ -59,7 +59,7 @@ nav_order: 9
 	
 * `bash`
 	```bash
-	backend/myapi/$ uvicorn main:app --reload
+	backend/myapi/$ uvicorn main:app --host 0.0.0.0 --reload
 	# main:app → main.py의 app객체 의미
 	# --reload → 프로그램 변경 시 서버 재시작 없이 그 내용을 반영
 	```
@@ -180,7 +180,7 @@ nav_order: 9
 	```python
 	from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
 	from sqlalchemy.orm import relationship 
-
+	
 	from database import Base 
 	
 	class Question(Base): 
@@ -190,10 +190,10 @@ nav_order: 9
 		subject = Column(String, nullable=False) 
 		content = Column(Text, nullable=False)
 		create_date = Column(DateTime, nullable=False)
-
+	
 	class Answer(Base):
     	__tablename__ = "answer"
-
+	
     	id = Column(Integer, primary_key=True)
     	content = Column(Text, nullable=False)
     	create_date = Column(DateTime, nullable=False)
@@ -342,7 +342,7 @@ nav_order: 9
 	* 4개의 필수항목으로 구성
 	* 만약 필수항목이 아니게 설정하려면
 		* `subject: str | None = None`
-		
+	
 * (**라우터에 Pydantic 적용**)`myapi/domain/question/question_router.py`
 	```python
 	...
@@ -389,7 +389,7 @@ nav_order: 9
 		_question_list = question_crud.get_question_list(db)  # Update
 		return _question_list
 	```
-<br>
+	<br>
 
 ## STEP 4. 비동기 방식으로 구성하기
 
@@ -444,5 +444,4 @@ nav_order: 9
 			.limit(10)) 
 		return data.all()
 	```
-
 
