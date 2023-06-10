@@ -66,10 +66,9 @@ df.dtypes		 # column 별 데이터 type 확인
 | `category`   | 카테고리        |
 
 
+<!------------------------------------ STEP ------------------------------------>
 
 <br>
-
-
 
 ## STEP 2. DataFrame Data Read
 ### Step 2-1. read_csv
@@ -80,11 +79,9 @@ df = pd.read_csv('path/data.csv', header=None)				# 제목 지정 없음
 df = pd.read_csv('path/data.csv', index_col='column_name')	# 인덱스 열 지정
 ```
 
-
+<!------------------------------------ STEP ------------------------------------>
 
 <br>
-
-
 
 ## STEP 3. DataFrame 인덱싱
 
@@ -116,7 +113,7 @@ df = pd.read_csv('path/data.csv', index_col='column_name')	# 인덱스 열 지�
 
 * 1 줄 인덱싱의 경우 Series로 반환
 
-  
+<!------------------------------------ STEP ------------------------------------>
 
 <br>
 
