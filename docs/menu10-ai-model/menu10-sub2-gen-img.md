@@ -1,6 +1,6 @@
 ---
 layout: default
-title: menu9 sub1
+title: Generate Image
 parent: Ai Model
 nav_order: 2
 has_children: true
