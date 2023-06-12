@@ -12,7 +12,6 @@ nav_order: 2
 
 
 
-
 ### Step. docker-compose에서 Dockerfile -it 모드로 run 하기
 
 * **`docker-compose.yml`**
