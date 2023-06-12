@@ -43,3 +43,12 @@ ing
 ---
 [Avoid redundant data]: https://opentutorials.org/course/3161/19544
 [CloudSQL official site]: https://cloud.google.com/sql/docs/postgres/users?hl=ko
+
+
+
+## STEP 3. AWS lightsail DB
+
+### Step 3-1. pgadmin4 연결
+
+* DB name : `postgres`로 연결 수행
+* `Databases` 항목에서 create db를 통해 개별 database 생성 후 그 db name을 통해 코드와 연결
