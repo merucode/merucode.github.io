@@ -105,6 +105,15 @@ $ rm file1.txt file2.txt
 $ rm -rf dir1
 # r 옵션: 디렉토리 삭제시 사용 
 # f 옵션: 확인하지 않고 바로 삭제
+
+
+### 사용자 관련
+$ whoami            # 현재 유저 확인
+$ sudo su - [user]  # user 전환(환경변수, 기본폴더 불러옴)
+$ sudo su [user]    # user 전환(환경변수 불러오지 않음)
+$ logout            # 전환 전 계정으로 돌아가기
+$ exit              # 전환 전 계정으로 돌아가기
+
 ```
 
 
