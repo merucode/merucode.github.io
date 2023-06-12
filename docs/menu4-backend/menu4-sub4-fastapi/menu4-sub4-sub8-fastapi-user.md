@@ -131,6 +131,7 @@ nav_order: 8
 * `backend/migraions/env.py`
 
 	```python
+  import os
 	...
 	import models	# Add
 	...
@@ -155,7 +156,7 @@ nav_order: 8
 ```bash
 $ docker compose up -d --build
 $ docker exec -it backend /bin/bash
-> cd /migrations
+> cd migrations
 > mkdir versions
 # versions 폴더 미생성 상태에서 revision 수행 시 에러발생
 > cd ..
