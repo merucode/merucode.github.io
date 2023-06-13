@@ -88,8 +88,9 @@ nav_order: 7
 ```bash
 $ docker compose up -d --build
 $ docker exec -it frontend /bin/sh
- /usr/src/app # npm install react-router-dom@6
- /usr/src/app # npm install styled-components@5
+ /usr/src/app # cd myapp
+ /usr/src/app/myapp # npm install react-router-dom@6
+ /usr/src/app/myapp # npm install styled-components@5
 ```
 
 
