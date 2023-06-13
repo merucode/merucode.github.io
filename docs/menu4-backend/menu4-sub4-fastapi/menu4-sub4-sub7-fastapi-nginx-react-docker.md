@@ -1,12 +1,12 @@
 ---
 layout: default
-title: FastApi Nginx Docker
+title: FastApi Nginx React Docker
 parent: FastApi
 grand_parent: Backend
 nav_order: 7
 ---
 
-# FastApi Nginx Docker
+# FastApi Nginx React Docker
 {: .no_toc }
 
 <details open markdown="block">
@@ -39,6 +39,8 @@ nav_order: 7
 ## STEP 2. fastapi-nginx
 
 * [github : fastapi-nginx](https://github.com/merucode/form/tree/master/fastapi-nginx)
+
+<br>
 
 ## STEP 3. fastapi-react-nginx
 

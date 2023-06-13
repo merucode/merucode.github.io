@@ -46,3 +46,6 @@ nav_order: 3
 | 파일 저장 + vim 종료          | 명령 모드(:) → wq! + enter                                   |
 | vim 종료 (내용 저장되지 않음) | 명령 모드(:) → q! + enter                                    |
 
+
+* 붙여넣기 계단 현상 발생 시 : `:set paste` 입력 후 복사
+* [vim 단축키](https://string.tistory.com/51)

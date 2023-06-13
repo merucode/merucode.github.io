@@ -72,6 +72,7 @@ nav_order: 8
 	    id = Column(Integer, primary_key=True)
 	    email = Column(String, unique=True, nullable=False)
 	    password = Column(String, nullable=False)
+		username = Column(String, unique=True, nullable=False)
 	```
 
 * `.env`
@@ -163,3 +164,131 @@ $ docker exec -it backend /bin/bash
 > alembic revision --autogenerate -m "0001_make_user"
 > alembic upgrade head
 ```
+
+<br>
+
+## STEP 2. Make Function to Create User
+
+### Step 2-0. Connect React
+
+* [fastapi nginx react docker]
+
+### Step 2-1. Make Function on Backend
+
+* `backend/domain/user/`
+	* user_schema.py
+	* user_route.py
+	* user_crud.py
+
+* `backend/requirements.txt`
+
+	```
+	...
+	pydantic[email]		# chekcing email
+	passlib[bcrypt]		# hashing passward
+	```
+
+* `backend/domain/user/user_route.py`
+
+	```python
+	from fastapi import APIRouter, HTTPException
+	from fastapi import Depends
+	from sqlalchemy.orm import Session
+	from starlette import status
+
+	from database import get_db
+	from domain.user import user_crud, user_schema
+
+	router = APIRouter(
+		prefix="/user",
+	)
+
+	@router.post("/create", status_code=status.HTTP_204_NO_CONTENT)
+	def user_create(_user_create: user_schema.UserCreate, db: Session = Depends(get_db)):	# schema(UserCreate) 형식 비교용으로 사용
+		# 동일 user 확인 crud 실행(schema로도 비교 되나(uniqe) 에러 메시지를 위해 사용)
+		user = user_crud.get_existing_user(db, user_create=_user_create)  
+    	if user:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                            detail="이미 존재하는 사용자입니다.")
+		# user 생성 crud 실행
+		user_crud.create_user(db=db, user_create=_user_create)
+	```
+
+* `backend/domain/user/user_crud.py`
+
+	```python
+	from passlib.context import CryptContext	# For hashing password
+	from sqlalchemy.orm import Session
+	from domain.user.user_schema import UserCreate
+	from models import User						# 데이터 저장을 위한 Model
+
+	pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")	# hashing password
+
+	# user 생성
+	def create_user(db: Session, user_create: UserCreate):	# schema(UserCreate) 형식 비교용으로 사용
+		# post data를 mapping 한 모델 class 인스턴스 생성 
+		# passward는 hashing value 사용
+		db_user = User(username=user_create.username,
+					password=pwd_context.hash(user_create.password1),
+					email=user_create.email)
+		db.add(db_user) # db에 db_user 추가
+		db.commit()		# db 커밋
+
+	# 동일 user 확인
+	def get_existing_user(db: Session, user_create: UserCreate):
+    return db.query(User).filter(
+        (User.username == user_create.username) |
+        (User.email == user_create.email)
+    ).first()
+	```
+
+* `backend/domain/user/user_schema.py`
+
+	```python
+	from pydantic import BaseModel, validator, EmailStr
+
+	class UserCreate(BaseModel):
+		username: str
+		password1: str
+		password2: str
+		email: EmailStr
+
+		@validator('username', 'password1', 'password2', 'email')
+		def not_empty(cls, v):
+			if not v or not v.strip():
+				raise ValueError('빈 값은 허용되지 않습니다.')
+			return v
+
+		@validator('password2')
+		def passwords_match(cls, v, values):
+			if 'password1' in values and v != values['password1']:
+				raise ValueError('비밀번호가 일치하지 않습니다')
+			return v
+	```
+	* passwords_match 메서드의 values 매개변수에는 UserCreate의 속성들이 `변수명:값, ...` 형태로 전달
+
+* `backend/main.py`
+
+	```python
+	...
+	from domain.user import user_router
+	...
+	app.include_router(user_router.router)
+	```
+
+* `backend/database.py`
+
+	```python
+	...
+	def get_db():
+		db = SessionLocal()
+		try:
+			yield db
+		finally:
+			db.close()
+	```
+
+* connect `ec2_ip/api/docs` and Check function
+
+### Step 2-2. Make Function on Frontend
+

@@ -3,7 +3,7 @@ layout: default
 title: FastApi Basic
 parent: FastApi
 grand_parent: Backend
-nav_order: 9
+nav_order: 2
 ---
 
 # FastApi Basic
