@@ -137,14 +137,14 @@ nav_order: 8
 	import models	# Add
 	...
 	config = context.config
-
+	
 	# Read ENV file in Docker compose
 	db_host = os.environ["INSTANCE_HOST"] 
 	db_user = os.environ["DB_USER"]  
 	db_pass = os.environ["DB_PASS"]
 	db_name = os.environ["DB_NAME"] 
 	db_port = os.environ["DB_PORT"]
-
+	
 	SQLALCHEMY_DATABASE_URL = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
 	config.set_main_option('sqlalchemy.url', SQLALCHEMY_DATABASE_URL)
 	...
@@ -290,5 +290,113 @@ $ docker exec -it backend /bin/bash
 
 * connect `ec2_ip/api/docs` and Check function
 
+
+
 ### Step 2-2. Make Function on Frontend
+
+
+
+<br>
+
+
+
+## Step 3. Login/Logout
+
+
+
+### Step 3-1. Login on Backend
+
+* `backend/requirement.txt`
+
+  ```
+  ...
+  python-multipart
+  python-jose[cryptography]
+  ```
+
+* `backend/domain/user/user_schema.py`
+
+  ```python
+  ...
+  # We don't need to make input schema on login api, 
+  # because OAuth2PasswordRequestForm class offer 
+  # So, only make output schema on login api
+  class Token(BaseModel):
+      access_token: str
+      token_type: str
+      username: str
+  ```
+
+* `backend/domain/user/user_crud.py`
+
+  ```python
+  ...
+  def get_user(db: Session, username: str):
+      return db.query(User).filter(User.username == username).first()
+  ```
+
+* `backend/domain/user/user_router.py`
+
+  ```python
+  import os
+  from datetime import timedelta, datetime
+  ...
+  from fastapi.security import OAuth2PasswordRequestForm
+  from jose import jwt
+  ...
+  from domain.user.user_crud import pwd_context
+  
+  ### Access Token
+  ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
+  SECRET_KEY = os.environ["SECRET_KEY"]
+  ALGORITHM = "HS256"
+  
+  ### Login
+  @router.post("/login", response_model=user_schema.Token)
+  def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),
+                             db: Session = Depends(get_db)):
+  
+      # check user and password
+      user = user_crud.get_user(db, form_data.username) # get user data
+      # verify user and passward
+      if not user or not pwd_context.verify(form_data.password, user.password):
+          raise HTTPException(
+              status_code=status.HTTP_401_UNAUTHORIZED,
+              detail="Incorrect username or password",
+              headers={"WWW-Authenticate": "Bearer"},
+          )
+  
+      # make access token
+      data = {
+          "sub": user.username,
+          "exp": datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+      }
+      access_token = jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
+  
+      return {
+          "access_token": access_token,
+          "token_type": "bearer",
+          "username": user.username
+      }
+  ```
+
+* `./.env`
+
+  ```
+  SECRET_KEY=[new_secret_key]
+  ```
+
+  
+
+
+
+
+
+
+
+### Step 3-2. Login on Frontend
+
+
+
+### Step 3-3. Logout on Frotend
 
