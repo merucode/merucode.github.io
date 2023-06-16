@@ -38,10 +38,19 @@ nav_order: 10
 
 
 * 프로젝트 생성
+
 * API 및 서비스 → Oauth 동의화면
   * User type : 외부
   * 그 외 최소 정보 입력
+  
 * API 및 서비스 → 사용자 인증 정보 → 사용자 인증 정보 만들기 → OAuth 클라이언트 ID
+
+  * 승인된 자바스크립트 원본
+    * 개발 서버: `http://localhost:3000`, `http://localhost:3000`
+
+    * 도메인: `https`만 가능(`http`) 안됨
+
+    * [자바스크립트 출처 확인 규칙](https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow?hl=ko#origin-validation)
 
 * Client ID 확인
 
