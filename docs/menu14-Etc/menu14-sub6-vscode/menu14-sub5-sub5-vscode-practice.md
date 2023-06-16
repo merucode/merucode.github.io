@@ -39,20 +39,20 @@ nav_order: 2
 
 * [F1] → `Remote-SSH: Open SSH Configuration File ...`
 
-* `사용자이름/.ssh/` 에 SSH key 파일(`~.pem`) 넣기
+* `사용자이름/.ssh/` 에 SSH key 파일(`~.pem`) 넣기(ec2 ssh 기본키 생성)
 
 * `config`
 
   ```python
   Host ami2_jenkins_ec2
     HostName [퍼블릭 IPv4 DNS 주소]
-    User ec2-user
-    IdentityFile ~/.ssh/shh_key.pem
+    User [ec2-user]
+    IdentityFile ~/.ssh/[shh_key.pem]
   ```
 
   - `Host`: 연결할 ec2의 별칭(별명)이므로 아무렇게나 지어도 상관없다.
   - `HostName`: ec2의 `퍼블릭 IPv4 DNS 주소`이다. 위 사진에서는 `노란색 박스` 부분이다.
-  - `User`: 접속할 사용자 이름
+  - `User`: 접속할 EC2의 사용자 이름
   - `IdentityFile`: ec2에 접속할 때 필요한 `.pem`키의 위치를 지정한다. 본인은 `config` 파일과 같은 폴더 내에 위치한다.
 
 
