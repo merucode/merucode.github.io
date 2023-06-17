@@ -60,9 +60,14 @@ nav_order: 11
   * DNS 영역 생성
 * 생성된 DNS 영역 
   * [DNS 레코드] → [레코드 추가]
-    * 레코드 유형 : 레코드(트래픽을 IPv4 주소에 라우팅)
-    * 레코드 이름 : `@.생성한 domain 주소`
-    * 확인 : AWS 고정 IP
+    * 레코드 추가 1
+      * 레코드 유형 : 레코드(트래픽을 IPv4 주소에 라우팅)
+      * 레코드 이름 : `@.생성한 domain 주소`
+      * 확인 : AWS 고정 IP
+    * 레코드 추가 2
+      * 레코드 유형 : 레코드(트래픽을 IPv4 주소에 라우팅)
+      * 레코드 이름 : `www.생성한 domain 주소`
+      * 확인 : AWS 고정 IP
   * [도메인] → [이름 서버] 4개
     * gabia에서 domain 발급 받은 경우
       * [my가비아] → [이용중인 서비스 : Domain] → [관리] → [도메인 정보변경] → [네임서버] 
@@ -77,14 +82,13 @@ nav_order: 11
   ```nginx
   server {
           listen 80;
-          server_name 생성한_domain_주소;	# Apply domain address
+          server_name [domain_주소] www.[domain_주소];	# Apply domain address
   
-          ...
-          }
+          #...
   }
   ```
-
   
+
 
 <br>
 
@@ -92,16 +96,90 @@ nav_order: 11
 
 ## STEP 2. SSL
 
+### Step 2-1. SSL 인증서 발급
+
+* `./docker-compose.yml`
+
+  ```dockerfile
+  ...
+    nginx:
+      container_name: nginx
+      build:
+        context: ./nginx/
+        dockerfile: Dockerfile
+      volumes:
+        - ${PWD}/nginx/letsencrypt/:/etc/letsencrypt # Add
+      ports:
+        - 80:80
+        - 443:443	# Add
+      ...
+  ```
+
+* `./nginx/Dockerfile`
+
+  ```dockerfile
+  FROM nginx:1.25-alpine
+  
+  # certbot 의존 파일 설치 # Add
+  RUN apk add python3 python3-dev py3-pip build-base libressl-dev musl-dev libffi-dev rust cargo
+  RUN pip3 install pip --upgrade
+  RUN pip3 install certbot-nginx
+  RUN mkdir /etc/letsencrypt
+  
+  # conf 삭제 후 복사
+  RUN rm /etc/nginx/conf.d/default.conf
+  COPY nginx.conf /etc/nginx/conf.d/
+  ```
+
+* `bash`
+
+  ```bash
+  $ docker compose up -d --build
+  $ docker exec -it nginx /bin/sh
+  > certbot certonly --nginx -d [도메인 주소].co.kr -d www.[도메인 주소].co.kr
+  # e-mail 입력 및 y 두번 입력
+  # /etc/letsencrypt/live/[domain 주소]/fullchain.pem 및 privkey.pem 생성(vscode에서는 확인안되고 docker exec로 들어가서 cd 및 ls로 확인 가능)
+  ```
 
 
 
+### Step 2-2. nginx 파일에 적용
 
-```
-certbot --nginx -d yourdomain.com
-```
+* `./nginx/nginx.conf`
 
-까지 수행 
+  ```nginx
+  # 3000번 포트에서 frontend가 돌아가고 있다는 것을 명시
+  upstream frontend {
+      server frontend:3000;
+  }
+  
+  # 5000번 포트에서 backend서버가 돌아가고 있다는 것을 명시
+  upstream backend {
+      server backend:8000;
+  }
+  
+  # nginx 서버 80번 → 443으로 리다이렉팅
+  server {
+          listen 80;
+          server_name [domain_주소] www.[domain_주소];
+          rewrite        ^ https://$server_name$request_uri? permanent;
+  }
+  
+  server {
+      # → nginx ssl 구성 관련 443 포트로 받기
+      listen 443 ssl;
+      server_name [domain_주소] www.[domain_주소];  # 도메인 추가
+  
+      ssl_certificate /etc/letsencrypt/live/[domain_주소]/fullchain.pem; # managed by Certbot
+      ssl_certificate_key /etc/letsencrypt/live/[domain_주소]/privkey.pem; # managed by Certbot
+      include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+  
+      # ...
+  }
+  
+  ```
 
+  
 
+### Step 2-3. 갱신 관련
 
-docker에 어떻게 복사할지 키파일
