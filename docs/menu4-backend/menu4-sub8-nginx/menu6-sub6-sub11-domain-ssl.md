@@ -181,5 +181,35 @@ nav_order: 11
 
   
 
-### Step 2-3. 갱신 관련
+### Step 2-3. 갱신 관련(아직 미수행)
 
+* `/bin/letsencrypt_renew.sh`파일 생성
+
+  ```bash
+  cd /home/ubuntu/[docker 위치]
+  docker compose up -d --build
+  docker exec -it nginx /bin/sh
+  certbot renew --force-renew
+  nginx -s reload
+  ```
+
+* crontab 등록
+
+  ```bash
+  chmod 750 /bin/letsencrypt_renew.sh
+  crontab -e
+  
+  # 짝수달 3일 0시 0분에 renew 스크립트 실행
+  00 00 03 */2 * /bin/letsencrypt_renew.sh
+  ```
+
+* [참고] Restart Nginx in Alpine Linux
+
+  ```bash
+  $ nginx -s reload
+  $ nginx -s [reload | stop | quit | reopen] 
+  ```
+
+* 참고 사이트
+  * [https://svrforum.com/svr/264459](https://svrforum.com/svr/264459)
+  * [https://nirsa.tistory.com/339](https://nirsa.tistory.com/339)
