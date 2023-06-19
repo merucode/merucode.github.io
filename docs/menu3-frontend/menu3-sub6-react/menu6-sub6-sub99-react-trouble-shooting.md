@@ -57,3 +57,41 @@ nav_order: 99
 
 <br>
 
+## STEP 2. Invalid Host header
+
+### Step 1-1. Trouble
+
+* frontend 접속 시 `Invalid Host header`
+
+![image-20230619231719126](./../../../images/menu6-sub6-sub99-react-trouble-shooting/image-20230619231719126.png)
+
+### Step 1-2. Cause
+
+* [https://ducks228.tistory.com/entry/Invalid-Host-Header-%ED%91%9C%EC%8B%9C](https://ducks228.tistory.com/entry/Invalid-Host-Header-%ED%91%9C%EC%8B%9C)
+* 원인 : ?
+
+### Step 1-3. Solution
+
+* `/node_modules/react-scripts/config/webpackDevServer.config.js`(**React**)
+
+  * 변경 전
+
+    ```js
+    ...
+      const disableFirewall = 
+        !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true';
+    ...
+    ```
+
+  * 변경 후
+
+    ```js
+    ...
+      const disableFirewall = true
+        // !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true';
+    ...
+    ```
+
+
+* 서버 재시작
+

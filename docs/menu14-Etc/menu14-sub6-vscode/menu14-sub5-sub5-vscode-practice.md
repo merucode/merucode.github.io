@@ -62,3 +62,9 @@ nav_order: 2
 * [F1] → `Remote-SSH: Connect to Host ...`
 * Host 별칭으로 접속
 
+
+
+### Step 1-3. EC2 Instance 삭제 후 스냅샷으로 재연결 시
+
+* `~\.ssh\`
+  * `known_hosts`, `known_hosts.old` 삭제 후 원격 접속 
