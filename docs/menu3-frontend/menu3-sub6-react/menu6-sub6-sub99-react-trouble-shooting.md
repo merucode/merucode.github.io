@@ -57,7 +57,7 @@ nav_order: 99
 
 <br>
 
-## STEP 2. Invalid Host header
+## STEP 1. Invalid Host header
 
 ### Step 1-1. Trouble
 
@@ -95,3 +95,24 @@ nav_order: 99
 
 * 서버 재시작
 
+
+
+<br>
+
+
+
+## STEP 1. axioserror: network error
+
+### Step 1-1. Trouble
+
+* backend data 요청 시 react `axioserror: network error` 에러 발생
+
+### Step 1-2. Cause
+
+* 요청하는 backend data url 잘못되어 있거나,
+* backend에서 해당 url로 데이터를 제공해주지 못하는 경우
+
+### Step 1-3. Solution
+
+* backend url 재설정 또는,
+* backend url로 data가 실제 제공되는지 확인
