@@ -79,6 +79,8 @@ Update yum cache and installed packages.
 	> ALTER USER [new_user] ENCRYPTED PASSWORD '[new_password]';
 	> CREATE DATABASE [new_db] WITH OWNER [new_user];
 	>\q
+	# GRANT ALL PRIVILEGES ON DATABASE [DB_NAME] TO [USER_NAME];
+	# [USER_NAME]에게 [DB_NAME] 전권 주기
 	```
 
 ### Step 2-2. PG 접속 설정 파일 수정
