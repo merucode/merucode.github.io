@@ -1,12 +1,12 @@
 ---
 layout: default
-title: FastApi Basic2
+title: Fastapi와 기존 Postgresql Data 연결
 parent: FastApi
 grand_parent: Backend
 nav_order: 3
 ---
 
-# FastApi Basic
+# Fastapi와 기존 Postgresql Data 연결
 {: .no_toc }
 
 <details open markdown="block">
@@ -18,110 +18,126 @@ nav_order: 3
 {:toc}
 </details>
 <!------------------------------------ STEP ------------------------------------>
+## STEP 0. Reference Site
 
-## STEP 0. Site
+* [https://jongsky.tistory.com/17](https://jongsky.tistory.com/17)
 
-* [fastapi 공식사이트](https://fastapi.tiangolo.com/ko/tutorial/)
-* [https://blog.hanchon.live/guides/google-login-with-fastapi-and-jwt/](https://blog.hanchon.live/guides/google-login-with-fastapi-and-jwt/)
+<br>
 
-## STEP 1. Basic
+## STEP 1. 비동기 연결
 
-### Step 1-1.  
+### Step 1-1. Database 구조 확인
 
-```python
-from fastapi import FastAPI  
-from typing import Union
+* 예제 데이터 : date, word, code로 구성
 
-app = FastAPI()  
+### Step 1-2. Code 구성
 
-fake_items_db  =  [{"item_name":  "Foo"},  {"item_name":  "Bar"},  {"item_name":  "Baz"}]
-
-### 경로 매개변수
-@app.get("/users/{user_id}") 
-async def read_user(user_id:  str):  
-	return {"user_id":  user_id}
-
-### 파일 경로 매개변수
-@app.get("/files/{file_path:path}") 
-async def read_file(file_path:str):  
-	return {"file_path": file_path}
-
-### 쿼리 매개변수(http://127.0.0.1:8000/items/?skip=0&limit=10)
-@app.get("/items/")  
-async def read_item(skip: int = 0, limit: int = 10): 
-	return fake_items_db[skip  :  skip  +  limit]
-
-### 선택적 매개변수(`item_id`가 경로 매개변수이고 `q`는 쿼리 매개변수 알아서 구별)
-@app.get("/items/{item_id}")  
-async def read_item(item_id: str, q: Union[str, None] = None): 
-	if q: 
-		return {"item_id":  item_id,  "q":  q}  
-	return {"item_id":  item_id}
-
-### 필수 쿼리 매개변수(http://127.0.0.1:8000/items/foo-item?needy=sooooneedy)
-@app.get("/items/{item_id}") 
-async def read_user_item(item_id: str, needy: str, skip: int = 0, limit: Union[int, None] = None ):  
-	item = {"item_id": item_id, "needy": needy, "skip": skip, "limit": limit}  
-	return  item
-	# 3가지 쿼리 매개변수
-	#`needy`, 필수적인 str
-	#`str`.`skip`, 기본값이  `0`인  `int`
-	#`limit`, 선택적인  `int`
-```
-
-
-### Step 1-2. Get Request Body
-
-```python
-from fastapi import FastAPI  
-from pydantic import BaseModel 
-
-class Item(BaseModel):  
-	name: str  
-	description: str | None  =  None  
-	price: float  
-	tax: float | None = None  
+* `database.py`
+	* 기존에 존재하는 database를 sqlalchemy를 이용해 연결해주는 파일
+	```python
+	import os
+	from sqlalchemy import create_engine
 	
-app = FastAPI()  
+	from sqlalchemy.ext.declarative import declarative_base
+	from sqlalchemy.orm import sessionmaker
+	
+	 # Read ENV parameter
+	db_host = os.environ["INSTANCE_HOST"] 
+	db_user = os.environ["DB_USER"]
+	db_pass = os.environ["DB_PASS"]
+	db_name = os.environ["DB_NAME"]
+	db_port = os.environ["DB_PORT"]
 
-### POST로 JSON 데이터를 받으면 Item schemas에 의해 유효성검사 및 형태 변환 후
-### item parameter로 저장
-@app.post("/items/")  
-async def create_item(item: Item):  
-	item_dict = item.dict()  
-	if item.tax:  
-		price_with_tax = item.price + item.tax item_dict.update({"price_with_tax":  price_with_tax})  
-		return  item_dict
+	SQLALCHEMY_DATABASE_URL = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
 
-### 경로, 쿼리 매개변수와 함께 사용하기
-@app.put("/items/{item_id}")  
-async def create_item(item_id: int, item: Item, q: str | None = None): 
-	result = {"item_id": item_id, **item.dict()}  
-	if q:
-		result.update({"q":  q})
-	return result
+	engine = create_engine(SQLALCHEMY_DATABASE_URL)
+	SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+	
+	Base = declarative_base()
+	
+	def get_db():
+		db = SessionLocal()
+		try:
+			yield db
+		finally:
+		db.close()
+	```
 
-```
+* `models.py` 
+	* database.py에서 연결한 db를 테이블과 매핑시키는 역할
+	```python
+	from sqlalchemy import BIGINT, Column, Integer, String, Text
+	from database import Base
 
-### Step 1-3. 쿼리 매개변수와 문자열 유효성 검사
+	class WordsCount(Base):
+		__tablename__ = "test_3"
+		
+		date = Column(Text, nullable=False, primary_key=True)
+		word_counts = Column(Text, nullable=False)
+		code = Column(Text, nullable=False)
+	```
 
-```python
-from typing import Annotated  
-from fastapi import FastAPI, Query  
+* `domain/words_count/words_count_router.py`
+	*get 요청을 CRUD 처리를 위한 라우팅
+	```python
+	from fastapi import APIRouter, Depends
+	from database import get_db
+	from sqlalchemy.orm import Session
+	
+	from domain.words_count import words_count_crud
 
-app = FastAPI()
+	router = APIRouter(
+	    prefix="/words-count",
+	)
 
-@app.get("/items/")  
-# q는 선택적이며 str이며, 최소 3자 ~ 최대 50자 유효성 필요
-async def read_items(q: Annotated[str | None, Query(min_length=3, max_length=50)] = None):
-	results  =  {"items":  [{"item_id":  "Foo"},  {"item_id":  "Bar"}]}  
-	if q: 
-		results.update({"q": q})  
-	return  results
-```
+	@router.get("/")
+	def words_count(db:Session=Depends(get_db)):
+		words_count = words_count_crud.get_words_count(db)
+	    return words_count
+	```
 
-### Step 1-4. 경로 매개변수와 숫자 검증
+* `domain/words_count/words_count_crud.py`
+	* 실제 CRUD 쿼리 처리
+	```python	
+	from sqlalchemy.orm import Session
+	from models import WordsCount
+	def get_words_count(db: Session):
+		words_count = db.query(WordsCount).all()
+	    return words_count
+	```
+
+* `main.py`
+	* `words_count_router` 라우터 연결
+	```python
+	import os
+	from fastapi import FastAPI, Request
+	from starlette.middleware.cors import CORSMiddleware
+	
+	from domain.words_count import words_count_router
+	
+	frontend_url=os.environ["FRONTEND_URL"]
+	origins = [ frontend_url ]
+	
+	app = FastAPI(root_path="/api")
+
+	app.add_middleware(
+	    CORSMiddleware,
+	    allow_origins=origins,
+	    allow_credentials=True,
+	    allow_methods=["*"],
+	    allow_headers=["*"],
+	)
+	
+	app.include_router(words_count_router.router)
+	```
 
 
+## Step 3. Postgresql 비동기 연결(아직 미수행)
+
+* start from `form-fastapi-react-basic`
+* PostgreSQL 데이터베이스 비동기 처리 라이브러리
+	* pip install asyncpg
+*  
+https://testdriven.io/blog/fastapi-sqlmodel/
 
 
