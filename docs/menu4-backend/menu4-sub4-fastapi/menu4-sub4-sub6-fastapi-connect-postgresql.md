@@ -34,6 +34,7 @@ nav_order: 3
 
 * `database.py`
 	* 기존에 존재하는 database를 sqlalchemy를 이용해 연결해주는 파일
+
 	```python
 	import os
 	from sqlalchemy import create_engine
@@ -65,6 +66,7 @@ nav_order: 3
 
 * `models.py` 
 	* database.py에서 연결한 db를 테이블과 매핑시키는 역할
+
 	```python
 	from sqlalchemy import BIGINT, Column, Integer, String, Text
 	from database import Base
@@ -79,6 +81,7 @@ nav_order: 3
 
 * `domain/words_count/words_count_router.py`
 	*get 요청을 CRUD 처리를 위한 라우팅
+
 	```python
 	from fastapi import APIRouter, Depends
 	from database import get_db
@@ -98,6 +101,7 @@ nav_order: 3
 
 * `domain/words_count/words_count_crud.py`
 	* 실제 CRUD 쿼리 처리
+
 	```python	
 	from sqlalchemy.orm import Session
 	from models import WordsCount
@@ -108,6 +112,7 @@ nav_order: 3
 
 * `main.py`
 	* `words_count_router` 라우터 연결
+
 	```python
 	import os
 	from fastapi import FastAPI, Request
@@ -136,6 +141,7 @@ nav_order: 3
 ## STEP 2. Frontend 요청에 의한 필터링 추가
 
 * `domain/words_count/words_count_crud.py`
+
 	```python
 	from sqlalchemy.orm import Session
 	from models import WordsCount
@@ -147,6 +153,7 @@ nav_order: 3
 	```
  
 * `domain/words_count/words_count_router.py`
+
 	```python
 	from typing import Union
 	from fastapi import APIRouter, Depends
