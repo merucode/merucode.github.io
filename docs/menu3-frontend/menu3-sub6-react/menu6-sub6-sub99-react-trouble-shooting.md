@@ -116,3 +116,26 @@ nav_order: 99
 
 * backend url 재설정 또는,
 * backend url로 data가 실제 제공되는지 확인
+
+<br>
+
+## STEP 1. Mixed Content
+
+### Step 1-1. Trouble
+
+* backend data 요청 시 console `Mixed Content` 에러 발생
+
+### Step 1-2. Cause
+
+* [https://velog.io/@nemo/mixed-content-error](https://velog.io/@nemo/mixed-content-error)
+* https 에서 http로 요청 보낼 시 console 에러 발생
+
+### Step 1-3. Solution
+
+* http 요청을 https 요청으로 바꿔주는 meta 태그 추가
+* `public/index.html`
+  
+  ```
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  ```
+
