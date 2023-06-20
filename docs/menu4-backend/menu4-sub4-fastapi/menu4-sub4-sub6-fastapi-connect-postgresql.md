@@ -131,6 +131,50 @@ nav_order: 3
 	app.include_router(words_count_router.router)
 	```
 
+<br>
+
+## STEP 2. Frontend 요청에 의한 필터링 추가
+
+* `domain/words_count/words_count_crud.py`
+	```python
+	from sqlalchemy.orm import Session
+	from models import WordsCount
+	
+	def get_words_count(db: Session, stockname, startdate, stopdate):
+	    # code가 일치하고 startdate, stopdate 사이에 있는 데이터 반환
+	    words_count = db.query(WordsCount).filter(WordsCount.code==stockname).filter(WordsCount.date.between(startdate, stopdate)).all()
+		return words_count
+	```
+ 
+* `domain/words_count/words_count_router.py`
+	```python
+	from typing import Union
+	from fastapi import APIRouter, Depends
+
+	from database import get_db
+	from sqlalchemy.orm import Session
+	
+	from domain.words_count import words_count_crud
+
+	router = APIRouter(
+	    prefix="/words-count",
+	)
+
+	@router.get("/")
+	def words_count(db:Session=Depends(get_db),
+		stockname:Union[str,None]=None,
+		startdate:Union[str,None]=None,
+		stopdate:Union[str,None]=None
+	):
+	    words_count = words_count_crud.get_words_count(db, stockname=stockname, startdate=startdate, stopdate=stopdate)
+    return words_count
+	```
+
+
+
+
+<br>
+
 
 ## Step 3. Postgresql 비동기 연결(아직 미수행)
 
@@ -139,5 +183,6 @@ nav_order: 3
 	* pip install asyncpg
 *  
 https://testdriven.io/blog/fastapi-sqlmodel/
+
 
 
