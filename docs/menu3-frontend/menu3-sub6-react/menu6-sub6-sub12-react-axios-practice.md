@@ -211,61 +211,106 @@ nav_order: 11
 
 * `pages/GraphPage/GraphPage.js`
 
-```jsx
-import React, { useEffect, useState, useCallback } from 'react';
+	```jsx
+	import React, { useState } from 'react';
 
-import { getItems } from '../../api';
-import useAsync from '../../hooks/useAsync';
+	import GraphSearchForm from '../../components/GraphSearchForm';
+	import GraphDataList from '../../components/GraphDataList';
 
-function GraphPage() {
-	const [stockname, setStockname] = useState("");
-	const [startdate, setStartdate] = useState("2023-04-01");
-	const [stopdate, setStopdate] = useState("2023-06-20");
+	function GraphPage() {
+		const [items, setItems] = useState([]);
 
-	const [isLoading, loadingError, getItemsAsync] = useAsync(getItems);
-	const [items, setItems] = useState([]);
+		const handleSubmitSuccess = (res) => {
+			setItems(res);
+		};
 
-	const loadItems = useCallback(
-		async(options) => {
-		const result = await getItemsAsync(options);
-		console.log(result);
-	}, [getItemsAsync]);
-
-
-	const submitHandler = async (e) => {
-		e.preventDefault();
-		await loadItems({ stockname, startdate, stopdate });
-	};
-
-	return (
+		return (
 		<div>
-		<h1>GraphPage!</h1>
-			<div>
-				<form onSubmit={submitHandler}>
-					<div>
-						<label htmlFor="stockname">stockname</label>
-						<input type="text" id="stockname" name="stockname" 
-						value={stockname} onChange={(e) => setStockname(e.target.value)}/>
-					</div>
-					<div>
-						<label htmlFor="startdate">startdate</label>
-						<input type="date" id="startdate" name="startdate" 
-						value={startdate} onChange={(e) => setStartdate(e.target.value)}/>
-					</div>
-					<div>
-						<label htmlFor="stopdate">stopdate</label>
-						<input type="date" id="stopdate" name="stopdate"
-						value={stopdate} onChange={(e) => setStopdate(e.target.value)}/>
-					</div>
+			<GraphSearchForm onSubmitSuccess={handleSubmitSuccess} />
+			<GraphDataList items={items} />
+		</div>
+	)}
+	```
+
+* `./components/GraphSearchForm.jsx`
+
+	```jsx
+	import React, { useEffect, useState, useCallback } from 'react';
+
+	import { getItems } from '../api';
+	import useAsync from '../hooks/useAsync';
+
+	function GraphSearchForm({ onSubmitSuccess }) {
+		const [stockname, setStockname] = useState("060380");
+		const [startdate, setStartdate] = useState("2020-04-01");
+		const [stopdate, setStopdate] = useState("2023-06-20");
+
+		const [isLoading, loadingError, getItemsAsync] = useAsync(getItems);
+
+		const loadItems = useCallback(
+			async(options) => {
+			const result = await getItemsAsync(options);
+			return result;
+		}, [getItemsAsync]);
+
+		const submitHandler = async (e) => {
+			e.preventDefault();
+			const result = await loadItems({ stockname, startdate, stopdate });
+			if (!result) return;
+			onSubmitSuccess(result);
+		};
+
+		return (
+		<div>
+			<form onSubmit={submitHandler}>
+				<div>
+					<label htmlFor="stockname">stockname</label>
+					<input type="text" id="stockname" name="stockname"
+					value={stockname} onChange={(e) => setStockname(e.target.value)}/>
+				</div>
+				<div>
+					<label htmlFor="startdate">startdate</label>
+					<input type="date" id="startdate" name="startdate"
+					value={startdate} onChange={(e) => setStartdate(e.target.value)}/>
+				</div>
+				<div>
+					<label htmlFor="stopdate">stopdate</label>
+					<input type="date" id="stopdate" name="stopdate"
+					value={stopdate} onChange={(e) => setStopdate(e.target.value)}/>
+				</div>
 				<button type="submit">Register</button>
-				</form>
-			</div>
+			</form>
 			{loadingError?.message && <span>{loadingError.message}</span>}
 		</div>
-	)
-}
+		);
+	}
+	```
 
+* `./components/GraphDataList.jsx`
 
+	```jsx
+	function DataListItem({ item }) {
+	return (
+		<div>
+		<p>{item.date}</p>
+		<p>{item.word_counts}</p>
+		</div>
+	);
+	}
 
-```
+	function GraphDataList({ items }) {
+	return (
+		<ul>
+		{items.map((item) => {
+			return (
+			<li key={item.date}>
+				<DataListItem item={item} />
+			</li>
+			);
+		})}
+		</ul>
+	);
+	}
 
+	export default GraphDataList;
+	```
