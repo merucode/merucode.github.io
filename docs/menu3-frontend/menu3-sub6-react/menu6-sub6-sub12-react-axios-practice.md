@@ -23,121 +23,249 @@ nav_order: 11
 
 * [https://wonit.tistory.com/305](https://wonit.tistory.com/305)
 * [https://velog.io/@mudidu/React-axios-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%84%9C%EB%B2%84%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%9A%94%EC%B2%AD%ED%95%98%EA%B8%B0](https://velog.io/@mudidu/React-axios-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%84%9C%EB%B2%84%EC%97%90-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%9A%94%EC%B2%AD%ED%95%98%EA%B8%B0)
-
+* [Axios 다양하게 활용하기: async/await사용](https://third9.github.io/posts/Axios%EB%8B%A4%EC%96%91%ED%95%98%EA%B2%8C_%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0-async_await%EC%82%AC%EC%9A%A9/)
 
 
 <br>
 
 ## STEP 1. Backend로 Get 요청
 
-### Step 1-1. `src/pages/ExPage/ExPage.jsx`
+### Step 1-1. 기본 사용
 
-```jsx
-import React, { useEffect, useState } from 'react';	  
-import axios from "axios";
+* `src/pages/ExPage/ExPage.jsx`
 
-import { BACKEND_ENDPOINT } from "../../constants/urls";
+	```jsx
+	import React, { useEffect, useState } from 'react';	  
+	import axios from "axios";
 
-function GraphPage() {
-const [stockname, setStockname] = useState("");
-const [startdate, setStartdate] = useState("2023-04-01");
-const [stopdate, setStopdate] = useState("2023-06-20");
-  
-const [loading, setLoading] = useState(false);
-const [results, setResults] = useState(false);
-const [success, setSuccess] = useState(false);
+	import { BACKEND_ENDPOINT } from "../../constants/urls";
 
-useEffect(() => {
-	if (loading) {
-		console.log(WORDSCOUNT_ENDPOINT);
-		console.log("Calling axios.");
-		const req_config = {
-		headers: {
-		"Content-type": "application/json",
-		},
-		};
-	axios.get(
-		WORDSCOUNT_ENDPOINT, 
+	function GraphPage() {
+	const [stockname, setStockname] = useState("");
+	const [startdate, setStartdate] = useState("2023-04-01");
+	const [stopdate, setStopdate] = useState("2023-06-20");
+	
+	const [loading, setLoading] = useState(false);
+	const [results, setResults] = useState(false);
+	const [success, setSuccess] = useState(false);
+
+	useEffect(() => {
+		if (loading) {
+			console.log(WORDSCOUNT_ENDPOINT);
+			console.log("Calling axios.");
+			const req_config = {
+			headers: {
+			"Content-type": "application/json",
+			},
+			};
+		axios.get(
+			WORDSCOUNT_ENDPOINT, 
+			{params: {
+					stockname: stockname,
+					startdate: startdate,
+					stopdate: stopdate,
+					}
+			},
+			req_config
+			)
+			.then((response) => {
+				console.log("Axios successful.");
+				setResults(true);
+				setLoading(false);
+				setSuccess(true);
+			})
+			.catch((error) => {
+				console.log("Axios failed.");
+				setResults(true);
+				setLoading(false);
+				setSuccess(false);
+			});
+			}
+	}, [loading]);
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+		setLoading(true);
+		setResults(false);
+		setSuccess(false);
+	};
+
+	return (
+		<div>
+			<h1>GraphPage!</h1>
+			<div>
+				<form onSubmit={submitHandler}>
+				<div>
+					<label htmlFor="stockname">stockname</label>
+					<input type="text" id="stockname" name="stockname" 
+					value={stockname} onChange={(e) => setStockname(e.target.value)}/>
+				</div>
+				<div>
+					<label htmlFor="startdate">startdate</label>
+					<input type="date" id="startdate" name="startdate" 
+					value={startdate} onChange={(e) => setStartdate(e.target.value)}/>
+				</div>
+				<div>
+					<label htmlFor="stopdate">stopdate</label>
+					<input type="date" id="stopdate" name="stopdate"
+					value={stopdate} onChange={(e) => setStopdate(e.target.value)}/>
+				</div>
+					<button type="submit">Register</button>
+				</form>
+			</div>
+		</div>
+	)}
+
+	export default GraphPage;
+	```
+
+* `/src/Main.js`
+
+	```jsx
+	import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+	import App from "./components/App";
+	import HomePage from "./pages/HomePage/HomePage";
+	import GraphPage from "./pages/GraphPage/GraphPage";
+
+	function Main() {
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={ <App /> }>
+					<Route index element={ <HomePage />} />
+					<Route path="/graph" element={ <GraphPage />} />
+				</Route>
+			</Routes>
+		</BrowserRouter>
+	);
+	}
+	export default Main;
+	```
+
+### Step 1-2. useAsync 사용
+
+* `api.js`
+
+	```jsx
+	import { WORDSCOUNT_ENDPOINT } from "./constants/urls";
+
+	import axios from "axios";
+
+	export async function getItems({
+			stockname,
+			startdate,
+			stopdate,
+		}) {
+			const req_config = {
+			headers: {
+				"Content-type": "application/json",
+				},
+	} 
+
+	const response = await axios.get(
+		WORDSCOUNT_ENDPOINT,
 		{params: {
-				stockname: stockname,
-				startdate: startdate,
-				stopdate: stopdate,
-				}
+			stockname: stockname,
+			startdate: startdate,
+			stopdate: stopdate,
+			}
 		},
 		req_config
-		)
-		.then((response) => {
-			console.log("Axios successful.");
-			setResults(true);
-			setLoading(false);
-			setSuccess(true);
-		})
-		.catch((error) => {
-			console.log("Axios failed.");
-			setResults(true);
-			setLoading(false);
-			setSuccess(false);
-		});
-		}
-}, [loading]);
+	)
 
-const submitHandler = (e) => {
-	e.preventDefault();
-	setLoading(true);
-	setResults(false);
-	setSuccess(false);
-};
+	return response.data;
+	}
+	```
 
-return (
-	<div>
-		<h1>GraphPage!</h1>
-		<div>
-			<form onSubmit={submitHandler}>
-			<div>
-				<label htmlFor="stockname">stockname</label>
-				<input type="text" id="stockname" name="stockname" 
-				value={stockname} onChange={(e) => setStockname(e.target.value)}/>
-			</div>
-			<div>
-				<label htmlFor="startdate">startdate</label>
-				<input type="date" id="startdate" name="startdate" 
-				value={startdate} onChange={(e) => setStartdate(e.target.value)}/>
-			</div>
-			<div>
-				<label htmlFor="stopdate">stopdate</label>
-				<input type="date" id="stopdate" name="stopdate"
-				value={stopdate} onChange={(e) => setStopdate(e.target.value)}/>
-			</div>
-				<button type="submit">Register</button>
-			</form>
-		</div>
-	</div>
-)}
+* `hooks/useAsync.js`
 
-export default GraphPage;
-```
+	```jsx
+	import { useCallback, useState } from 'react';
 
+	function useAsync(asyncFunction) {
+		const [pending, setPending] = useState(false);
+		const [error, setError] = useState(null);
 
-## Step 1-2.  `/src/Main.js`
+		const wrappedFunction = useCallback(
+			async (...args) => {
+			setPending(true);
+			setError(null);
+			try {
+				return await asyncFunction(...args);
+			} catch (error) {
+				setError(error);
+				console.log(error);
+			} finally {
+				setPending(false);
+			}
+			},
+			[asyncFunction]
+		);
+
+		return [pending, error, wrappedFunction];
+	}
+
+	export default useAsync;
+	```
+
+* `pages/GraphPage/GraphPage.js`
 
 ```jsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
 
-import App from "./components/App";
-import HomePage from "./pages/HomePage/HomePage";
-import GraphPage from "./pages/GraphPage/GraphPage";
+import { getItems } from '../../api';
+import useAsync from '../../hooks/useAsync';
 
-function Main() {
-  return (
-    <BrowserRouter>
-		<Routes>
-			<Route path="/" element={ <App /> }>
-				<Route index element={ <HomePage />} />
-				<Route path="/graph" element={ <GraphPage />} />
-			</Route>
-		</Routes>
-    </BrowserRouter>
-  );
+function GraphPage() {
+	const [stockname, setStockname] = useState("");
+	const [startdate, setStartdate] = useState("2023-04-01");
+	const [stopdate, setStopdate] = useState("2023-06-20");
+
+	const [isLoading, loadingError, getItemsAsync] = useAsync(getItems);
+	const [items, setItems] = useState([]);
+
+	const loadItems = useCallback(
+		async(options) => {
+		const result = await getItemsAsync(options);
+		console.log(result);
+	}, [getItemsAsync]);
+
+
+	const submitHandler = async (e) => {
+		e.preventDefault();
+		await loadItems({ stockname, startdate, stopdate });
+	};
+
+	return (
+		<div>
+		<h1>GraphPage!</h1>
+			<div>
+				<form onSubmit={submitHandler}>
+					<div>
+						<label htmlFor="stockname">stockname</label>
+						<input type="text" id="stockname" name="stockname" 
+						value={stockname} onChange={(e) => setStockname(e.target.value)}/>
+					</div>
+					<div>
+						<label htmlFor="startdate">startdate</label>
+						<input type="date" id="startdate" name="startdate" 
+						value={startdate} onChange={(e) => setStartdate(e.target.value)}/>
+					</div>
+					<div>
+						<label htmlFor="stopdate">stopdate</label>
+						<input type="date" id="stopdate" name="stopdate"
+						value={stopdate} onChange={(e) => setStopdate(e.target.value)}/>
+					</div>
+				<button type="submit">Register</button>
+				</form>
+			</div>
+			{loadingError?.message && <span>{loadingError.message}</span>}
+		</div>
+	)
 }
-export default Main;
+
+
+
 ```
+
