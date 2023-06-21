@@ -192,4 +192,4 @@ nav_order: 3
 https://testdriven.io/blog/fastapi-sqlmodel/
 
 
-
+* [https://ellune.tistory.com/73](https://ellune.tistory.com/73)

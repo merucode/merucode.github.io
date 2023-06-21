@@ -22,6 +22,7 @@ nav_order: 1
 * Crawling 불용어 추가
 
 ```
+악질
 개미
 팔고
 실망
