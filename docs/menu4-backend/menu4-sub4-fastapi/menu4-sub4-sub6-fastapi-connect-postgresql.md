@@ -24,11 +24,12 @@ nav_order: 3
 
 <br>
 
-## STEP 1. 비동기 연결
+## STEP 1. 기본 연결
 
 ### Step 1-1. Database 구조 확인
 
-* 예제 데이터 : date, word, code로 구성
+* 예제 데이터 : index, date, words_count, code로 구성
+* start from `form-fastapi-react-basic`
 
 ### Step 1-2. Code 구성
 
@@ -72,10 +73,11 @@ nav_order: 3
 	from database import Base
 
 	class WordsCount(Base):
-		__tablename__ = "test_3"
+		__tablename__ = "test"
 		
-		date = Column(Text, nullable=False, primary_key=True)
-		word_counts = Column(Text, nullable=False)
+	    index = Column(Integer, nullable=False, primary_key=True)
+		date = Column(Text, nullable=False)
+		words_count = Column(Text, nullable=False)
 		code = Column(Text, nullable=False)
 	```
 
@@ -183,13 +185,93 @@ nav_order: 3
 <br>
 
 
-## Step 3. Postgresql 비동기 연결(아직 미수행)
+## Step 3. Postgresql Async 연결
 
-* start from `form-fastapi-react-basic`
-* PostgreSQL 데이터베이스 비동기 처리 라이브러리
-	* pip install asyncpg
-*  
-https://testdriven.io/blog/fastapi-sqlmodel/
+### Step 3-0. Rerference Site
 
-
+* [https://testdriven.io/blog/fastapi-sqlmodel/]
 * [https://ellune.tistory.com/73](https://ellune.tistory.com/73)
+* [pybo example](https://github.com/pahkey/fastapi-book/blob/async/domain/question/question_crud.py)
+
+### Step 3-1. PostgreSQL 데이터베이스 비동기 처리 라이브러리
+	
+* `requirements.txt`
+
+	```bash
+	...
+	asyncpg
+	```
+
+### Step 3-2. Code 구성
+
+* `database.py`
+
+	```python
+	import os
+	from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine # Async
+	from sqlalchemy.orm import declarative_base 
+
+	db_host = os.environ["INSTANCE_HOST"]  
+	db_user = os.environ["DB_USER"]  
+	db_pass = os.environ["DB_PASS"]
+	db_name = os.environ["DB_NAME"] 
+	db_port = os.environ["DB_PORT"]
+
+	SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{db_user}:{db_pass}@{db_host}:{db_p
+	ort}/{db_name}" # Async
+
+	engine = create_async_engine(SQLALCHEMY_DATABASE_URL, echo=True) # Async
+
+	Base = declarative_base()
+
+	# Async
+	async def get_async_db() -> AsyncSession:
+		db= AsyncSession(bind=engine)
+		try:
+			yield db
+		finally:
+			await db.close()
+	```
+
+* `domain/words_count/words_count_router.py`
+
+	```python
+	from typing import Union
+	from fastapi import APIRouter, Depends
+
+	from database import get_async_db 				# Async
+	from sqlalchemy.ext.asyncio import AsyncSession # Async
+
+	from domain.words_count import words_count_crud
+
+	router = APIRouter(
+		prefix="/words-count",
+	)
+
+	@router.get("/")
+	async def words_count(db:AsyncSession=Depends(get_async_db), 
+			stockname:Union[str,None]=None, 
+			startdate:Union[str,None]=None, 
+			stopdate:Union[str,None]=None
+			):
+		result = await words_count_crud.get_async_words_count(db, stockname=stockname, s
+	tartdate=startdate, stopdate=stopdate)
+		return result
+	```
+
+* `domain/words_count/words_count_crud.py`
+
+	```python
+	from sqlalchemy.ext.asyncio import AsyncSession # Async
+	from sqlalchemy import select 					# Async
+
+	from models import WordsCount 
+
+	# Async
+	async def get_async_words_count(db: AsyncSession, stockname, startdate, stopdate):
+		data = await db.execute(select(WordsCount).
+				filter(WordsCount.code==stockname).
+				filter(WordsCount.date.between(startdate, stopdate)))
+		return data.scalars().fetchall()
+	```
+
