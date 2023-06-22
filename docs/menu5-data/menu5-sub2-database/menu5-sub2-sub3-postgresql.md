@@ -34,21 +34,27 @@ ing
 
 <br>
 
-### Step 1-2. Postgresql
 
-## STEP 2. CloudSQL
-### Step 2-1. user
-* [CloudSQL official site]
+## STEP 2. Postgres CMD
 
----
-[Avoid redundant data]: https://opentutorials.org/course/3161/19544
-[CloudSQL official site]: https://cloud.google.com/sql/docs/postgres/users?hl=ko
+* `bash`
+
+  ```bash
+  $ psql                               # postgres DB에 postgres으로 접속
+  $ psql -d mydb                       # mydb DB에 postgres으로 접속
+  $ psql -U username  -d mydb          # mydb DB에 username으로 접속
 
 
+  => \du                     # User 목록 보기
+  => \l                      # 데이터베이스 목록 보기
+  => \d                      # 테이블 목록 보기
+  => \d {table_name}   	     # 지정된 테이블의 컬럼 목록 보기
+  => \dv                     # 뷰 목록 보기
+  => \ds                     # 시퀀스 목록 보기
+  => \dn                     # 스키마 목록 보기
 
-## STEP 3. AWS lightsail DB
+  => \c {db_name}            # 다른 DB에 접속
+  => \c {db_name} {usr_name} # 다른 DB에 지정된 사용자로 접속
 
-### Step 3-1. pgadmin4 연결
-
-* DB name : `postgres`로 연결 수행
-* `Databases` 항목에서 create db를 통해 개별 database 생성 후 그 db name을 통해 코드와 연결
+  => \q                       # PSQL 종료(Ctrl+d) 
+  ```
