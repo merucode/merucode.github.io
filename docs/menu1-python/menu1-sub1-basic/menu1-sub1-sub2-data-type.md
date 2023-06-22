@@ -68,7 +68,32 @@ sum(my_list)        # 오류 발생
 ## STEP 4. dict
 
 
+### Step 4-2. dict 병합
 
+* [Python - 두개의 딕셔너리 병합 (merge)](https://codechacha.com/ko/python-merge-two-dict/#5-%EC%A4%91%EB%B3%B5%EB%90%9C-key%EC%9D%98-value%EB%A5%BC-%EB%AA%A8%EB%91%90-%EB%A6%AC%EC%8A%A4%ED%8A%B8%EC%97%90-%EC%A0%80%EC%9E%A5)
+
+* [여러 dict에서 같은 key를 가진 value 더하여 병합하기](https://www.geeksforgeeks.org/python-sum-list-of-dictionaries-with-same-key/)
+
+  ```python
+  import collections, functools, operator
+  
+  # Initialising list of dictionary
+  ini_dict_list = [{'a':5, 'b':10, 'c':90},
+              {'a':45, 'b':78},
+              {'a':90, 'c':10}]
+  
+  # printing initial dictionary
+  print ("initial dictionary", str(ini_dict))
+  
+  # sum the values with same keys
+  result = dict(functools.reduce(operator.add,
+          map(collections.Counter, ini_dict_list)))
+  
+  print("resultant dictionary : ", str(result))
+
+  # initial dictionary [{‘b’: 10, ‘a’: 5, ‘c’: 90}, {‘b’: 78, ‘a’: 45}, {‘a’: 90, ‘c’: 10}] 
+  # resultant dictionary : {‘b’: 88, ‘a’: 140, ‘c’: 100}
+  ```
 
 
 <br>
