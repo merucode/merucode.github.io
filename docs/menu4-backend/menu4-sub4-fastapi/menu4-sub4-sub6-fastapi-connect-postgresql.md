@@ -273,5 +273,6 @@ nav_order: 3
 				filter(WordsCount.code==stockname).
 				filter(WordsCount.date.between(startdate, stopdate)))
 		return data.scalars().fetchall()
+		# return data.all() 쓰면 TypeError 발생
 	```
 
