@@ -49,9 +49,9 @@ nav_order: 3
 	db_pass = os.environ["DB_PASS"]
 	db_name = os.environ["DB_NAME"]
 	db_port = os.environ["DB_PORT"]
-
+	
 	SQLALCHEMY_DATABASE_URL = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
-
+	
 	engine = create_engine(SQLALCHEMY_DATABASE_URL)
 	SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 	
@@ -71,7 +71,7 @@ nav_order: 3
 	```python
 	from sqlalchemy import BIGINT, Column, Integer, String, Text
 	from database import Base
-
+	
 	class WordsCount(Base):
 		__tablename__ = "test"
 		
@@ -90,11 +90,11 @@ nav_order: 3
 	from sqlalchemy.orm import Session
 	
 	from domain.words_count import words_count_crud
-
+	
 	router = APIRouter(
 	    prefix="/words-count",
 	)
-
+	
 	@router.get("/")
 	def words_count(db:Session=Depends(get_db)):
 		words_count = words_count_crud.get_words_count(db)
@@ -126,7 +126,7 @@ nav_order: 3
 	origins = [ frontend_url ]
 	
 	app = FastAPI(root_path="/api")
-
+	
 	app.add_middleware(
 	    CORSMiddleware,
 	    allow_origins=origins,
@@ -153,22 +153,22 @@ nav_order: 3
 	    words_count = db.query(WordsCount).filter(WordsCount.code==stockname).filter(WordsCount.date.between(startdate, stopdate)).all()
 		return words_count
 	```
- 
+
 * `domain/words_count/words_count_router.py`
 
 	```python
 	from typing import Union
 	from fastapi import APIRouter, Depends
-
+	
 	from database import get_db
 	from sqlalchemy.orm import Session
 	
 	from domain.words_count import words_count_crud
-
+	
 	router = APIRouter(
 	    prefix="/words-count",
 	)
-
+	
 	@router.get("/")
 	def words_count(db:Session=Depends(get_db),
 		stockname:Union[str,None]=None,
@@ -194,7 +194,7 @@ nav_order: 3
 * [pybo example](https://github.com/pahkey/fastapi-book/blob/async/domain/question/question_crud.py)
 
 ### Step 3-1. PostgreSQL 데이터베이스 비동기 처리 라이브러리
-	
+
 * `requirements.txt`
 
 	```bash
@@ -264,9 +264,9 @@ nav_order: 3
 	```python
 	from sqlalchemy.ext.asyncio import AsyncSession # Async
 	from sqlalchemy import select 					# Async
-
+	
 	from models import WordsCount 
-
+	
 	# Async
 	async def get_async_words_count(db: AsyncSession, stockname, startdate, stopdate):
 		data = await db.execute(select(WordsCount).
@@ -275,4 +275,143 @@ nav_order: 3
 		return data.scalars().fetchall()
 		# return data.all() 쓰면 TypeError 발생
 	```
+
+
+
+
+
+<br>
+
+
+
+## Step 4. 데이터 전송 구조 형태 변경
+
+
+
+### Step 4-1. Backend
+
+* `crud.py`
+
+  ```python
+  from sqlalchemy.ext.asyncio import AsyncSession # Async
+  from sqlalchemy import select # Async
+  import pandas as pd
+  from datetime import datetime, timedelta
+  from fastapi.responses import JSONResponse
+  
+  async def get_async_words_count(db: AsyncSession, stockcode, startdate, stopdate):
+      data = await db.execute(select(WordsCount).
+              filter(WordsCount.code==stockcode).
+              filter(WordsCount.date.between(startdate, stopdate)))
+      load_data = data.scalars().fetchall()   # Load data from PG
+      
+      # Extract commom word and count
+      common_words_count_lst = commom_words_count(load_data, 3)
+      print(common_words_count_lst)
+      response_dict_lst, db_date_lst  = make_response_data(load_data, common_words_count_lst)
+  
+      # Fill null data 
+      response_dict_lst = fill_null_data(response_dict_lst, db_date_lst, common_words_count_lst, startdate, stopdate)
+      
+      print("ONLY LAST................")
+      return JSONResponse(content={"data":response_dict_lst, "comWords":common_words_count_lst})
+      '''전송 포멧 형식
+      "data" : [{
+          "date":"2023-06-01",
+          "word1":4,...    
+      },
+      {
+          "date":"2023-06-02",
+          "word2":0,...
+      },...
+      ],
+      "comWords":..
+      '''
+      ...
+  
+  ...
+  ```
+
+
+
+* `router.py`
+
+
+
+## Step 4-2. Frontend
+
+* `Page.jsx`
+
+  ```jsx
+  ...
+  import GraphDataList from '../../components/GraphDataList';
+  
+  function GraphPage() {
+      const [items, setItems] = useState([]);
+      const [comWords,setComWords] = useState([]);
+  
+      const handleSubmitSuccess = (res) => {
+          setItems(res.data);
+          setComWords(res.comWords);
+      };    
+      ...
+  
+      return (
+          <div>
+              <h1>GraphPage!</h1>
+              <GraphSearchForm onSubmitSuccess={handleSubmitSuccess} />
+              <GraphDataList items={items} comWords={comWords} />
+          </div>
+      )
+  }
+  
+  export default GraphPage;
+  ```
+
+* `DataList.jsx`
+
+  ```jsx
+  function DataListItem({ item }) {
+    return (
+      <div>
+        <p>{item.date}, {item.word1}, {item.word2}, {item.word3}</p>
+      </div>
+    );
+  }
+  
+  function GraphDataList({ items, comWords }) {
+    return (
+      <>
+        <ul>
+          {items.map((item) => {
+            return (
+              <li key={item.date}>
+                <DataListItem item={item} />
+              </li>
+            );
+          })}
+        </ul>
+  
+        <ul>
+          {comWords.map((comWord) => {
+            return (
+              <li>comWord : {comWord[0]}, count : {comWord[1]}</li>
+            );
+          })}
+        </ul>
+      </>
+    );
+  }
+  
+  export default GraphDataList;
+  ```
+
+  
+
+* `SearchForm.jsx`
+
+  ```
+  ```
+
+  
 
