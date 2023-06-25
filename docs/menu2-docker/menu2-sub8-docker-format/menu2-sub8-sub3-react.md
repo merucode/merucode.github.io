@@ -22,12 +22,14 @@ nav_order: 3
 ## STEP 0. Reference Site
 
 * [프론트엔드 개발자를 위한 Docker로 React 개발 및 배포하기](https://velog.io/@oneook/Docker%EB%A1%9C-React-%EA%B0%9C%EB%B0%9C-%EB%B0%8F-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0)
-* [Github]()
+* [Github](https://github.com/merucode/form/tree/react_basic)
 
 
 ## STEP 1. Docker Code
 
 ### Step 1-1. Create React App
+
+* EC2에서 작업시 [EC2 Docker Engine Install] 먼저 수행
 
 * **File structure**
 
