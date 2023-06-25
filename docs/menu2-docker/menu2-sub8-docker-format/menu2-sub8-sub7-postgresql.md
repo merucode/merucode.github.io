@@ -27,7 +27,7 @@ ing
 
 <br>
 
-## STEP 1. Docker Code
+## STEP 1. Docker Code(For DEV)
 
 ### Step 1-1. File Structure
 
@@ -59,7 +59,7 @@ ing
       expose:
         - 5432
       env_file:
-        - .env
+        - .database.env
   ```
 
 * `database/Dockerfile`
@@ -68,127 +68,39 @@ ing
   FROM postgres:14.8
   ```
 
-* `.env`
+* `.database.env`
 
-  ```
+  ```bash
   POSTGRES_PASSWORD=test_password
+  POSTGRES_USER=test_user
+  POSTGRES_DB=test_db
   ```
 
-  * 최초 실행 시 POSTGRES_PASSWORD 환경 변수 설정해줘야 접속 가능(이후에는 없어도 됨)??????????
+  * 최초 실행 시 POSTGRES_USER, PASSWORD, DB로 유저, DB생성(Initalize)
+    * POSTGRES_PASSWORD는 꼭 환경 변수 설정해줘야 접속 가능
+  * 이후에는 해당 환경 변수들은 불필요
 
+<br>
 
+## STEP 2. Advance
 
-
-## STEP 2
+### Step 2-1. Postgresql 접속 방법
 
 * `bash`
 
-```
-$ docker compose up -d --build
-$ docke exec -it database /bin/bash
-# su - postgres     # user postgres 변경
-# psql              # psql 접속
+  ```bash
+  $ docker compose up -d --build
+  $ docker exec -it database /bin/bash
+  > su - postgres                            # user postgres 변경
+  > psql -U [POSTGRES_USER] -d [POSTGRES_DB] # psql 접속 # psql -U test_user -d test_db;
+  ```
 
-# CREATE USER [new_user] NOSUPERUSER;
-# ALTER USER [new_user] ENCRYPTED PASSWORD '[new_password]';
-# CREATE DATABASE [new_db] WITH OWNER [new_user];
-#\q
-# 
-```
+### Step 2-2. Github 올릴시 기존 데이터들 저장 안됨 관련
 
+* `database/postgres/data` 하부 빈 폴더들에 `.gitkeep` 생성 후 git push 하면 기존 데이터들도 저장될 것 같으나, 개발용으로만 주로 사용되기에 불필요하다고 생각되서 미수행
 
-----------------------------------------------------
-
-
-
-<br>
-
-## STEP 2. Dockerfile build 및 run
-
-* **teminal**
+* `bash`(`cd postgres` 권한 문제 발생 해결 방법)
 
   ```bash
-  $ docker build -t jupyter .
-  
-  $ docker run \
-      -v $PWD:/usr/src/app \
-      -p 8888:8888 \
-      --user root \
-      jupyter
-      
-  # docker run 실행 시 아래와 같이 주소형식으로 token 값 나옴(...?token=token값)
-  # Or copy and paste one of these URLs:
-  # http://1039d10a8a77:8888/lab?token=8cf6f4302eff032c359c59fa95d71eca8fc108aeb1fbbb77
+  $ sudo chown -R $(whoami) .
   ```
-
-* 권한 관련 문제 발생 시 참고 사이트 : [jupyter-docker doc](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/troubleshooting.html)
-
- <br>
-
-## STEP 3. Jupyter notebook 접속
-
-* **인터넷 브라우저 `localhost:8888` 접속**
-* **token 입력**
-
-<br>
-
-## STEP 4. Example Dockerfile Code
-
-* **File structure**
-
-  ```bash
-  .
-  ├── 📄docker-compose.yml
-  ├── 📄.env
-  └── 📁jupyter
-      ├── 📄Dockerfile
-      └── 📄requirements.txt
-  ```
-  
-* `./jupyter/Dockerfile`
-
-  ```dockerfile
-  FROM jupyter/minimal-notebook:latest
-    
-  WORKDIR /usr/src/app
-        
-  # docker jupyter notebook 권한 관련 환경변수 설정
-  ENV CHOWN_EXTRA="/usr/src/app"
-  ENV CHOWN_EXTRA_OPTS="-R"
-    
-  COPY ./requirements.txt .
-    
-  # install pakages
-  RUN pip install --upgrade pip
-  COPY ./requirements.txt .
-  RUN pip install -r requirements.txt
-    
-  # build : $ docker build -t jupyter .
-  # run   : $ docker run -v $PWD:/usr/src/app -p 8888:8888 --user root jupyter
-  ```
-
-* `./docker-compose.yml`
-
-  ```dockerfile
-  version: '3.7'
-    
-  services:
-    jupyter:
-      container_name: jupyter
-      build:
-        context: ./jupyter/
-        dockerfile: Dockerfile
-      volumes:
-        - ${PWD}/jupyter:/usr/src/app
-      ports:
-        - 8888:8888
-      user: root
-      # if you need to connect env_file(DB)
-      env_file:
-        - ./.env
-  
-  # build & run : docker compose up -d --build
-  # token check : docker logs jupyter
-  ```
-
-  
