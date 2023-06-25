@@ -22,7 +22,7 @@ nav_order: 2
 ## STEP 0. Reference Site
 
 * 권한 관련 문제 발생 시 참고 사이트 : [jupyter-docker doc](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/troubleshooting.html)
-* Github : [https://github.com/merucode/form/tree/jupyter_basic](https://github.com/merucode/form/tree/jupyter_basic)
+* [Github](https://github.com/merucode/form/tree/jupyter_basic)
 
 <br>
 
@@ -65,7 +65,7 @@ nav_order: 2
 * `./docker-compose.yml`
 
   ```dockerfile
-  version: '3.7'
+  version: '3.8'
     
   services:
     jupyter:

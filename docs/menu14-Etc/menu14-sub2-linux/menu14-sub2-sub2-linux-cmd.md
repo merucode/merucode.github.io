@@ -30,6 +30,10 @@ nav_order: 2
 $ pwd
 
 
+### 현재 폴더 내 파일/폴더 용량 확인(ubuntu)
+$ du -sh *
+
+
 ### PATH 경로에 해당하는 디렉토리로 이동
 $ cd [PATH]
 $ cd dir1
