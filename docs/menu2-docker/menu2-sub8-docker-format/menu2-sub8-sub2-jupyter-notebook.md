@@ -26,9 +26,9 @@ nav_order: 2
 
 <br>
 
-## STEP 1. Dockerfile Code
+## STEP 1. Docker Code
 
-* EC2에서 작업시 [EC2 Docker Engine Install] 먼저 수행
+### Step 1-1. File Structure
 
 * **File structure**
 
@@ -40,7 +40,11 @@ nav_order: 2
       ├── 📄Dockerfile
       └── 📄requirements.txt
   ```
-  
+
+* EC2에서 작업시 [EC2 Docker Engine Install] 먼저 수행
+
+### Step 1-2. Docker Code
+
 * `./jupyter/Dockerfile`
 
   ```dockerfile

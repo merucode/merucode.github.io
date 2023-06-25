@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Jupyter Notebook
+title: PostgreSQL
 parent: Docker Format
 grand_parent: Docker
-nav_order: 2
+nav_order: 7
 ---
 
 # PostgreSQL(with docker)
@@ -21,7 +21,27 @@ ing
 </details>
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 1. Dockerfile 생성
+## STEP 0. Reference Site
+
+* Github : []()
+
+<br>
+
+## STEP 1. Docker Code
+
+### Step 1-1. File Structure
+
+* **File structure**
+
+  ```bash
+  .
+  ├── 📁database
+  │   ├── 📄Dockerfile
+  │   └── 📁postgresql
+  └── 📄docker-compose.yml
+  ```
+
+### Step 1-2. Docker Code
 
 * `docker-compose.yml`
 
@@ -51,17 +71,30 @@ ing
 * `.env`
 
   ```
-  INSTANCE_HOST= # EC2 static ip or database endpoint
-  DB_USER=test_db
   POSTGRES_PASSWORD=test_password
-  DB_NAME=test_user
-  DB_PORT=5432
   ```
 
-  * POSTGRES_PASSWORD 환경 변수 설정해줘야 접속 가능
+  * 최초 실행 시 POSTGRES_PASSWORD 환경 변수 설정해줘야 접속 가능(이후에는 없어도 됨)??????????
 
 
 
+
+## STEP 2
+
+* `bash`
+
+```
+$ docker compose up -d --build
+$ docke exec -it database /bin/bash
+# su - postgres     # user postgres 변경
+# psql              # psql 접속
+
+# CREATE USER [new_user] NOSUPERUSER;
+# ALTER USER [new_user] ENCRYPTED PASSWORD '[new_password]';
+# CREATE DATABASE [new_db] WITH OWNER [new_user];
+#\q
+# 
+```
 
 
 ----------------------------------------------------
