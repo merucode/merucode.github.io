@@ -1,14 +1,23 @@
 ---
 layout: default
-title: Doceker-compose Install on EC2
-parent: Docker-compose
+title: EC2 Docker Engine Install
+parent: Docker Format
 grand_parent: Docker
-nav_order: 7
+nav_order: 1
 ---
 
-# Docker-compose Basic
+# EC2 Docker Engine Install
 {: .no_toc }
 
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
+<!------------------------------------ STEP ------------------------------------>
 
 ### Step 1. 인스턴스 docker/docker compose install
 

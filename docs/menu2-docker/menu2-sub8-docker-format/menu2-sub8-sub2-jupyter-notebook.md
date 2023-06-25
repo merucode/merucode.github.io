@@ -1,15 +1,13 @@
 ---
 layout: default
 title: Jupyter Notebook
-parent: Dockerfile Format
+parent: Docker Format
 grand_parent: Docker
 nav_order: 2
 ---
 
 # Jupyter Notebook(with docker)
-{: .no_toc .d-inline-block }
-ing
-{: .label .label-green }
+{: .no_toc }
 
 <details open markdown="block">
   <summary>
@@ -30,7 +28,7 @@ ing
 
 ## STEP 1. Dockerfile Code
 
-* EC2에서 작업시 `[EC2 Docker Engine Install]` 먼저 수행
+* EC2에서 작업시 [EC2 Docker Engine Install] 먼저 수행
 
 * **File structure**
 
@@ -78,9 +76,6 @@ ing
       user: root
       env_file:
         - ./.env
-  
-  # build & run : docker compose up -d --build
-  # token check : docker logs jupyter
   ```
 
 <br>

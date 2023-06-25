@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Jupyter Notebook
-parent: Dockerfile Format
+parent: Docker Format
 grand_parent: Docker
 nav_order: 2
 ---

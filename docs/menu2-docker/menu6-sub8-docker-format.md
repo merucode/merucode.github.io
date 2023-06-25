@@ -1,13 +1,10 @@
 ---
 layout: default
-title: Dockerfile Format
+title: Docker Format
 parent: Docker
 nav_order: 8
 has_children: true
 ---
 
-# Dockerfile Format
+# Docker Format
 {: .no_toc }
-
-menu6 sub2 test
-{: .fs-6 .fw-300 }
