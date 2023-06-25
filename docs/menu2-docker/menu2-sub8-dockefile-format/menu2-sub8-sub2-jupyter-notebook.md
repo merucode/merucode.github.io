@@ -21,53 +21,16 @@ ing
 </details>
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 1. Dockerfile 생성
-
-* **`Dockerfile`**
-
-  ```dockerfile
-  # docker hub에서 원하는 jupyter notebook 이미지 선택
-  FROM jupyter/minimal-notebook:latest	
-  
-  WORKDIR /usr/src/app
-  
-  # docker jupyter notebook 권한 관련 환경변수 설정
-  ENV CHOWN_EXTRA="/usr/src/app"
-  ENV CHOWN_EXTRA_OPTS="-R"
-  ```
-  
-  <br>
-
-## STEP 2. Dockerfile build 및 run
-
-* **teminal**
-
-  ```bash
-  $ docker build -t jupyter .
-  
-  $ docker run \
-      -v $PWD:/usr/src/app \
-      -p 8888:8888 \
-      --user root \
-      jupyter
-      
-  # docker run 실행 시 아래와 같이 주소형식으로 token 값 나옴(...?token=token값)
-  # Or copy and paste one of these URLs:
-  # http://1039d10a8a77:8888/lab?token=8cf6f4302eff032c359c59fa95d71eca8fc108aeb1fbbb77
-  ```
+## STEP 0. Reference Site
 
 * 권한 관련 문제 발생 시 참고 사이트 : [jupyter-docker doc](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/troubleshooting.html)
-
- <br>
-
-## STEP 3. Jupyter notebook 접속
-
-* **인터넷 브라우저 `localhost:8888` 접속**
-* **token 입력**
+* Github : [https://github.com/merucode/form/tree/jupyter_basic](https://github.com/merucode/form/tree/jupyter_basic)
 
 <br>
 
-## STEP 4. Example Dockerfile Code
+## STEP 1. Dockerfile Code
+
+* EC2에서 작업시 `[EC2 Docker Engine Install]` 먼저 수행
 
 * **File structure**
 
@@ -83,23 +46,18 @@ ing
 * `./jupyter/Dockerfile`
 
   ```dockerfile
-  FROM jupyter/minimal-notebook:latest
+  FROM jupyter/base-notebook:latest
     
   WORKDIR /usr/src/app
         
-  # docker jupyter notebook 권한 관련 환경변수 설정
+  # Setting ENV for docker jupyter notebook
   ENV CHOWN_EXTRA="/usr/src/app"
   ENV CHOWN_EXTRA_OPTS="-R"
-    
-  COPY ./requirements.txt .
     
   # install pakages
   RUN pip install --upgrade pip
   COPY ./requirements.txt .
   RUN pip install -r requirements.txt
-    
-  # build : $ docker build -t jupyter .
-  # run   : $ docker run -v $PWD:/usr/src/app -p 8888:8888 --user root jupyter
   ```
 
 * `./docker-compose.yml`
@@ -118,7 +76,6 @@ ing
       ports:
         - 8888:8888
       user: root
-      # if you need to connect env_file(DB)
       env_file:
         - ./.env
   
@@ -126,4 +83,25 @@ ing
   # token check : docker logs jupyter
   ```
 
+<br>
+
+## STEP 2. Jupyter notebook 접속
+
+### Step 2-1. Local에서 구동 시
+
+* `bash`
   
+  ```bash
+  $ docker compose up -d --build  # build & run
+  $ docker logs jupyter           # token check
+  ```
+
+* 인터넷 브라우저 `localhost:8888` 접속
+* token 입력
+
+
+### Step 2-2. AWS EC2에서 구동 시
+
+* [해당 EC2] - [네트워킹] - [IPv4 방화벽] - [규칙추가]
+  * Port or range : 8888 추가
+* 이후 절차 Step 2-1. 동일
