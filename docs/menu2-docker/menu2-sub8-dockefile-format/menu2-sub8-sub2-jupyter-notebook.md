@@ -104,4 +104,13 @@ ing
 
 * [해당 EC2] - [네트워킹] - [IPv4 방화벽] - [규칙추가]
   * Port or range : 8888 추가
-* 이후 절차 Step 2-1. 동일
+
+* `bash`
+  
+  ```bash
+  $ docker compose up -d --build  # build & run
+  $ docker logs jupyter           # token check
+  ```
+
+* 인터넷 브라우저 `[EC2 Public IP]:8888` 접속
+* token 입력
