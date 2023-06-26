@@ -64,18 +64,14 @@ nav_order: 3
 * `./backend/Dockerfile`
 
   ```dockerfile
-  FROM jupyter/base-notebook:latest
-    
+  FROM python:3.10
+
   WORKDIR /usr/src/app
-        
-  # Setting ENV for docker jupyter notebook
-  ENV CHOWN_EXTRA="/usr/src/app"
-  ENV CHOWN_EXTRA_OPTS="-R"
-    
-  # install pakages
+
+  COPY ./requirements.txt /requirements.txt
+
   RUN pip install --upgrade pip
-  COPY ./requirements.txt .
-  RUN pip install -r requirements.txt
+  RUN pip install --no-cache-dir --upgrade -r /requirements.txt
   ```
 
 * `./backend/requirements.txt`
