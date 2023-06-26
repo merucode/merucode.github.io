@@ -3,7 +3,7 @@ layout: default
 title: React Styled Components
 parent: React
 grand_parent: Frontend
-nav_order: 5
+nav_order: 7
 ---
 
 # React Styled Components

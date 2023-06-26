@@ -36,7 +36,7 @@ ing
   ```bash
   .
   ├── 📁backend
-  │   ├── D📄ockerfile
+  │   ├── 📄Dockerfile
   │   ├── 📄main.py
   │   └── 📄requirements.txt
   ├── 📁database
