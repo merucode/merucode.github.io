@@ -190,3 +190,67 @@ ing
 <br>
 
 ## STEP 3. Connect Backend and Frontend
+
+
+### Step 3-1. Frontend
+
+* **File Structure**
+
+	```bash
+	📁frontend
+	├── 📄Dockerfile
+	├── 📁node_modules
+	├── 📄package-lock.json
+	├── 📄package.json
+	├── 📁public
+	└── 📁src
+		├── 📄Main.js
+		├── 📄index.js
+		├── 📁components
+		│   ├── 📄App.js
+		│   └── 📄Header.jsx
+		└── 📁pages
+		    └── 📄HomePage
+	```
+
+* `bash`
+	*	Install `axios`, `react-router-dom@6`
+	```bash
+	$ docker compose up -d --build
+	$ docker exec -it frontend /bin/sh
+	# npm install axios react-router-dom@6 --save
+	```
+* Make as [React-router-basic-form]()
+
+* `pages/HomePage/HomePage.jsx`
+
+	```jsx
+	import axios from "axios";
+	import { useEffect, useState } from 'react';
+	
+	function HomePage() {
+		const [update,setUpdate] = useState('');
+		let message;
+
+		useEffect(() => {
+	    axios.get('https://temanet.co.kr/api/hello')
+	      .then((res) => {
+	        message = res.data.message
+	        setUpdate(message)
+	      })
+		  }, [update]);
+
+	    return (
+	    <div>
+		    <h1>HomePage</h1>
+		    <div>From Backend Data : </div>
+		    <div>{update}</div>
+		</div>
+	    );
+	}
+
+	export default HomePage;
+	```
+
+### Step 3-2. Backend
+
