@@ -1,12 +1,12 @@
 ---
 layout: default
-title: EC2 Docker Engine Install
+title: EC2 Docker Install
 parent: Docker Format
 grand_parent: Docker
 nav_order: 1
 ---
 
-# EC2 Docker Engine Install
+# EC2 Docker Install
 {: .no_toc }
 
 <details open markdown="block">
