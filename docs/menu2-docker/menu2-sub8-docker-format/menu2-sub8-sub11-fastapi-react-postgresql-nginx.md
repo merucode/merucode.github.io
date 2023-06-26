@@ -202,10 +202,12 @@ ing
 	├── 📁node_modules
 	├── 📄package-lock.json
 	├── 📄package.json
+	├── 📄.env
 	├── 📁public
 	└── 📁src
 		├── 📄Main.js
 		├── 📄index.js
+		├── 📄urls.js
 		├── 📁components
 		│   ├── 📄App.js
 		│   └── 📄Header.jsx
@@ -222,18 +224,33 @@ ing
 	```
 * Make as [React-router-basic-form]()
 
+* `.env`
+
+	```python
+	REACT_APP_BACKEND_URL=http://[EC2 Public IP]/api/
+	# REACT_APP_BACKEND_URL=http://13.124.156.36/api/
+	```
+
+* `urls.js`
+
+	```jsx
+	export const BACKEND_URL = process.env.REACT_APP_ACKEND_URL
+	```
+
 * `pages/HomePage/HomePage.jsx`
 
 	```jsx
 	import axios from "axios";
 	import { useEffect, useState } from 'react';
 	
+	import { BACKEND_URL } from '../../urls';
+
 	function HomePage() {
 		const [update,setUpdate] = useState('');
 		let message;
 
 		useEffect(() => {
-	    axios.get('https://temanet.co.kr/api/hello')
+	    axios.get(BACKEND_URL)
 	      .then((res) => {
 	        message = res.data.message
 	        setUpdate(message)
@@ -243,7 +260,7 @@ ing
 	    return (
 	    <div>
 		    <h1>HomePage</h1>
-		    <div>From Backend Data : </div>
+		    <div>Data From Backend : </div>
 		    <div>{update}</div>
 		</div>
 	    );
@@ -251,6 +268,9 @@ ing
 
 	export default HomePage;
 	```
+
+
+
 
 ### Step 3-2. Backend
 
