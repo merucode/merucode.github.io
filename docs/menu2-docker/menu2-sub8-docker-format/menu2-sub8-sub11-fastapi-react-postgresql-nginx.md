@@ -1,12 +1,12 @@
 ---
 layout: default
-title: PostgreSQL
+title: fastapi-react-postgresql-nginx
 parent: Docker Format
 grand_parent: Docker
-nav_order: 7
+nav_order: 11
 ---
 
-# PostgreSQL(with docker)
+# fastapi-react-postgresql-nginx
 {: .no_toc .d-inline-block }
 ing
 {: .label .label-green }
@@ -23,11 +23,11 @@ ing
 
 ## STEP 0. Reference Site
 
-* [Github](https://github.com/merucode/form/tree/postgresql_basic)
+* [Github]
 
 <br>
 
-## STEP 1. Docker Code(For DEV)
+## Step 1. Basic Library Install
 
 ### Step 1-1. File Structure
 
@@ -35,72 +35,158 @@ ing
 
   ```bash
   .
+  ├── 📁backend
+  │   ├── D📄ockerfile
+  │   ├── 📄main.py
+  │   └── 📄requirements.txt
   ├── 📁database
   │   ├── 📄Dockerfile
   │   └── 📁postgresql
-  └── 📄docker-compose.yml
+  ├── 📄docker-compose.yml
+  ├── 📁frontend
+  │   ├── 📄Dockerfile
+  │   ├── 📁node_modules
+  │   ├── 📄package-lock.json
+  │   ├── 📄package.json
+  │   ├── 📁public
+  │   └── 📁src
+  └── 📁nginx
+      ├── 📄Dockerfile
+      └── 📄nginx.conf
   ```
 
-### Step 1-2. Docker Code
+### Step 1-2. Install Basic Docker format
+* [react](https://merucode.github.io/docs/menu2-docker/menu2-sub8-docker-format/menu2-sub8-sub3-react.html)
+* [fastapi](https://merucode.github.io/docs/menu2-docker/menu2-sub8-docker-format/menu2-sub8-sub4-fastapi.html)
+* [postgresql](https://merucode.github.io/docs/menu2-docker/menu2-sub8-docker-format/menu2-sub8-sub7-postgresql.html)
 
-* `docker-compose.yml`
-
-  ```dockerfile
-  version: '3.8'
-  
-  services:
-    database:
-      container_name: database
-      build:
-        context: ./database/
-        dockerfile: Dockerfile
-      volumes:
-        - ${PWD}/database/postgresql:/var/lib/postgresql/data/
-      expose:
-        - 5432
-      env_file:
-        - .database.env
-  ```
-
-* `database/Dockerfile`
-
-  ```dockerfile
-  FROM postgres:14.8
-  ```
-
-* `.database.env`
-
-  ```bash
-  POSTGRES_PASSWORD=test_password
-  POSTGRES_USER=test_user
-  POSTGRES_DB=test_db
-  ```
-
-  * 최초 실행 시 POSTGRES_USER, PASSWORD, DB로 유저, DB생성(Initalize)
-    * POSTGRES_PASSWORD는 꼭 환경 변수 설정해줘야 접속 가능
-  * 이후에는 해당 환경 변수들은 불필요
 
 <br>
 
-## STEP 2. Advance
+### Step 1-2. Install Basic Docker format
+* [react](https://merucode.github.io/docs/menu2-docker/menu2-sub8-docker-format/menu2-sub8-sub3-react.html)
+* [fastapi](https://merucode.github.io/docs/menu2-docker/menu2-sub8-docker-format/menu2-sub8-sub4-fastapi.html)
+* [postgresql](https://merucode.github.io/docs/menu2-docker/menu2-sub8-docker-format/menu2-sub8-sub7-postgresql.html)
 
-### Step 2-1. Postgresql 접속 방법
+<br>
 
-* `bash`
+## STEP 2. Connect using Nginx
 
-  ```bash
-  $ docker compose up -d --build
-  $ docker exec -it database /bin/bash
-  > su - postgres                            # user postgres 변경
-  > psql -U [POSTGRES_USER] -d [POSTGRES_DB] # psql 접속 # psql -U test_user -d test_db;
-  ```
+### Step 2-1. Nginx Docker Code
 
-### Step 2-2. Github 올릴시 기존 데이터들 저장 안됨 관련
+* `docker-compose.yml`
+	```dockerfile
+	...
+	  nginx:
+	    container_name: nginx
+	    build:
+	      context: ./nginx/
+	      dockerfile: Dockerfile
+	    ports:
+	      - 80:80
+	    depends_on:
+	      - backend
+	      - frontend
+	```
 
-* `database/postgres/data` 하부 빈 폴더들에 `.gitkeep` 생성 후 git push 하면 기존 데이터들도 저장될 것 같으나, 개발용으로만 주로 사용되기에 불필요하다고 생각되서 미수행
+* `nginx/Dockerfile`
 
-* `bash`(`cd postgres` 권한 문제 발생 해결 방법)
+	```dockerfile
+	FROM nginx:1.25-alpine
 
-  ```bash
-  $ sudo chown -R $(whoami) .
-  ```
+	# Delete conf and copy
+	RUN rm /etc/nginx/conf.d/default.conf
+	COPY nginx.conf /etc/nginx/conf.d/
+	```
+
+* `nginx/nginx.conf`
+
+	```nginx
+	# frontend : 3000 port
+	upstream frontend {
+	    server frontend:3000;
+	}
+
+	# backend : 8000 port
+	upstream backend {
+	    server backend:8000;
+	}
+
+	server {
+	    listen 80;
+
+	    # When request in "/", connect to "http://frontend" 
+	    location / {
+	        proxy_pass http://frontend;
+	        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	        proxy_set_header Host $host;
+	        proxy_redirect off;
+	    }
+
+	    # When request in "/api", connect to "http://backend" 
+	    # Using rewrite and fastapi root_path, handling 'api/' as '/' in backend(fastapi)
+	    location /api {
+	    	rewrite ^/api/(.*)$ /$1 break;
+	        proxy_pass http://backend/api;
+	        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	        proxy_set_header Host $host;
+	        proxy_redirect off;
+	    }
+	}
+	```
+
+### Step 2-2. Connect Nginx
+
+* `docker-compose.yml`
+
+	```dockerfile
+	version: '3.8'
+
+	services:
+	  frontend:
+	    container_name: frontend
+	    build:
+	      context: ./frontend/
+	      dockerfile: Dockerfile
+	    volumes:
+	      - ${PWD}/frontend/:/usr/src/app/
+	    expose:
+	      - 3000
+	    command: sh -c "npm install && npm run start"
+
+	  backend:
+	    container_name: backend
+	    build:
+	      context: ./backend/
+	      dockerfile: Dockerfile
+	    volumes:
+	      - ${PWD}/backend/:/usr/src/app
+	    expose:
+	      - 8000
+	    command: ["uvicorn", "main:app","--root-path", "/api", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--reload"]
+
+	  database:
+	    container_name: database
+	    build:
+	      context: ./database/
+	      dockerfile: Dockerfile
+	    volumes:
+	      - ${PWD}/database/postgresql:/var/lib/postgresql/data/
+	    expose:
+	      - 5432
+	    env_file:
+	      - .database.env
+
+	  nginx:
+	  ...
+	```
+
+	* ports → expose 변경(nginx에서 분배)
+	* backend command 변경
+		* `—proxy-header` : nginx 에서 프록시 패스로 해당 어플리케이션을 연결하고 싶을 때 추가해주는 옵션
+		* `—root-path` : api uri의 prefix 를 설정함
+ * connect to `http://[EC2 Public IP]`, `http://[EC2 Public IP]/api/`
+
+<br>
+
+## STEP 3. Connect Backend and Frontend
