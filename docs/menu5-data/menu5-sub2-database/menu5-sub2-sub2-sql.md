@@ -42,13 +42,8 @@ SHOW DATABASES;
 
 <!------------------------------------ STEP ------------------------------------>
 ## STEP 2. TABLE
+
 ```sql
--- Show tables
-SHOW TABLES; 
-
--- Show table columns
-DESC 테이블명;
-
 -- CREATE TABLE
 CREATE TABLE movies (
 	movie_id SERIAL PRIMARY KEY,
