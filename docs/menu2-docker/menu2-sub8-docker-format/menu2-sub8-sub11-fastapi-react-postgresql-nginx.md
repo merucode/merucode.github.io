@@ -7,9 +7,7 @@ nav_order: 11
 ---
 
 # fastapi-react-postgresql-nginx
-{: .no_toc .d-inline-block }
-ing
-{: .label .label-green }
+{: .no_toc }
 
 <details open markdown="block">
   <summary>
@@ -458,3 +456,103 @@ ing
   ```
 
 * connect `[EC2 Public IP]/api/test/`
+
+### Step 4-4. Frontend
+ 
+ * `urls.js`
+ 
+	```jsx
+	...
+	export const BACKEND_DB_TEST_URL = BACKEND_URL + "/test/";
+	```
+
+* `api.js`
+
+	```jsx
+	import { BACKEND_DB_TEST_URL } from "./urls";
+	import axios from "axios";
+
+	export async function getItems() {
+	  const req_config = {
+				headers: {
+				    "Content-type": "application/json",
+			    },
+			} 
+
+	  const response = await axios.get(
+		BACKEND_DB_TEST_URL,
+		req_config
+	  )
+	  
+	  return response.data;
+	}
+	```
+
+* `hook/useAsync.jsx`
+
+	```jsx
+	import { useCallback, useState } from 'react';
+
+	function useAsync(asyncFunction) {
+	  const [pending, setPending] = useState(false);
+	  const [error, setError] = useState(null);
+
+	  const wrappedFunction = useCallback(
+	    async (...args) => {
+	      setPending(true);
+	      setError(null);
+	      try {
+			return await asyncFunction(...args);
+	      } catch (error) {
+	        setError(error);
+	      } finally {
+	        setPending(false);
+	      }
+	    },
+	    [asyncFunction]
+	  );
+
+	  return [pending, error, wrappedFunction];
+	}
+	
+	export default useAsync;
+	```
+
+* `pages/HomePage/HomePage.jsx`
+
+	```jsx
+	import { useState, useEffect, useCallback } from 'react';
+	import { getItems } from '../../api';
+	import useAsync from '../../hooks/useAsync';
+
+	function HomePage() {
+		const [items, setItems] = useState([]);
+	    const [isLoading, loadingError, getItemsAsync] = useAsync(getItems);
+
+		const loadItems = useCallback(async () => {
+			const result = await getItemsAsync();
+			        setItems([...result]);
+		}, [getItemsAsync]);
+
+	    useEffect(() => {
+	        loadItems();
+	    }, []);
+
+	    return (
+	    <div>
+	    <h1>HomePage</h1>
+	    <div>Data From Backend : </div>
+	        <ol>{items.map((e) => <li key={e.id}>{e.name} {e.date} {e.value}</li>)}</ol>
+	        <div>{isLoading && <span>Loading</span>}</div>
+	        <div>{loadingError?.message && <span>{loadingError.message}</span>}</div>
+	    </div>
+	    );
+	}
+	export default HomePage;
+	```
+* connect to `[EC2 Public IP]`
+
+* Reference Site
+		* [useEffect with Axios](https://velog.io/@chez_kwak/React-Native-useEffect-with-Axios)
+
+<br>
