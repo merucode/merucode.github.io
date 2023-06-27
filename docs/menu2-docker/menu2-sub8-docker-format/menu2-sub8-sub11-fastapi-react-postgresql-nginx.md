@@ -26,7 +26,7 @@ nav_order: 11
     * `/frontend/.env`
     * `.database.env`
     * `.backend.env`
-
+  * Create Test Table [Step 4-1]
 
 <br>
 
@@ -237,7 +237,7 @@ nav_order: 11
 
 	```python
 	REACT_APP_BACKEND_URL=http://[EC2 Public IP]/api/
-	# REACT_APP_BACKEND_URL=http://13.124.156.36/api/
+	# REACT_APP_BACKEND_URL=http://111.111.111.111/api/
 	```
 
 * `urls.js`
@@ -340,14 +340,14 @@ nav_order: 11
 * `.backend.env`
 
   ```bash
-  INSTANCE_HOST= # EC2 public IP
+  INSTANCE_HOST= #111.111.111.111
   DB_USER=test_user
   DB_PASS=test_password
   DB_NAME=test_db
   DB_PORT=5432
   
   SECRET_KEY=test_secret_key
-  FRONTEND_URL=# EC2 public IP
+  FRONTEND_URL= #111.111.111.111
   ```
 
 * `docker-compose.yml`
