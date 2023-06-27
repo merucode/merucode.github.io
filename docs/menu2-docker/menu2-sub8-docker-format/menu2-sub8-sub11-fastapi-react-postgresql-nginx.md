@@ -24,6 +24,11 @@ ing
 ## STEP 0. Reference Site
 
 * [Github]
+  * Setting ENV 
+    * `/frontend/.env`
+    * `.database.env`
+    * `.backend.env`
+
 
 <br>
 
@@ -36,6 +41,9 @@ ing
   ```bash
   .
   ├── 📁backend
+  │   ├── 📁domain 
+  │   ├── 📄models.py
+  │   ├── 📄database.py
   │   ├── 📄Dockerfile
   │   ├── 📄main.py
   │   └── 📄requirements.txt
@@ -43,11 +51,14 @@ ing
   │   ├── 📄Dockerfile
   │   └── 📁postgresql
   ├── 📄docker-compose.yml
+  ├── 📄.backend.env
+  ├── 📄.database.env
   ├── 📁frontend
   │   ├── 📄Dockerfile
   │   ├── 📁node_modules
   │   ├── 📄package-lock.json
   │   ├── 📄package.json
+  │   ├── 📄.env
   │   ├── 📁public
   │   └── 📁src
   └── 📁nginx
@@ -106,15 +117,15 @@ ing
 	upstream frontend {
 	    server frontend:3000;
 	}
-
+	
 	# backend : 8000 port
 	upstream backend {
 	    server backend:8000;
 	}
-
+	
 	server {
 	    listen 80;
-
+	
 	    # When request in "/", connect to "http://frontend" 
 	    location / {
 	        proxy_pass http://frontend;
@@ -122,7 +133,7 @@ ing
 	        proxy_set_header Host $host;
 	        proxy_redirect off;
 	    }
-
+	
 	    # When request in "/api", connect to "http://backend" 
 	    # Using rewrite and fastapi root_path, handling 'api/' as '/' in backend(fastapi)
 	    location /api {
@@ -141,7 +152,7 @@ ing
 
 	```dockerfile
 	version: '3.8'
-
+	
 	services:
 	  frontend:
 	    container_name: frontend
@@ -153,7 +164,7 @@ ing
 	    expose:
 	      - 3000
 	    command: sh -c "npm install && npm run start"
-
+	
 	  backend:
 	    container_name: backend
 	    build:
@@ -164,7 +175,7 @@ ing
 	    expose:
 	      - 8000
 	    command: ["uvicorn", "main:app","--root-path", "/api", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--reload"]
-
+	
 	  database:
 	    container_name: database
 	    build:
@@ -176,7 +187,7 @@ ing
 	      - 5432
 	    env_file:
 	      - .database.env
-
+	
 	  nginx:
 	  ...
 	```
@@ -244,11 +255,11 @@ ing
 	import { useEffect, useState } from 'react';
 	
 	import { BACKEND_URL } from '../../urls';
-
+	
 	function HomePage() {
 		const [update,setUpdate] = useState('');
 		let message;
-
+	
 		useEffect(() => {
 	    axios.get(BACKEND_URL)
 	      .then((res) => {
@@ -256,7 +267,7 @@ ing
 	        setUpdate(message)
 	      })
 		  }, [update]);
-
+	
 	    return (
 	    <div>
 		    <h1>HomePage</h1>
@@ -265,7 +276,7 @@ ing
 		</div>
 	    );
 	}
-
+	
 	export default HomePage;
 	```
 
@@ -274,3 +285,176 @@ ing
 
 ### Step 3-2. Backend
 
+* N/A
+
+<br>
+
+
+
+## STEP 4. Connect with Database
+
+
+
+### Step 4-1. Create Data Table
+
+* `bash`
+
+  ```bash
+  $ docker compose up -d --build
+  $ docker exec -it database /bin/bash
+  > su - postgres
+  > psql -U test_user -d test_db;
+  > CREATE TABLE test_table (
+  	id SERIAL PRIMARY KEY,
+      name VARCHAR(20) NOT NULL,
+  	date DATE NOT NULL, 
+  	value INT NOT NULL
+  );
+  > INSERT INTO test_table (name, date, value) VALUES ('KIM', '2023-06-27', 10);
+  > INSERT INTO test_table (name, date, value) VALUES ('LEE', '2023-06-20', 50);
+  ```
+
+
+
+### Step 4-2. Database
+
+* `docker-compose.yml`
+
+  ```dockerfile
+  ...
+    database:
+      ...
+      ports:			# replace expose
+        - 5432:5432
+  ...
+  ```
+
+* [EC2] - [네트워킹] - [IPv4 방화벽] - [규칙추가]
+
+  * port 5432 추가 
+
+    
+
+### Step 4-3. Backend
+
+* We use `async` connecting method
+
+* `.backend.env`
+
+  ```bash
+  INSTANCE_HOST= # EC2 public IP
+  DB_USER=test_user
+  DB_PASS=test_password
+  DB_NAME=test_db
+  DB_PORT=5432
+  
+  SECRET_KEY=test_secret_key
+  FRONTEND_URL=# EC2 public IP
+  ```
+
+* `docker-compose.yml`
+
+  ```dockerfile
+  ...
+    backend:
+      ...
+      env_file:
+  	  - .backend.env
+  ...
+  ```
+
+* `requirements.txt`
+
+  ```
+  ...
+  sqlalchemy  
+  psycopg2
+  asyncpg
+  ```
+
+* `models.py`
+
+  ```python
+  from sqlalchemy import Column, Integer, String, Text, Date
+  from database import Base
+  
+  class TestModel(Base):
+      __tablename__ = "test_table"
+  
+      id = Column(Integer, primary_key=True)
+          date = Column(Date, nullable=False)
+          name = Column(String, unique=True, nullable=False)
+          value = Column(Integer, nullable=False)
+  ```
+
+* `database.py`
+
+  ```python
+  import os
+  from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine # Async
+  from sqlalchemy.orm import declarative_base            
+  
+  db_host = os.environ["INSTANCE_HOST"]  # Read ENV file in Docker compose
+  db_user = os.environ["DB_USER"]  
+  db_pass = os.environ["DB_PASS"]
+  db_name = os.environ["DB_NAME"] 
+  db_port = os.environ["DB_PORT"]
+  
+  SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}" # Async
+  engine = create_async_engine(SQLALCHEMY_DATABASE_URL, echo=True) # Async
+  Base = declarative_base()
+  
+  # Async
+  async def get_async_db() -> AsyncSession:
+      db= AsyncSession(bind=engine)
+      try:
+          yield db
+      finally:
+          await db.close()
+  ```
+
+* `domain/test/test_crud.py`
+
+  ```python
+  from sqlalchemy.ext.asyncio import AsyncSession # Async
+  from sqlalchemy import select # Async
+  
+  from models import TestModel
+  
+  async def get_data(db: AsyncSession):
+      data = await db.execute(select(TestModel))
+      result = data.scalars().fetchall()   # Load data from PG
+      return result
+  ```
+
+* `domain/test/test_router.py`
+
+  ```python
+  from typing import Union
+  from fastapi import APIRouter, Depends
+  
+  from database import get_async_db # Async
+  from sqlalchemy.ext.asyncio import AsyncSession # Async
+  
+  from domain.test import test_crud
+  
+  router = APIRouter(
+      prefix="/test",
+  )
+  
+  @router.get("/")
+  async def test_get_data(db:AsyncSession=Depends(get_async_db)):
+      result = await test_crud.get_data(db)
+      return result
+  ```
+
+* `main.py`
+
+  ```python
+  ...
+  from domain.test import test_router
+  ...
+  app.include_router(test_router.router)
+  ```
+
+* connect `[EC2 Public IP]/api/test/`

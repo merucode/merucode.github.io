@@ -57,4 +57,7 @@ ing
   => \c {db_name} {usr_name} # 다른 DB에 지정된 사용자로 접속
 
   => \q                       # PSQL 종료(Ctrl+d) 
-  ```
+
+
+
+<br>
