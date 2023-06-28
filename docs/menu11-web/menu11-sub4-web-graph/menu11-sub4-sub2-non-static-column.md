@@ -23,7 +23,9 @@ nav_order: 2
 
 ## STEP 0. Reference Site
 
-* [Github]()
+* [Github](https://github.com/merucode/fastapi-react-nginx/tree/11_non_static_col_data_graph)
+	* Setting ENV files : `.backend.env`, `frontend/.env`
+	* [Create test table](https://merucode.github.io/docs/menu11-web/menu11-sub4-web-graph/menu11-sub4-sub2-non-static-column.html#step-1-2-create-test-table)
 * [그래프 색상표](https://colorhunt.co/)
 
 ## STEP 1. Create Test Data
@@ -61,9 +63,9 @@ nav_order: 2
 	> psql -U test_user -d test_db;
 	> DROP TABLE test_table;
 	> CREATE TABLE test_table (
-		date DATE NOT NULL, 
+		date VARCHAR(30) NOT NULL, 
 		words_count JSON NOT NULL,
-	    code VARCHAR NOT NULL
+	    code VARCHAR(10) NOT NULL
 	);
 	INSERT INTO test_table (date, words_count, code) VALUES ('2023-06-01','{"col1": 3, "col2": 5, "col3": 20}', '000001');
 	INSERT INTO test_table (date, words_count, code) VALUES ('2023-06-02', '{"col1": 5, "col2": 7}', '000001');
