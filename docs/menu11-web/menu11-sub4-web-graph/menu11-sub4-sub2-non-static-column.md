@@ -239,8 +239,8 @@ nav_order: 2
 
 	### Fill data of null date
 	def fill_null_data(response_dict_lst, db_date_lst, common_words_count_lst, startdate, stopdate):
-	    startdate = datetime.strptime(startDate, "%Y-%m-%d").date()
-	    stopdate = datetime.strptime(stopDate, "%Y-%m-%d").date()
+	    startdate = datetime.strptime(startdate, "%Y-%m-%d").date()
+	    stopdate = datetime.strptime(stopdate, "%Y-%m-%d").date()
 	    response_dict_lst_total = []
 	    k = 0   # for count append response_dict_lst to response_dict_lst_total
 	    while startdate <= stopdate:
