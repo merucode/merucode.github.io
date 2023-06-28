@@ -372,7 +372,7 @@ nav_order: 2
 	export default HomePage;
 	```
 
-*  `pages/HomePage/GraphPage.jsx`
+*  `pages/GraphPage/GraphPage.jsx`
 
 	```jsx
 	import { useState } from 'react';
@@ -380,7 +380,8 @@ nav_order: 2
 	import GraphSearchForm from '../../components/GraphSearchForm';
 	import GraphDataList from '../../components/GraphDataList';
 	import GraphLine from '../../components/GraphLine';
-
+	import GraphPiefrom'../../components/GraphPie';
+	
 	function GraphPage() {
 		const [items, setItems] = useState([]);
 		const [comWords,setComWords] = useState([]);
@@ -396,6 +397,7 @@ nav_order: 2
 			<GraphSearchForm onSubmitSuccess={handleSubmitSuccess} />
 			<GraphLine items={items} comWords={comWords} />
 			<GraphDataList items={items} comWords={comWords} />
+			<GraphPiecomWords={comWords} />
 		</div>
 		)
 	}
@@ -528,11 +530,10 @@ nav_order: 2
 	```jsx
 	import React, { PureComponent } from 'react';
 	import { useSearchParams } from 'react-router-dom';
-	import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContaine
-	r } from 'recharts';
+	import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 	function GraphLine({ items, comWords }) {
-	  const colors = ["#FF002A", "#2600FF", "#03A762"]
+	  const colors = ["#FF0060", "#0A6EBD", "#00DFA2", "#884A39", "#FFC26F", "#080202", "#40128B"]
 
 	  // Modify for multi graph
 	  const lineGraphs = comWords.map((comWord, i) => (
