@@ -40,3 +40,6 @@ nav_order: 99
 
 * `datetime.datetime.strftime(data, "%Y-%m-%d)`로 문자열 변환
 
+
+
+<br>

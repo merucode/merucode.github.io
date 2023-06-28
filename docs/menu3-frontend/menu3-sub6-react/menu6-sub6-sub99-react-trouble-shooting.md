@@ -36,7 +36,11 @@ nav_order: 99
 
 * **React**
 
-  * .env 파일에서 WDS_SOCKET_PORT=0 설정
+  * `.frontend.env` 파일 생성 및 WDS_SOCKET_PORT=0 설정
+
+* **Docker**
+
+  * `.frontend.env` 환경변수 추가
 
 * **nginx**
 
@@ -139,3 +143,29 @@ nav_order: 99
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
   ```
 
+
+
+<br>
+
+
+
+## STEP 1. Backend 요청 시 `net::ERR_CERT_COMMON_NAME_INVALID`
+
+### Step 1-1. Trouble
+
+![image-20230628123343170](./../../../images/menu6-sub6-sub99-react-trouble-shooting/image-20230628123343170.png)
+
+### Step 1-2. Cause
+
+* 백엔드 서버의 도메인 이름과 SSL 인증서에 구성된 도메인 이름이 일치하지 않는 경우에 발생
+
+### Step 1-3. Solution
+
+* `frontend/.env`
+
+  ```bash
+  ...
+  REACT_APP_BACKEND_URL=https://[domain]/api/	# http://test.co.kr/api/
+  ```
+
+  
