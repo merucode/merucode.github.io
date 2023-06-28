@@ -55,6 +55,13 @@ CREATE TABLE movies (
 	director_id INT REFERENCES direcors (director_id)	-- 'column_name' 'dataType' REFERENCES 'table_name(column_name)'
 );
 
+
+-- DROP TABLE
+DROP TABLE table_name;
+-- if table name is user, "user" is needed
+DROP TABLE "user";
+
+
 ```
 
 

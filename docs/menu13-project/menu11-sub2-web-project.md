@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Web Proejct
-parent: Web
+title: Web Project
+parent: Project
 nav_order: 2
 has_children: true
 ---
