@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Site
-parent: Web
-grand_parent: Project
+title: Apply SSL
+parent: Basic
+grand_parent: Web
 nav_order: 2
 ---
 

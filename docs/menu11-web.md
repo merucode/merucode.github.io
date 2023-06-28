@@ -1,10 +1,7 @@
 ---
 layout: default
 title: Web
-parent: Project
-nav_order: 1
+nav_order: 11
 has_children: true
 ---
 
-# web
-{: .no_toc }
