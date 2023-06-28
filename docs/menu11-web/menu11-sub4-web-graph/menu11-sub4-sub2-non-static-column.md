@@ -24,6 +24,7 @@ nav_order: 2
 ## STEP 0. Reference Site
 
 * [Github]()
+* [그래프 색상표](https://colorhunt.co/)
 
 ## STEP 1. Create Test Data
 
@@ -375,7 +376,7 @@ nav_order: 2
 
 	import GraphSearchForm from '../../components/GraphSearchForm';
 	import GraphDataList from '../../components/GraphDataList';
-	import Graph from '../../components/Graph';
+	import GraphLine from '../../components/GraphLine';
 
 	function GraphPage() {
 		const [items, setItems] = useState([]);
@@ -390,7 +391,7 @@ nav_order: 2
 		<div>
 		<h1>GraphPage!</h1>
 			<GraphSearchForm onSubmitSuccess={handleSubmitSuccess} />
-			<Graph items={items} comWords={comWords} />
+			<GraphLine items={items} comWords={comWords} />
 			<GraphDataList items={items} comWords={comWords} />
 		</div>
 		)
@@ -518,7 +519,7 @@ nav_order: 2
 	}
 	```
 
-* `components/Graph.jsx`
+* `components/GraphLine.jsx`
 
 	```jsx
 	import React, { PureComponent } from 'react';
@@ -526,7 +527,7 @@ nav_order: 2
 	import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContaine
 	r } from 'recharts';
 
-	function Graph({ items, comWords }) {
+	function GraphLine({ items, comWords }) {
 	  const color = ["#FF002A", "#2600FF", "#03A762"]
 	  const lineGraphs = comWords.map((comWord, i) => (
 	    <Line type="monotone" dataKey={comWord[0]} stroke={color[i]} activeDot={{ r: 8 }} />
@@ -556,4 +557,6 @@ nav_order: 2
 	      </>
 	  );
 	}
+
+	export default GraphLine;
 	```
