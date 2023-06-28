@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Non Static Columns Data
-parent: Basic
+title: Non Static Columns Data Graph
+parent: Web Graph
 grand_parent: Web
 nav_order: 2
 ---
 
-# Site
+# Non Static Columns Data Graph
 
 {: .no_toc }
 

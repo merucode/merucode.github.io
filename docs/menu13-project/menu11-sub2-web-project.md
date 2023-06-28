@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Web Graph
+title: Web Proejct
 parent: Web
-nav_order: 4
+nav_order: 2
 has_children: true
 ---
 
-# Web Graph
+# Web Project
 {: .no_toc }

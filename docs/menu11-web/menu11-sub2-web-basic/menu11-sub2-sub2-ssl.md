@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Apply SSL
-parent: Basic
+parent: Web Basic
 grand_parent: Web
 nav_order: 2
 ---
@@ -23,7 +23,7 @@ nav_order: 2
 
 ## STEP 0. Reference Site
 
-* [Github]
+* [Github](https://github.com/merucode/fastapi-react-nginx/tree/01_apply_SSL)
 
   * [EC2] - [네트워크] - [IPv4 방화벽 규칙] : port 80, 443, 5432 추가
 
