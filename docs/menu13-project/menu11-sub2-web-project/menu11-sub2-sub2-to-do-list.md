@@ -33,3 +33,6 @@ nav_order: 2
 <br>
 
 ## STEP 2. Complete Logs
+
+* [Add function line, pie graph for non columns data](https://merucode.github.io/docs/menu11-web/menu11-sub4-web-graph/menu11-sub4-sub2-non-static-column.html)
+* [Apply SSL](https://merucode.github.io/docs/menu11-web/menu11-sub2-web-basic/menu11-sub2-sub2-ssl.html)
