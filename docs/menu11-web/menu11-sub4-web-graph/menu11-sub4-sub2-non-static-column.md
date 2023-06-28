@@ -123,7 +123,7 @@ nav_order: 2
 
 	@app.get("/")
 	async def root():
-	    return await {"message":"Hello"}
+	    return {"message":"Hello"}
 
 	app.include_router(words_count_router.router)
 	``` 
@@ -256,3 +256,304 @@ nav_order: 2
 * connect to `[EC2 Public IP]/api/docs` and check
 
 <br>
+
+## STEP 3. Frontend
+
+### Step 3-1. File Structure
+
+* File Structure
+
+	```bash
+	📁frontend
+	├── 📄Dockerfile
+	├── 📁public
+	│   └── 📄index.html
+	└── 📁src
+	    ├── 📄Main.js
+	    ├── 📄api.js
+	    ├── 📁components
+	    │   ├── 📄App.js
+	    │   ├── 📄Graph.jsx
+	    │   ├── 📄GraphDataList.jsx
+	    │   ├── 📄GraphSearchForm.jsx
+	    │   └── 📄Header.jsx
+	    ├── 📁hooks
+	    │   └── 📄useAsync.jsx
+	    ├── 📄index.js
+	    ├── 📁pages
+	    │   ├── 📁GraphPage
+	    │   │   └── 📄GraphPage.jsx
+	    │   └── 📁HomePage
+	    │       └── 📄HomePage.jsx
+	    └── 📄urls.js
+	```
+
+### Step 3-2. Code
+
+* `bash`
+
+	```bash
+	$ docker compose up -d --build
+	$ docker exec -it frontend /bin/sh
+	> npm install recharts --save
+	```
+
+* `Main.js`
+
+	```jsx
+	import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+	import App from "./components/App";
+	import HomePage from "./pages/HomePage/HomePage";
+	import GraphPage from "./pages/GraphPage/GraphPage";
+
+	function Main() {
+	  return (
+	    <BrowserRouter>
+			<Routes>
+				<Route path="/" element={ <App /> }>
+					<Route index element={ <HomePage />} />
+					<Route path="/graph" element={ <GraphPage />} />
+				</Route>
+			</Routes>
+	    </BrowserRouter>
+	  );
+	}
+	export default Main;
+	```
+
+* `urls.js`
+
+	```jsx
+	export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+	export const BACKEND_GRAPH_URL = BACKEND_URL + "words-count/";
+	```
+
+* `api.js`
+
+	```jsx
+	import { BACKEND_GRAPH_URL } from "./urls";
+	import axios from "axios";
+
+	export async function getItems({ stockCode, startDate, stopDate, reqCount }) {
+		const req_config = {
+			headers: {
+				"Content-type": "application/json",
+			},
+		};
+
+		const response = await axios.get(
+			BACKEND_GRAPH_URL,
+			{params: {
+				stockCode: stockCode,
+				startDate: startDate,
+				stopDate: stopDate,
+				reqCount: reqCount,
+				}
+			},
+			req_config
+		);
+
+		return response.data;
+	}
+	```
+
+
+* `pages/HomePage/HomePage.jsx`
+
+	```jsx
+	function HomePage() {
+	  return (<div><h1>HomePage</h1></div>)
+	}
+	export default HomePage;
+	```
+
+*  `pages/HomePage/GraphPage.jsx`
+
+	```jsx
+	import { useState } from 'react';
+
+	import GraphSearchForm from '../../components/GraphSearchForm';
+	import GraphDataList from '../../components/GraphDataList';
+	import Graph from '../../components/Graph';
+
+	function GraphPage() {
+		const [items, setItems] = useState([]);
+		const [comWords,setComWords] = useState([]);
+
+		const handleSubmitSuccess = (res) => {
+			setItems(res.data);
+			setComWords(res.comWords);
+		};
+
+		return (
+		<div>
+		<h1>GraphPage!</h1>
+			<GraphSearchForm onSubmitSuccess={handleSubmitSuccess} />
+			<Graph items={items} comWords={comWords} />
+			<GraphDataList items={items} comWords={comWords} />
+		</div>
+		)
+	}
+
+	export default GraphPage;
+	```
+
+* `components/Header.jsx`
+
+	```jsx
+	import { Link } from 'react-router-dom';
+
+	function Header() {
+	  return (
+	  <header>
+	    <div>
+	      <Link to="/">Web Link</Link>
+	      <Link to="/graph">Graph</Link>
+	    </div>
+	  </header>
+	  );
+	}
+
+	export default Header;
+	```
+
+* `components/GraphSearchForm.jsx` 
+
+	```jsx
+	import { useEffect, useState, useCallback } from 'react';
+
+	import { getItems } from '../api';
+	import useAsync from '../hooks/useAsync';
+
+	function GraphSearchForm({ onSubmitSuccess }) {
+		const [stockCode, setStockCode] = useState("000001");
+		const [startDate, setStartDate] = useState("2023-06-01");
+		const [stopDate, setStopDate] = useState("2023-06-20");
+		const [reqCount, setReqCount] = useState(3);
+
+		const [isLoading, loadingError, getItemsAsync] = useAsync(getItems);
+
+		const loadItems = useCallback(async(options) => {
+		    const result = await getItemsAsync(options);
+			return result;
+		}, [getItemsAsync]);
+
+		const submitHandler = async (e) => {
+			e.preventDefault();
+			const result = await loadItems({ stockCode, startDate, stopDate, reqCount });
+			if (!result) return;
+			onSubmitSuccess(result);
+		};
+
+		return (
+		<div>
+			<form onSubmit={submitHandler}>
+				<div>
+					<label htmlFor="stockCode">stockcode</label>
+					<input type="text" id="stockCode" name="stockCode"
+					value={stockCode} onChange={(e) => setStockCode(e.target.value)}/>
+				</div>
+				<div>
+					<label htmlFor="startDate">startdate</label>
+					<input type="date" id="startDate" name="startDate"
+					value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
+				</div>
+				<div>
+					<label htmlFor="stopDate">stopdate</label>
+					<input type="date" id="stopDate" name="stopDate"
+					value={stopDate} onChange={(e) => setStopDate(e.target.value)}/>
+				</div>
+				<div>
+					<label htmlFor="reqCount">reqCount</label>
+					<input type="number" id="reqCount" name="reqCount"
+					value={reqCount} onChange={(e) => setReqCount(e.target.value)}/>
+				</div>
+				<button type="submit">Search</button>
+			</form>
+			{isLoading && <span>Loading</span>}
+			{loadingError?.message && <span>{loadingError.message}</span>}
+		</div>
+		);
+		
+	}
+
+	export default GraphSearchForm;
+	```
+
+* `components/GraphDataList.jsx`
+
+	```jsx
+	function DataListItem({ item, comWords }) {
+	  return (
+	    <div>
+	        <p>{item.date}, {item[comWords[0][0]]}, {item[comWords[1][0]]}, {item[comWords[2][0]
+	]}</p>
+	    </div>
+	  );
+	}
+
+	function GraphDataList({ items, comWords }) {
+	  return (
+	    <>
+	      <ul>
+	        {items.map((item) => {
+	          return (
+	            <li key={item.date}>
+	              <DataListItem item={item} comWords={comWords}/>
+	            </li>
+	          );
+	        })}
+	      </ul>
+
+	      <ul>
+	        {comWords.map((comWord) => {
+	          return (
+	            <li key={comWord[0]}>comWord : {comWord[0]}, count : {comWord[1]}</li>
+	          );
+	        })}
+	      </ul>
+	    </>
+	  );
+	}
+	```
+
+* `components/Graph.jsx`
+
+	```jsx
+	import React, { PureComponent } from 'react';
+	import { useSearchParams } from 'react-router-dom';
+	import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContaine
+	r } from 'recharts';
+
+	function Graph({ items, comWords }) {
+	  const color = ["#FF002A", "#2600FF", "#03A762"]
+	  const lineGraphs = comWords.map((comWord, i) => (
+	    <Line type="monotone" dataKey={comWord[0]} stroke={color[i]} activeDot={{ r: 8 }} />
+	  ));
+
+	  return (
+	      <>
+	      {comWords.map((comWord) => {console.log(comWord[0])})}
+	      <LineChart
+	        width={500}
+	        height={300}
+	        data={items}
+	        margin={{
+	          top: 5,
+	          right: 30,
+	          left: 20,
+	          bottom: 5,
+	        }}
+	      >
+	        <CartesianGrid strokeDasharray="3 3" />
+	        <XAxis dataKey="date" />
+	        <YAxis />
+	        <Tooltip />
+	        <Legend />
+	          {lineGraphs}
+	      </LineChart>
+	      </>
+	  );
+	}
+	```
