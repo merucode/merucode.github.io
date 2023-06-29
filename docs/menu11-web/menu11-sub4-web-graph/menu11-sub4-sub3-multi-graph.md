@@ -45,19 +45,18 @@ nav_order: 3
 	$ docker exec -it database /bin/bash
 	> su - postgres
 	> psql -U test_user -d test_db;
-	> DROP TABLE test_table;
-	> CREATE TABLE test_table (
+	> CREATE TABLE words_count_table (
 		date VARCHAR(30) NOT NULL, 
 		words_count JSON NOT NULL,
 	    code VARCHAR(10) NOT NULL
 	);
-	INSERT INTO test_table (date, words_count, code) VALUES ('2023-06-01','{"col1": 3, "col2": 5, "col3": 20}', '000001');
-	INSERT INTO test_table (date, words_count, code) VALUES ('2023-06-02', '{"col1": 5, "col2": 7}', '000001');
-	INSERT INTO test_table (date, words_count, code) VALUES ('2023-06-04','{"col2": 5, "col3": 10}', '000001');
-	INSERT INTO test_table (date, words_count, code) VALUES ('2023-06-05','{"col4": 13}', '000001');
-	INSERT INTO test_table (date, words_count, code) VALUES ('2023-06-01','{"col1": 15, "col3": 25}', '000002');
-	INSERT INTO test_table (date, words_count, code) VALUES ('2023-06-03','{"col6": 7, "col1": 5}', '000002');
-	INSERT INTO test_table (date, words_count, code) VALUES ('2023-06-04','{"col7": 5}', '000002');
+	INSERT INTO words_count_table (date, words_count, code) VALUES ('2023-06-01','{"col1": 3, "col2": 5, "col3": 20}', '000001');
+	INSERT INTO words_count_table (date, words_count, code) VALUES ('2023-06-02', '{"col1": 5, "col2": 7}', '000001');
+	INSERT INTO words_count_table (date, words_count, code) VALUES ('2023-06-04','{"col2": 5, "col3": 10}', '000001');
+	INSERT INTO words_count_table (date, words_count, code) VALUES ('2023-06-05','{"col4": 13}', '000001');
+	INSERT INTO words_count_table (date, words_count, code) VALUES ('2023-06-01','{"col1": 15, "col3": 25}', '000002');
+	INSERT INTO words_count_table (date, words_count, code) VALUES ('2023-06-03','{"col6": 7, "col1": 5}', '000002');
+	INSERT INTO words_count_table (date, words_count, code) VALUES ('2023-06-04','{"col7": 5}', '000002');
 	
 	
 	> CREATE TABLE stock_table (
@@ -68,8 +67,7 @@ nav_order: 3
 		close INTEGER NOT NULL,
 		volume BIGINT NOT NULL,
 	    code VARCHAR(10) NOT NULL
-	);
-	
+	);	
 	INSERT INTO stock_table (date, open, high, low, close, volume, code) VALUES ('2023-05-31', 1000, 1200,  900,  1100, 110005, '000001');
 	INSERT INTO stock_table (date, open, high, low, close, volume, code) VALUES ('2023-06-01', 900, 1000,  900,  1000, 170005, '000001');
 	INSERT INTO stock_table (date, open, high, low, close, volume, code) VALUES ('2023-06-02', 1000, 1500, 1000,  1500, 270005, '000001');
