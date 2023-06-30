@@ -3,7 +3,7 @@ layout: default
 title: Crawling Example
 parent: Crawling
 grand_parent: Python
-nav_order: 1
+nav_order: 9
 ---
 
 # Crawling Example
@@ -78,9 +78,9 @@ nav_order: 1
 
     ```Docker
     FROM python:3.9
-
+    
     WORKDIR /usr/src/app
-
+    
     RUN pip install --upgrade pip
     COPY ./requirements.txt .
     RUN pip install -r requirements.txt
@@ -94,7 +94,7 @@ nav_order: 1
     ```python
     import time
     from src.try_request import request_crawling
-
+    
     while True:
         request_crawling()
         time.sleep(36000) # Wait 10 hour before sending the next request
@@ -108,9 +108,9 @@ nav_order: 1
     import time
     import requests
     from src.post import  get_word_counts_from_post
-
+    
     codes = [...]
-
+    
     def request_crawling():
         try:
             for code in codes:
@@ -135,13 +135,13 @@ nav_order: 1
     import datetime
     from datetime import timedelta
     from collections import Counter
-
+    
     from bs4 import BeautifulSoup
     import requests
-
+    
     from src.connect_tcp import connect_tcp_socket
     from src.nlp import collect_nouns
-
+    
     ### Ready for crawling
     headers = {
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
@@ -150,15 +150,15 @@ nav_order: 1
     # 100 page 이상 부터 Referrer-Policy : unsafe-url 관련 referer 추가
     engine = connect_tcp_socket() # DB connect engine 생성
     stock_name_dict = {...}
-
+    
     ### Main control code
     def get_word_counts_from_post(code):
         stock_name = stock_name_dict[f'{code}']
         url = f"https://finance.naver.com/item/board.naver?code={code}&page=" # 크롤링 URL 설정
-
+    
         ## Get post crawling from website(post date, title, views) as df
         df_posts = get_df_post(code, url)
-
+    
         ## daily_divid_posts and return daily word_counts
         df_nlp = daily_divid_posts_nlp(df_posts, stock_name)
         df_nlp['code'] = code       # Add stock code
@@ -172,7 +172,7 @@ nav_order: 1
     ### Conver post to dataframe and Handling initalize or update
     def get_df_post(code, url) -> pd.DataFrame:
         latest_date = get_latest_date_update(code) # Get latest data from DB
-
+    
         if not latest_date: # DB에 데이터가 없다면 Initialize
             page_last = get_last_page_init(url)
             df_posts = post_to_df_init(page_last, url)
@@ -222,7 +222,7 @@ nav_order: 1
                 df_posts = pd.concat([df_posts,df], ignore_index=True)
             except: # Prevent code from stopping(first time concat occur error)
                 df_posts = df
-
+    
             time.sleep(10)                          # Time sleep for avoid error(over requests)
         return df_posts
 
@@ -236,7 +236,7 @@ nav_order: 1
         for i in range(1, 1000000):  # 최근 페이지 → 예전 페이지 순
             url_page = url + str(i)
             res = requests.get(url_page, headers=headers)
-
+    
             soup = BeautifulSoup(res.text, 'html.parser')
             table = soup.find('table', {'class': 'type2'})
             df = pd.read_html(str(table))[0]
@@ -244,24 +244,24 @@ nav_order: 1
             df.columns = ['date', 'title']
             df['title'] = df['title'].str.split('[').str.get(0)   # Remove number of comments[]
             df.dropna(inplace=True)         # Drop don't need rows
-
+    
             df['date'] = pd.to_datetime(df['date'])
-
+    
             df = df[df['date'] > latest_date] # latest date보다 최신 날짜만 반영
-
+    
             # latest date 보다 최신 데이터가 없다면(빈 df) 더 이상 받을 데이터가 없으므로 return 처리
             if df.empty:       
                 df_posts = df_posts.iloc[::-1]              # Reserve df
                 return df_posts
-
+    
             try:    # Merge extract df
                 df_posts = pd.concat([df_posts,df], ignore_index=True)
             except: # Prevent code from stopping(first time concat occur error)
                 df_posts = df
-
+    
             time.sleep(10)                 # Time sleep for avoid error(over requests)
         pass
-
+    
     ### Convert Post dataframe to NLP dataframe 
     def daily_divid_posts_nlp(df_posts, stock_name):
         df_posts['date'] = pd.to_datetime(df_posts['date'])
@@ -270,7 +270,7 @@ nav_order: 1
         # 오늘이 6월2일이라면 6월1일 데이터까지 전처리 수행
         end_date = now - timedelta(days=1)
         start_date = datetime.datetime.strptime(df_posts.iloc[0, 0], "%Y-%m-%d")
-
+    
         col_name = ['date', 'words_count']
         df_collect_words_count = pd.DataFrame(columns=col_name)
         
@@ -278,16 +278,16 @@ nav_order: 1
             date = start_date.strftime("%Y-%m-%d")          # 비교용 문자열 전환
             df_post = df_posts.loc[df_posts['date']==date]  # daily post  
             pharse_list = df_post['title'].tolist()         # + df_post['content'].tolist()
-
+    
             nouns = collect_nouns(pharse_list, stock_name)  # NPL preprocessing
             count = Counter(nouns)      # 단어 카운터 처리
             if len(count) != 0:
                 lst_df_input = [date] + [count.most_common()]   # input data
                 df_collect_words_count.loc[len(df_collect_words_count)] = lst_df_input
-
+    
             # ### Step 6-2. Input value in dataframe
             start_date += timedelta(days=1) 
-
+    
         return df_collect_words_count
     ```
 
@@ -298,7 +298,7 @@ nav_order: 1
     from konlpy.tag import Okt 
     from nltk import Text 
     from collections import Counter 
-
+    
     my_stopwords_set = {...} # Set customized stopword(불용어 세트) 
     my_synonym_set = {'김영수':('영수','영수씨'), ...} # Set customized synonym(동의어 세트) 
     
@@ -314,7 +314,7 @@ nav_order: 1
             nouns.extend(noun) 
         nouns = clean_by_freq(nouns, 1) # 등장 빈도
         return nouns
-
+    
     ### 등장 빈도 cleaning  
     def clean_by_freq(tokenized_words, cut_off_count):  
         vocab = Counter(tokenized_words) # print(f'vocab : {vocab}') 
@@ -354,17 +354,17 @@ nav_order: 1
 
     ```python
     import os
-
+    
     import sqlalchemy
     import pg8000
-
+    
     def connect_tcp_socket() -> sqlalchemy.engine.base.Engine:
         db_host = os.environ["INSTANCE_HOST"]  # Read ENV file in Docker compose
         db_user = os.environ["DB_USER"]  
         db_pass = os.environ["DB_PASS"]
         db_name = os.environ["DB_NAME"] 
         db_port = os.environ["DB_PORT"]
-
+    
         connect_args = {}
         pool = sqlalchemy.create_engine(
             sqlalchemy.engine.url.URL.create(
