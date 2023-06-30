@@ -3,7 +3,7 @@ layout: default
 title: Time
 parent: Practice
 grand_parent: Python
-nav_order: 2
+nav_order: 5
 ---
 
 # Time
