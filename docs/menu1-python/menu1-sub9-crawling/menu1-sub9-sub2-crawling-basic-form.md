@@ -108,9 +108,11 @@ nav_order: 2
     
             # Here add your task
     		request_crawling()
-            
-            await asyncio.sleep(1 * 60 * 60)
     
+            now_time = korea_time()
+            print(f"Task finished at: {now_time}")      
+
+            await asyncio.sleep(1 * 60 * 60)
     
     async def main():
         print("Starting the task...")
@@ -144,42 +146,20 @@ nav_order: 2
         try:
             # Your code to send a request to the server would go here
             now_time = korea_time()
-            print(f"# OPERATE: request crawling \n# Log time: {now_time}")
+            print(f"# OPERATE: request crawling: {code}     Log time: {now_time}")
             time.sleep(10)
-            print('# COMPLETE: complete request crawling')
-    
+            now_time = korea_time()
+            print(f'# COMPLETE: complete request crawling     Log time: {now_time}')
         except requests.exceptions.RequestException as e:
             # Handle any request exceptions, such as a network error or server issue
             now_time = korea_time()
             print(f"# ERROR: Error occurred: {e} \n# Log time: {now_time}")
             time.sleep(3600) # Wait 3600 seconds and try again
-    
         except Exception as e:
             # Handle any unexpected exceptions
             now_time = korea_time()
             print(f"# ERROR: Unexpected error occurred: {e} \n# Log time: {now_time}")
-    
         pass   
     ```
-
-* `app/src/util.py`
-
-  ```python
-  import datetime
-  import pytz
-  
-  def korea_time():
-      # Get the current time in UTC
-      utc_now = datetime.datetime.now(pytz.utc)
-  
-      # Convert the UTC time to the Korean time zone
-      korean_tz = pytz.timezone('Asia/Seoul')
-      korean_time = utc_now.astimezone(korean_tz)
-  
-      # Format the Korean time
-      formatted_time = korean_time.strftime('%Y-%m-%d %H:%M:%S')
-  
-      return formatted_time
-  ```
 
   
