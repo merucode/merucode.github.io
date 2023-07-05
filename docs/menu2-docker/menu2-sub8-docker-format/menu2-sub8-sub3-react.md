@@ -48,7 +48,6 @@ nav_order: 3
   WORKDIR /usr/src/app
   
   RUN npm install -g npm@latest
-  RUN npm install -g create-react-app
   ```
 
 - **`docker-compose.yml`**
@@ -76,11 +75,14 @@ nav_order: 3
   ```bash
   $ docker compose up -d --build
   $ docker exec -it frontend /bin/sh
-  /usr/src/app # create-react-app frontend
+  /usr/src/app # npx create-react-app frontend
   
   /usr/src/app # cd frontend
   /usr/src/app/frontend # npm run start
   ```
+
+  * react-typescript : `npx create-react-app frontend --template typescript`
+
 
   - you can connent to `http://localhost:3000`
   - EC2 구동시
@@ -159,3 +161,6 @@ nav_order: 3
 
 
 <!------------------------------------ STEP ------------------------------------>
+
+
+## STEP 3. TypeScript: Install Dependencies
