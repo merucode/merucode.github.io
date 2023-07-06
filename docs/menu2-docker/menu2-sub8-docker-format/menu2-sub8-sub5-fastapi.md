@@ -3,7 +3,7 @@ layout: default
 title: Fastapi
 parent: Docker Format
 grand_parent: Docker
-nav_order: 3
+nav_order: 5
 ---
 
 # Fastapi(with docker)
@@ -46,7 +46,7 @@ nav_order: 3
 
   ```dockerfile
   version: '3.8'
-
+  
   services:
     backend:
       container_name: backend
@@ -85,9 +85,9 @@ nav_order: 3
 
   ```python
   from fastapi import FastAPI
-
+  
   app = FastAPI()
-
+  
   @app.get("/")
   def hello():
       return {"message": "Hello World!"}
