@@ -6,7 +6,7 @@ grand_parent: Frontend
 nav_order: 1
 ---
 
-# Javascript Note
+## Javascript Note
 {: .no_toc}
 
 <details open markdown="block">

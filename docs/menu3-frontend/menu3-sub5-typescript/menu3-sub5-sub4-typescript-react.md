@@ -1,12 +1,12 @@
 ---
 layout: default
-title: TypeScript Basic
+title: TypeScript React
 parent: TypeScript
 grand_parent: Frontend
-nav_order: 2
+nav_order: 4
 ---
 
-## TypeScript Basic
+## TypeScript React
 {: .no_toc}
 
 <details open markdown="block">
@@ -20,6 +20,13 @@ nav_order: 2
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 0. Reference
+## STEP 1. Install depencency
 
-* [TypeScript-Handbook 한글 문서](https://typescript-kr.github.io/)
+* `bash`
+
+```bash
+# react-router-dom
+npm install --save react-router-dom@6
+npm install --save react-router-dom @types/react-router-dom
+npm install --save @types/react @types/react-dom
+```

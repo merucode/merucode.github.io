@@ -23,12 +23,7 @@ nav_order: 4
 
 * [Docs](https://reactnative.dev/docs/environment-setup)
 
-
-
 <br>
-
-
-
 
 ## STEP 1. Docker Code
 
@@ -146,27 +141,3 @@ nav_order: 4
 
 <br>
 
-
-
-<!------------------------------------ STEP ------------------------------------>
-
-## STEP 2. Install Dependencies
-
-- **`bash`**
-
-  ```bash
-  $ docker compose up -d --build
-  $ docker exec -it frontend /bin/sh
-  /usr/src/app # cd frontend
-  /usr/src/app/frontend # npm install react-router-dom@6
-  /usr/src/app/frontend # npm install styled-components@5
-  ```
-
-
-<br>
-
-
-<!------------------------------------ STEP ------------------------------------>
-
-
-## STEP 3. TypeScript: Install Dependencies
