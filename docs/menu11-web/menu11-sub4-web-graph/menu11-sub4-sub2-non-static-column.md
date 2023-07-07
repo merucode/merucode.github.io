@@ -693,3 +693,43 @@ nav_order: 2
 
 	export default GraphPie;
 	```
+
+<br>
+
+## STEP 4. [Optional] Remove stopwords on backend
+
+* `backend/domain/words_count/words_count_util.py`
+
+```python
+...
+### Extract commom word and count as much as reqCount
+# To access commom word : common_words_count_lst[0][0], common_words_count_lst[1][0] ...
+# To access common word count : common_words_count_lst[0][1], common_words_count_lst[1][1] ...
+def common_words_count(result_data_from_sql, reqCount) -> list:
+    words_dict_list = []
+    for row in result_data_from_sql:
+		row_words_count_dict = dict(row.words_count)
+		words_dict_list.append(row_words_count_dict)
+
+	# Add dict with sum value if same key
+    result_dict = dict(functools.reduce(operator.add, 
+		map(collections.Counter, words_dict_list)))
+
+	# Remove stopwords
+    result_dict_remove_stopwords = dict()
+    stopwords = ['col2', 'col6']
+    for key, value in result_dict.items():
+        if key not in stopwords:
+            result_dict_remove_stopwords[key] = value
+    
+    # Sort by value
+    result_sorted_dict = sorted(result_dict_remove_stopwords.items(), key=lambda item: item[1], reverse = True) 
+
+    # Handling case when reqCount is bigger than common word
+    if len(result_sorted_dict) < reqCount:
+        reqCount = len(result_sorted_dict)
+        
+    return result_sorted_dict[:reqCount]
+
+...
+```

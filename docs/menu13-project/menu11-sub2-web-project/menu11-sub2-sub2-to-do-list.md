@@ -23,9 +23,12 @@ nav_order: 2
 
 ### Step 1-1. Web
 
+* remove stopword on backend
+* add stock, index graph 
 
 ### Step 1-2. Crawling
 
+* add stock and index ohlcv
 * Crawling apply async method
 
 
