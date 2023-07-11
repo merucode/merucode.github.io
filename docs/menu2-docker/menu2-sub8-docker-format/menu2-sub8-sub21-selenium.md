@@ -6,7 +6,7 @@ grand_parent: Docker
 nav_order: 21
 ---
 
-# PostgreSQL(with docker)
+# Selenium(with docker)
 {: .no_toc .d-inline-block }
 ing
 {: .label .label-green }
