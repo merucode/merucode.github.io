@@ -1,11 +1,10 @@
 ---
 layout: default
-title: Node.js
-parent: Frontend
+title: Package Manager
+parent: Etc
 nav_order: 3
 has_children: true
 ---
 
-# Node.js
+# Package Manager
 {: .no_toc }
-

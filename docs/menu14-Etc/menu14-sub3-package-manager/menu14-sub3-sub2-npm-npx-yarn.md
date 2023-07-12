@@ -1,13 +1,15 @@
 ---
 layout: default
-title: Node.js Basic
-parent: Node.js
-grand_parent: Frontend
-nav_order: 2
+title: npm, npx, yarn
+parent: Package Manager
+grand_parent: Etc
+nav_order: 3
 ---
 
-# Node.js Basic
-{: .no_toc}
+# Package Manager
+
+{: .no_toc }
+
 
 <details open markdown="block">
   <summary>
@@ -17,11 +19,11 @@ nav_order: 2
 - TOC
 {:toc}
 </details>
+
+
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 1. npm, npx, yarn
-
-### Step 1-1. npm
+## STEP 1. npm
 
 ```python
 ### npm: node.js 패키지 매니저(node_modules에 패키지 설치)
@@ -47,7 +49,7 @@ $ npm install [package] -g
 
 ```
 
-### Step 1-2. npx
+## STEP 2. npx
 
 ```python
 ### npx: node.js 패키지를 실행시키는 하나의 도구
