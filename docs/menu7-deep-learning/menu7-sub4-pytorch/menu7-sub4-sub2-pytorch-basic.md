@@ -92,14 +92,12 @@ target_transform = Lambda(lambda y: torch.zeros(10, dtype=torch.float).scatter_(
 
 <!------------------------------------ STEP ------------------------------------>
 
-
 <br>
 
 
 ## STEP 4. 신경망 구성
 
 ```python
-
 ### 학습을 위한 장치 얻기
 device = (
     "cuda"
@@ -129,6 +127,9 @@ class NeuralNetwork(nn.Module):
         logits = self.linear_relu_stack(x)
         return logits
 
+# nn.Flatten : 28x28를 784 픽셀 값을 갖는 연속된 배열로 변(dim=0의 미니배치 차원은 유지) ex) 3x28x28 > 3x784
+# nn.Sequential : 순서를 갖는 모듈의 컨테이너
+
 # 인스턴스(instance)를 생성하고 이를 device 로 이동한 뒤, 구조(structure)를 출력
 model = NeuralNetwork().to(device)
 print(model)
@@ -138,10 +139,108 @@ X = torch.rand(1, 28, 28, device=device)
 logits = model(X)   # forward 실행(model.forward 직접 호출 안함)
 # logits 결과는 [1 ,10] tenser
 # 2차원 텐서의 dim=0은 각 분류(class)에 대한 원시(raw) 예측값 10개가, dim=1에는 각 출력의 개별 값들이 해당 
-# dim=1(개별 값)들을 기준으로 하여 모두 변환하여 합산시 1로 만드는 softmax 변환 수행
+# dim 매개변수는 값의 합이 1이 되는 차원
 pred_probab = nn.Softmax(dim=1)(logits) 
 y_pred = pred_probab.argmax(1)  # 최대값을 가지는 요소의 인덱스 추출
 print(f"Predicted class: {y_pred}")
 ```
 
+<!------------------------------------ STEP ------------------------------------>
+
 <br>
+
+## STEP 5. 모델 매개변수 최적화
+
+```python
+### 하이퍼파라미터(Hyperparameter)
+learning_rate = 1e-3    # 각 배치/에폭에서 모델의 매개변수를 조절하는 비율. 값이 작을수록 학습 속도가 느려지고, 값이 크면 학습 중 예측할 수 없는 동작이 발생
+batch_size = 64         # 매개변수가 갱신되기 전 신경망을 통해 전파된 데이터 샘플의 수
+epochs = 5              # 데이터셋을 반복하는 횟수
+
+### 손실 함수(loss function)
+
+
+### 옵티마이저(Optimizer)
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+# 학습 단계(loop)에서 최적화는 세단계로 이루어짐
+# 1. optimizer.zero_grad()를 호출하여 모델 매개변수의 변화도를 재설정
+# 2. loss.backwards()를 호출하여 예측 손실(prediction loss)을 역전파(손실의 변화도를 저장)
+# 3. 변화도를 계산한 뒤에는 optimizer.step()을 호출하여 역전파 단계에서 수집된 변화도로 매개변수를 조정
+
+
+### 최적화 단계(Optimization Loop) : 
+# 에폭 : 최적화 단계의 각 반복(iteration). 하나의 에폭은 다음 두 부분으로 구성
+#       학습 단계(train loop) - 학습용 데이터셋을 반복(iterate)하고 최적의 매개변수로 수렴
+#       검증/테스트 단계(validation/test loop) - 모델 성능이 개선되고 있는지를 확인하기 위해 테스트 데이터셋을 반복(iterate)
+
+
+### 전체 구현
+def train_loop(dataloader, model, loss_fn, optimizer):
+    size = len(dataloader.dataset)
+    for batch, (X, y) in enumerate(dataloader):
+        # 예측(prediction)과 손실(loss) 계산
+        pred = model(X)
+        loss = loss_fn(pred, y)
+
+        # 역전파
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        if batch % 100 == 0:
+            loss, current = loss.item(), (batch + 1) * len(X)
+            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+
+def test_loop(dataloader, model, loss_fn):
+    size = len(dataloader.dataset)
+    num_batches = len(dataloader)
+    test_loss, correct = 0, 0
+
+    with torch.no_grad():
+        for X, y in dataloader:
+            pred = model(X)
+            test_loss += loss_fn(pred, y).item()
+            correct += (pred.argmax(1) == y).type(torch.float).sum().item()
+
+    test_loss /= num_batches
+    correct /= size
+    print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
+
+
+### 손실 함수와 옵티마이저를 초기화하고 train_loop와 test_loop에 전달
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+epochs = 10
+for t in range(epochs):
+    print(f"Epoch {t+1}\n-------------------------------")
+    train_loop(train_dataloader, model, loss_fn, optimizer)
+    test_loop(test_dataloader, model, loss_fn)
+print("Done!")
+```
+
+<!------------------------------------ STEP ------------------------------------>
+
+<br>
+
+## STEP 6. 모델 저장하고 불러오기
+
+```python
+import torch
+import torchvision.models as models
+
+### 모델 가중치 저장하고 불러오기
+model = models.vgg16(weights='IMAGENET1K_V1')
+torch.save(model.state_dict(), 'model_weights.pth')
+
+# 모델 가중치를 불러오기 위해서는 먼저 동일한 모델의 인스턴스(instance)를 생성
+model = models.vgg16() # 여기서는 ``weights`` 를 지정하지 않았으므로, 학습되지 않은 모델을 생성합니다.
+model.load_state_dict(torch.load('model_weights.pth'))
+model.eval()    # 추론(inference)을 하기 전에 model.eval() 메소드를 호출하여 드롭아웃(dropout)과 배치 정규화(batch normalization)를 평가 모드(evaluation mode)로 설정
+
+
+### 모델의 형태를 포함하여 저장하고 불러오기
+torch.save(model, 'model.pth')
+model = torch.load('model.pth')
+```
+
+* 추가 학습 : [PYTORCH에서 일반적인 체크포인트(CHECKPOINT) 저장하기 & 불러오기](https://tutorials.pytorch.kr/recipes/recipes/saving_and_loading_a_general_checkpoint.html) 
