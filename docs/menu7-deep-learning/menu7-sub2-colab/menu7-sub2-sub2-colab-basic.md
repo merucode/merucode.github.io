@@ -34,3 +34,13 @@ print("Torch version:{}".format(torch.__version__))     # torch
 print("cuda version: {}".format(torch.version.cuda))    # cuda
 print("cudnn version:{}".format(torch.backends.cudnn.version()))    # cudnn
 ```
+
+### Step 1-3. Colab 런타임 유지
+
+```javascript
+function ClickConnect(){
+    console.log("코랩 연결 끊김 방지"); 
+    document.querySelector("colab-toolbar-button#connect").click() 
+}
+setInterval(ClickConnect, 60 * 1000)
+```

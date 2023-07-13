@@ -22,6 +22,7 @@ nav_order: 2
 ## STEP 0. Reference Site
 
 * [파이토치(PYTORCH) 기본 익히기](https://tutorials.pytorch.kr/beginner/basics/intro.html)
+* [빠른 시작(QUICKSTART)](https://tutorials.pytorch.kr/beginner/basics/quickstart_tutorial.html)
 
 <!------------------------------------ STEP ------------------------------------>
 

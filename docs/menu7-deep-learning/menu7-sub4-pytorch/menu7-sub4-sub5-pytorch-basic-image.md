@@ -27,7 +27,10 @@ nav_order: 5
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 2. Data 
+## STEP 2. Data Preprocessing
+
+```python
+```
 
 
 <br>
@@ -36,6 +39,8 @@ nav_order: 5
 
 ## STEP 3. Module
 
+* [[Blog] Conv2d 알아보기](https://blog.joonas.io/196)
+* [[Blog] Convolution 연산에서 Filter에 대한 이해](https://woochan-autobiography.tistory.com/883)
 
 <br>
 
