@@ -20,6 +20,31 @@ nav_order: 5
 
 <!------------------------------------ STEP ------------------------------------>
 
+### 텐서 파일 이미지 확인 하기
+
+```python
+from torchvision.transforms import Compose, ToPILImage
+import matplotlib.pyplot as plt
+
+trans = Compose([ToPILImage()])
+
+plt.imshow(trans(test_set[i][0]))
+plt.show()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## STEP 1. Basic Coding Style
 
 ```python
