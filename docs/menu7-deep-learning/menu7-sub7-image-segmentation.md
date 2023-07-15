@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Image
+title: Image Segmenatation
 parent: Deep Learning
-nav_order: 6
+nav_order: 7
 has_children: true
 ---
 
-# Image
+# Image Segmenatation
 
 {: .no_toc }

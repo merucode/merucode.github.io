@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Colab Basic
-parent: Pytorch
+parent: Colab
 grand_parent: Deep Learning
 nav_order: 2
 ---

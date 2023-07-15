@@ -1,7 +1,7 @@
 ---
 layout: default
 title: cnn
-parent: Image
+parent: Image Classification
 grand_parent: Deep Learning
 nav_order: 2
 ---
