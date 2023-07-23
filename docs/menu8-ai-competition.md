@@ -1,12 +1,9 @@
 ---
 layout: default
-title: Kaggle
+title: AI Competition
 nav_order: 8
 has_children: true
 ---
 
-# Kaggle
+# AI Competition
 {: .no_toc }
-
-Menu6 test
-{: .fs-6 .fw-300 }

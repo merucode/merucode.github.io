@@ -6,9 +6,7 @@ grand_parent: menu8
 nav_order: 1
 ---
 
-# menu6 sub1 sub1
-{: .no_toc }
+## Competition
 
-menu1 sub1 sub1 test
-{: .fs-6 .fw-300 }
-
+* [dacon](https://dacon.io/)
+* [kaggle]
