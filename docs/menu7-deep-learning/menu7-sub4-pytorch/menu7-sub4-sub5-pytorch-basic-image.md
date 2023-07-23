@@ -20,6 +20,8 @@ nav_order: 5
 
 <!------------------------------------ STEP ------------------------------------>
 
+## STEP 0. Basic Practice
+
 ### 텐서 파일 이미지 확인 하기
 
 ```python
@@ -32,17 +34,15 @@ plt.imshow(trans(test_set[i][0]))
 plt.show()
 ```
 
+### 사이즈 계산
 
+* **Conv2d Size**
+  * (I-K+2*P)/2 + 1
 
-
-
-
-
-
-
-
-
-
+* **ConvTranspose2d Size**
+  * K+(W−1)S−2P     
+  * n배 > K=2n, S=n, P=1/2n
+  * [Transposed Convolution shape 계산하는법](https://velog.io/@redgreen/Transposed-Convolution-shape-%EA%B3%84%EC%82%B0%ED%95%98%EB%8A%94%EB%B2%95)
 
 
 ## STEP 1. Basic Coding Style
