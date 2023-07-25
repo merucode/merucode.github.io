@@ -11,3 +11,6 @@ has_children: true
 ### ML
 
 * [SOTA](https://paperswithcode.com/)
+
+### STOCK
+* [OpenDartReader](https://github.com/FinanceData/OpenDartReader)
