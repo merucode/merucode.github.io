@@ -7,9 +7,7 @@ nav_order: 1
 ---
 
 # Linear Algebra
-{: .no_toc .d-inline-block }
-ing
-{: .label .label-green }
+{: .no_toc }
 <details open markdown="block">
   <summary>
     Table of contents

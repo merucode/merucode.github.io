@@ -2,7 +2,7 @@
 layout: default
 title: Data Preprocessing
 parent: Data
-grand_parent: Kaggle
+grand_parent: AI Competition
 nav_order: 3
 ---
 

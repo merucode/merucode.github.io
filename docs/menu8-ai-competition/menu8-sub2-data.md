@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Data
-parent: Kaggle
+parent: AI Competition
 nav_order: 2
 has_children: true
 ---
