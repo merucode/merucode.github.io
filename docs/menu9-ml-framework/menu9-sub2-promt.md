@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Torch
+title: Prompt
 parent: ML Framework
 nav_order: 2
 has_children: true
 ---
 
-# Torch
+# Prompt
 {: .no_toc }
