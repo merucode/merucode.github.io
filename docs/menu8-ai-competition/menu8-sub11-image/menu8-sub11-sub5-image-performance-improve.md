@@ -60,10 +60,17 @@ dataset_valid = ImageDataset(df=valid, img_dir='train/', transform=transform_tes
 
 ### Step 3-1. Optimizer 변경
 
+* AdamW : adam에 가중치 감쇠 추가 적용, 일반화 성능 우수(과대적합 억제)
+
 ```
-from torch.optim.adamax import Adamax #★
-...
-# ★옵티마이저
+from torch.optim.adamw import AdamW
+optim = AdamW(model.parameters(), lr=0.00006, weight_decay=0.0001)
+```
+
+* Adammax : 
+
+```
+from torch.optim.adamax import Adamax 
 optim = Adamax(model.parameters(), lr=0.00006)
 ```
 

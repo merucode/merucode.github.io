@@ -3,7 +3,7 @@ layout: default
 title: Pytorch Basic Form
 parent: Pytorch
 grand_parent: Deep Learning
-nav_order: 4
+nav_order: 7
 ---
 
 # Pytorch Basic Form
