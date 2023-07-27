@@ -77,3 +77,30 @@ optim = Adamax(model.parameters(), lr=0.00006)
 * 학습률 : 배치 크기가 줄어들수록 학습사이즈 작게, 배치 크기가 클수록 학습률 크게
 
 ### Step 3-2. 에폭 증가
+
+
+### Step 3-3. 스케줄러 설정
+
+* 스케줄러: 훈련 과정 중 학습률 조정 기능 제공
+
+```python
+from transformers import get_cosine_schedule_with_warmup
+scheduler = get_cosine_schedule_with_warmup(optim,
+                                            num_warmup_steps=len(loader_train)*3,
+                                            num_training_steps=len(loader_train)*epochs)
+...
+    optim.step()
+    scheduler.step()
+...
+```
+
+
+<br>
+
+## STEP 4. Pred
+
+### Step 4-1. TTA(테스트 단게 데이터 증강)
+
+### Step 4-2. Label Smoothing
+
+* 일반화 성능 향상(과잉 확신 예측값 보정)
