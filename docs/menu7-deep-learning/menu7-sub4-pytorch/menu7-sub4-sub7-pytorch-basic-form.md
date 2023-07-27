@@ -75,7 +75,15 @@ for data, label in DataLoader():
 
 ## STEP 4. Learning
 
+### Step 4-1. Setting
 
+* 병렬 GPU 사용
+
+```
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model = model.to(device)
+model = nn.DataParallel(model)       # 병렬 GPU 사용
+```
 
 ### Step 4-2. 훈련/검증 동시 진행 포멧
 
