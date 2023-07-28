@@ -68,6 +68,39 @@ for data, label in DataLoader():
 
 ## STEP 3. Module
 
+### Step 3-. TL Output Control
+
+```python
+from efficientnet_pytorch import EfficientNet # EfficientNet 모듈
+import torch.nn as nn
+
+# 사전 훈련된 'efficientnet-b7' 모델 불러오기
+model = EfficientNet.from_pretrained('efficientnet-b0')
+
+# 사전 모델 마지막 계층 수정(출력값 갯수 수정)
+model._fc = nn.Sequential(
+    nn.Linear(model._fc.in_features, model._fc.out_features), # 2560 > 1000
+    nn.ReLU(),          # 활성화 함수
+    #nn.Dropout(p=0.5),  # 50% 드롭아웃
+    nn.Linear(model._fc.out_features, 2) # 1000 > 2
+)
+```
+
+
+### Step 3-. Info
+
+* Model 파라미터 총 갯수 확인
+
+```
+### 단일 모델
+print(f"모델 파라미터 갯수: {sum(param.numel() for param in model.parameters())}")
+
+### 모델 리스트(앙상블)
+for idx, model in enumerate(models_list):
+  num_parmas = sum(param.numel() for param in model.parameters())
+  print(f"모델{idx+1} 파라미터 갯수: {num_parmas}")
+
+```
 
 <br>
 
@@ -115,7 +148,44 @@ for epoch in range(epochs):
   # 검증 데이터 손실값 및 ROC AUC 점수 출력
 ```
 
+### Step 4-3. 훈련 함수 포멧(최적 가중치 저장)
+
+```python
+def train(model, loader_train, loader_valid, criterion, optimizer, 
+          scheduler=None, epochs=10, save_file='model_state_dic.pth'):
+  # 총 에폭만큼 반복
+  for epoch in range(epochs):
+    # == [훈련] ================================
+    # 모델을 훈련 상태로 설정
+    # 에폭별 손실값 초기화(훈련 데이터용)
+
+    # 반복 횟수 만큼 반복
+    for images, labels in tqdm(loader_train):
+      # 기출기 초기화
+      # 순전파
+      # 손실값 계산(훈련 데이터용)
+      # 역전파
+      # 가중치 갱신
+
+    # == [검증] ================================
+    # 모델을 평가 상태로 설정
+    with torch.no_grad(): # 기울기 계산 비활성화
+      # 미니 배치 단위로 검증
+      for images, labels in loader_valid:
+        # 순전파
+        # 손실값 계산(검증 데이터용)
+
+    # == [최적 모델 가중치 찾기] ===============
+    # 현 에폭에서의 검증 데이터 손실값이 지금까지 중 가장 작다면
+            # 현 에폭의 모델 가중치(현재까지의 최적 모델 가중치) 저장
+
+    return torch.load(save_file)  # 최적 모델 가중치 반환
+```
+
+
 <br>
+
+
 
 
 <!------------------------------------ STEP ------------------------------------>
