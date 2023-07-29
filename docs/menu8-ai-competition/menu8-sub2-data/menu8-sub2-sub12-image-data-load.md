@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Data Load
+title: [DL-Image] Data Load
 parent: Data
 grand_parent: AI Competition
-nav_order: 2
+nav_order: 12
 ---
 
-# Data Load
+# [DL-Image] Data Load 
 {: .no_toc }
 
 
