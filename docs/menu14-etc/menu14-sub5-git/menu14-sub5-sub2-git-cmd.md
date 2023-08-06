@@ -61,7 +61,7 @@ nav_order: 2
 
 - **git clone [프로젝트의 GitHub 상 주소]** : GitHub에 있는 프로젝트를 내 컴퓨터로 가져오기
 
-  
+- **git clone -b [branch name] [프로젝트의 GitHub 상 주소]** : GitHub 프로젝트 특정 브런치를 clone
 
 ## 3**. Git에서 커밋 다루기**
 

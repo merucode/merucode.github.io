@@ -44,3 +44,10 @@ function ClickConnect(){
 }
 setInterval(ClickConnect, 60 * 1000)
 ```
+
+### Step 1-4. GitHub Clone
+
+```bash
+!git clone -b 31-Colab-Study-Udemy-Custom_ENV_snake_game https://github.com/merucode/RL.git
+!cd RL && mv * ../
+```
