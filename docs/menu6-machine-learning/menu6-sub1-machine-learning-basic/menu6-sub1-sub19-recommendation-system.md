@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Recommendation System
-parent: ML Project
+title: sklearn
+parent: Machine Leaning Basic
 grand_parent: Machine Leaning
-nav_order: 1
+nav_order: 19
 ---
 
 # Recommendation System

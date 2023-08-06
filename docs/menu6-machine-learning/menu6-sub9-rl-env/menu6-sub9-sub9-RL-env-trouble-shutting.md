@@ -3,7 +3,7 @@ layout: default
 title: RL ENV Trouble Shooting
 parent: RL ENV
 grand_parent: Machine Leaning
-nav_order: 1
+nav_order: 9
 ---
 
 # Summary
@@ -19,14 +19,17 @@ nav_order: 1
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP. `Environment Does Not Exist`
+## STEP. `NameNotFound: Environment snake doesn't exist.`
 
 ### Step. Trouble
 
 * Colab에서 Custom ENV 설치 후 gym.make 실행 시 오류 발생
 
-```python
+```bash
 !pip insatll -e snake
+```
+
+```python
 ...
 env = gym.make(...)
 ```
@@ -35,8 +38,6 @@ env = gym.make(...)
 
 ### Step. Solution
 
-* `pip install gym==0.24.0`
-  * 확인 필요
 * 런타임 해제 후 다시 연결
 
 <br>
