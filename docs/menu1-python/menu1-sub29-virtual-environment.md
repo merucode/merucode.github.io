@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Practice
-parent: Virtual Environment
+title: Virtual Environment
+parent: Python
 nav_order: 29
 has_children: true
 ---
