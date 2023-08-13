@@ -35,3 +35,21 @@ nav_order: 99
       true_onehot = torch.eye(4)[labels].cpu().numpy()     # 실제값 (원-핫 인코딩 형식)
       ...
 ```
+
+<br>
+
+## STEP. Nan Error
+
+### Step 1-1. Trouble
+  * 훈련 과정 중 tensor 값이 nan으로 되면서 error 발생
+
+### Step 1-2. Cause
+  * log(0) 또는 value/0 등 과 같은 연산
+  * lr의 영향에 의한 발산
+
+### Step 1-3. Solution
+
+  * log(a + 1e-6) 또는
+  * a = torch.nan_to_num(a)
+  * Reference Site
+    * [[blog]](https://powerofsummary.tistory.com/165)
