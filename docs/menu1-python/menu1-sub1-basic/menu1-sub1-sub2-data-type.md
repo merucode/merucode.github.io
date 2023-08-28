@@ -41,7 +41,7 @@ nav_order: 2
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 3. list
+## STEP 3. List
 
 
 
@@ -65,7 +65,23 @@ sum(my_list)        # 오류 발생
 
 <!------------------------------------ STEP ------------------------------------>
 
-## STEP 4. dict
+## STEP 4. Dictionary
+
+### Step 4-1. Dict Basic
+
+```python
+### create dict 
+basic_dict = dict{key1:value1, key2:value2} # 기본
+list_dict = dict(zip(list1,list2)) # list 두개로 dict 만들기
+
+### for statement using dict
+for key, value in basic_dict.items():
+for key in basic_dict.keys():
+for value in basic_dict.values():
+
+
+
+```
 
 
 ### Step 4-2. dict 병합

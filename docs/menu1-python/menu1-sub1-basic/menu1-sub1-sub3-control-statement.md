@@ -42,5 +42,10 @@ nav_order: 2
 
 ## STEP 3. for
 
+```python
+for num, value in enumerate(list):
+for num, value in enumerate(list, start=100):	# num 100 부터 시작
+```
+
 
 
