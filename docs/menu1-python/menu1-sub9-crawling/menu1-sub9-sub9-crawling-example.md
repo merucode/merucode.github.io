@@ -9,7 +9,16 @@ nav_order: 9
 # Crawling Example
 {: .no_toc }
 
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
 
+<!------------------------------------ STEP ------------------------------------>
 
 ## Step 1. Naver 종목토론실 게시글 Crawling
 

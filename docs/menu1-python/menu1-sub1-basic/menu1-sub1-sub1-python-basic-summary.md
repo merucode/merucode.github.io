@@ -18,3 +18,14 @@ nav_order: 1
 {:toc}
 </details>
 <!------------------------------------ STEP ------------------------------------>
+
+
+```python
+
+
+### Ternary expression
+condition = True 
+condition_string = "nice" if condition else  "not nice"  
+print(condition_string) # => nice
+
+```

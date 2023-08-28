@@ -43,6 +43,12 @@ nav_order: 2
 
 ## STEP 3. List
 
+```python
+### list comprehension
+int_list = [1, 2, 3, 4, 5, 6]
+squares = [x**2  for x in int_list]
+print(squares) # [1, 4, 9, 16, 25, 36]
+```
 
 
 ### Step 3-9. 중첩 리스트 합치기
@@ -66,8 +72,6 @@ sum(my_list)        # 오류 발생
 <!------------------------------------ STEP ------------------------------------>
 
 ## STEP 4. Dictionary
-
-### Step 4-1. Dict Basic
 
 ```python
 ### create dict 

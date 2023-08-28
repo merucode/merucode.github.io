@@ -9,8 +9,16 @@ nav_order: 2
 # Docker-compose Basic
 {: .no_toc }
 
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
 
-
+<!------------------------------------ STEP ------------------------------------>
 
 ### Step. docker-compose에서 Dockerfile -it 모드로 run 하기
 

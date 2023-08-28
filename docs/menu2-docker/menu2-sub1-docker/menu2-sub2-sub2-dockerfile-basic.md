@@ -7,9 +7,7 @@ nav_order: 2
 ---
 
 # Dockerfile Basic
-{: .no_toc .d-inline-block }
-ing
-{: .label .label-green }
+{: .no_toc }
 
 <details open markdown="block">
   <summary>
