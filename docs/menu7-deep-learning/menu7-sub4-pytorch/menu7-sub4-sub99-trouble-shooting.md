@@ -37,6 +37,7 @@ nav_order: 99
 ```
 
 <br>
+<!------------------------------------ STEP ------------------------------------>
 
 ## STEP. Nan Error
 
@@ -48,8 +49,36 @@ nav_order: 99
   * lr의 영향에 의한 발산
 
 ### Step 1-3. Solution
-
   * log(a + 1e-6) 또는
   * a = torch.nan_to_num(a)
   * Reference Site
     * [[blog]](https://powerofsummary.tistory.com/165)
+
+
+<br>
+<!------------------------------------ STEP ------------------------------------>
+
+
+## STEP. Checkpoint Load 중 Device ERROR
+
+### Step 1-1. Trouble
+  * Chekcpoint Load 후 훈련 중 optimizer.step() 시 device error발생
+
+### Step 1-2. Cause
+
+### Step 1-3. Solution
+
+```python
+model.to(device)
+
+ckpt = torch.load(<model_path>, map_location=device)
+
+model.load_state_dict(ckpt['state_dict'])
+optimizer.load_state_dict(ckpt['optimizer'])
+scheduler.load_state_dict(ckpt['scheduler'])
+
+del ckpt
+```
+
+  * Reference Site
+    * [[pytorch]](https://github.com/pytorch/pytorch/issues/2830#issuecomment-718816292)
