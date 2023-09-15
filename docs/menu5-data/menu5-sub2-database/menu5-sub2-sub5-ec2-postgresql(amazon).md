@@ -1,6 +1,6 @@
 ---
 layout: default
-title: EC2 Postgresql
+title: EC2 Postgresql(Amazon)
 parent: Database
 grand_parent: Data
 nav_order: 5
